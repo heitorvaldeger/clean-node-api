@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "test:staged": "jest",
     "prepare": "husky"
   },
   "keywords": [],
