@@ -1,5 +1,5 @@
 import { InvalidParamError, MissingParamError, ServerError } from '../errors'
-import { IEmailValidator } from '../interfaces/email-validator'
+import { IEmailValidator } from '../interfaces'
 import { SignUpController } from './signup'
 
 interface SignUpType {
