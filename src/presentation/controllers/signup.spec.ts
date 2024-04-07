@@ -7,18 +7,36 @@ interface SignUpType {
   emailValidatorStub: IEmailValidator
 }
 
-const makeSignupController = (): SignUpType => {
+const makeEmailValidatorStub = (): IEmailValidator => {
   class EmailValidatorStub implements IEmailValidator {
     isValid (email: string): boolean {
       return true
     }
   }
-  const emailValidatorStub = new EmailValidatorStub()
+
+  return new EmailValidatorStub()
+}
+
+const makeEmailValidatorStubWithError = (): IEmailValidator => {
+  class EmailValidatorStub implements IEmailValidator {
+    isValid (email: string): boolean {
+      throw new Error()
+    }
+  }
+
+  return new EmailValidatorStub()
+}
+
+const makeSignupController = (): SignUpType => {
+  const emailValidatorStub = makeEmailValidatorStub()
+  const signUpController = new SignUpController(emailValidatorStub)
+
   return {
-    signUpController: new SignUpController(emailValidatorStub),
+    signUpController,
     emailValidatorStub
   }
 }
+
 describe('SignUp Controller', () => {
   test('Shoud return 400 if no name is provided', () => {
     const { signUpController } = makeSignupController()
@@ -115,12 +133,7 @@ describe('SignUp Controller', () => {
   })
 
   test('Shoud return 500 if EmailValidator throws', () => {
-    class EmailValidatorStub implements IEmailValidator {
-      isValid (email: string): boolean {
-        throw new Error()
-      }
-    }
-    const emailValidatorStub = new EmailValidatorStub()
+    const emailValidatorStub = makeEmailValidatorStubWithError()
     const signUpController = new SignUpController(emailValidatorStub)
     const httpRequest = {
       body: {
