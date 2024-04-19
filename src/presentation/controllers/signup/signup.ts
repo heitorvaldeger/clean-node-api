@@ -1,7 +1,6 @@
-import { IAddAccount } from '../../domain/usecases/interfaces/add-account'
-import { InvalidParamError, MissingParamError } from '../errors'
-import { badRequest, serverError } from '../helpers/http-helpers'
-import { IController, IEmailValidator, IHttpRequest, IHttpResponse } from '../interfaces'
+import { InvalidParamError, MissingParamError } from '../../errors'
+import { badRequest, serverError } from '../../helpers/http-helpers'
+import { IController, IEmailValidator, IHttpRequest, IHttpResponse, IAddAccount } from './signup-interfaces'
 
 export class SignUpController implements IController {
   constructor (
