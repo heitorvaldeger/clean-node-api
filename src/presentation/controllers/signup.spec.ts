@@ -88,6 +88,22 @@ describe('SignUp Controller', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'))
   })
 
+  test('Shoud return 400 if password confirmation fails', () => {
+    const { signUpController } = makeSignupController()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'invalid_password'
+      }
+    }
+
+    const httpResponse = signUpController.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
+  })
+
   test('Shoud return 400 if an invalid email is provided', () => {
     const { signUpController, emailValidatorStub } = makeSignupController()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
@@ -123,11 +139,10 @@ describe('SignUp Controller', () => {
   })
 
   test('Shoud return 500 if EmailValidator throws', () => {
-    const emailValidatorStub = makeEmailValidatorStub()
+    const { signUpController, emailValidatorStub } = makeSignupController()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error()
     })
-    const signUpController = new SignUpController(emailValidatorStub)
     const httpRequest = {
       body: {
         name: 'any_name',
