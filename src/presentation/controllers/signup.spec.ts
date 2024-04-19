@@ -1,11 +1,8 @@
+import { IAccountModel } from '../../domain/model/account'
+import { IAddAccount, IAddAccountModel } from '../../domain/usecases/interfaces/add-account'
 import { InvalidParamError, MissingParamError, ServerError } from '../errors'
 import { IEmailValidator } from '../interfaces'
 import { SignUpController } from './signup'
-
-interface SignUpType {
-  signUpController: SignUpController
-  emailValidatorStub: IEmailValidator
-}
 
 const makeEmailValidatorStub = (): IEmailValidator => {
   class EmailValidatorStub implements IEmailValidator {
@@ -17,13 +14,38 @@ const makeEmailValidatorStub = (): IEmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeAddAccountStub = (): IAddAccount => {
+  class AddAccountStub implements IAddAccount {
+    add (account: IAddAccountModel): IAccountModel {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@mail.com',
+        password: 'valid_password'
+      }
+
+      return fakeAccount
+    }
+  }
+
+  return new AddAccountStub()
+}
+
+interface SignUpType {
+  signUpController: SignUpController
+  emailValidatorStub: IEmailValidator
+  addAccountStub: IAddAccount
+}
+
 const makeSignupController = (): SignUpType => {
   const emailValidatorStub = makeEmailValidatorStub()
-  const signUpController = new SignUpController(emailValidatorStub)
+  const addAccountStub = makeAddAccountStub()
+  const signUpController = new SignUpController(emailValidatorStub, addAccountStub)
 
   return {
     signUpController,
-    emailValidatorStub
+    emailValidatorStub,
+    addAccountStub
   }
 }
 
@@ -155,5 +177,25 @@ describe('SignUp Controller', () => {
     const httpResponse = signUpController.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('Shoud call AddAccount with correct values', () => {
+    const { signUpController, addAccountStub } = makeSignupController()
+    const addSpy = jest.spyOn(addAccountStub, 'add')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+
+    signUpController.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
   })
 })
