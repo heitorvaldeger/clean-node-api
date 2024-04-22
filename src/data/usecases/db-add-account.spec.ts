@@ -7,13 +7,17 @@ class EncrypterStub implements IEncrypter {
   }
 }
 
+const makeEncrypter = (): IEncrypter => {
+  return new EncrypterStub()
+}
+
 interface SutTypes {
   encrypterStub: EncrypterStub
   dbAddAccount: DbAddAccount
 }
 
 const makeSut = (): SutTypes => {
-  const encrypterStub = new EncrypterStub()
+  const encrypterStub = makeEncrypter()
   const dbAddAccount = new DbAddAccount(encrypterStub)
 
   return {
