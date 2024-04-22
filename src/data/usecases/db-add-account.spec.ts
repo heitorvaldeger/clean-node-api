@@ -1,4 +1,4 @@
-import { IEncrypter } from '../interfaces/encrypter'
+import { IEncrypter } from './db-add-account-interfaces'
 import { DbAddAccount } from './db-add-account'
 
 class EncrypterStub implements IEncrypter {
