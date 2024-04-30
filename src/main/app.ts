@@ -1,6 +1,5 @@
 import express from 'express'
-import bodyParser from './middlewares/body-parser'
-import cors from './middlewares/cors'
+import { bodyParser, cors } from './middlewares'
 
 const app = express()
 
