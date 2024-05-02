@@ -12,3 +12,5 @@ export const MongoHelper = {
     return this.client.db().collection(name)
   }
 }
+
+export default MongoHelper

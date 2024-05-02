@@ -9,7 +9,6 @@ export const adapterExpress = (controller: IController) => {
 
     controller.handle(httpRequest)
       .then(value => {
-        console.log(value)
         res.status(value.statusCode).json(value.body)
       })
       .catch(console.error)

@@ -12,7 +12,7 @@ export class AccountMongoRepository implements IAddAccountRepository {
       _id: insertedId
     })
 
-    if (!accountData) {
+    if (!accountData || !insertedId) {
       throw new Error('Account not found')
     }
 
