@@ -6,7 +6,9 @@ class ControllerStub implements IController {
     return await new Promise(resolve => {
       resolve({
         statusCode: 200,
-        body: null
+        body: {
+          any_field_one: 'any_value'
+        }
       })
     })
   }
@@ -39,5 +41,23 @@ describe('LogController Decorator', () => {
 
     await sut.handle(httpRequest)
     expect(handleSpy).toHaveBeenCalledWith(httpRequest)
+  })
+
+  test('Should returns the same values of the controller', async () => {
+    const { sut } = makeSut()
+    const httpRequest: IHttpRequest = {
+      body: {
+        any_field_one: 'any_value',
+        any_field_two: 'any_value'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: {
+        any_field_one: 'any_value'
+      }
+    })
   })
 })
