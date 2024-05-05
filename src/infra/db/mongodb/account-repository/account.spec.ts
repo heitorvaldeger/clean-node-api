@@ -11,7 +11,7 @@ describe('Account Mongo Repository', () => {
   })
 
   beforeEach(async () => {
-    await MongoHelper.getCollection('accounts').deleteMany()
+    await (await MongoHelper.getCollection('accounts')).deleteMany({})
   })
 
   test('Should return an account on success', async () => {
@@ -30,8 +30,8 @@ describe('Account Mongo Repository', () => {
   })
 
   test('Should throw an error when account not found', async () => {
-    jest.spyOn(MongoHelper, 'getCollection').mockImplementationOnce((name) => {
-      const accountCollection = MongoHelper.getCollection(name)
+    jest.spyOn(MongoHelper, 'getCollection').mockImplementationOnce(async (name) => {
+      const accountCollection = await MongoHelper.getCollection(name)
       accountCollection.findOne = jest.fn(async () => null)
       return accountCollection
     })
