@@ -48,7 +48,7 @@ const fakeRequest = {
   passwordConfirmation: 'any_password'
 }
 
-const fakeAccount = {
+const fakeAccount: IAccountModel = {
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
