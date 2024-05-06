@@ -8,8 +8,14 @@ export const adapterExpress = (controller: IController) => {
     }
 
     controller.handle(httpRequest)
-      .then(value => {
-        res.status(value.statusCode).json(value.body)
+      .then(({ statusCode, body }) => {
+        if (statusCode === 200) {
+          res.status(statusCode).json(body)
+        } else {
+          res.status(statusCode).json({
+            error: body.message
+          })
+        }
       })
       .catch(console.error)
   }
