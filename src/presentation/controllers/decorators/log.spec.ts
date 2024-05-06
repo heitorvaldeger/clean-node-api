@@ -86,4 +86,24 @@ describe('LogController Decorator', () => {
 
     expect(logSpy).toHaveBeenCalledWith('any_stack')
   })
+
+  test('Should log an empty string when controller returns 500 with null stack', async () => {
+    const { sut, controllerStub, logErrorRepository } = makeSut()
+
+    const logSpy = jest.spyOn(logErrorRepository, 'logError')
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise<IHttpResponse>(resolve => {
+      resolve(({
+        statusCode: 500,
+        body: {
+          stack: null
+        }
+      }))
+    }))
+
+    await sut.handle({
+      body: fakeRequest
+    })
+
+    expect(logSpy).toHaveBeenCalledWith('')
+  })
 })
