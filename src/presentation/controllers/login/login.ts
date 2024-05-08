@@ -5,15 +5,16 @@ import { IController, IEmailValidator, IHttpRequest, IHttpResponse } from '../..
 export class LoginControler implements IController {
   constructor (private readonly emailValidator: IEmailValidator) {}
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    if (!httpRequest.body.email) {
-      return await new Promise(resolve => { resolve(badRequest(new MissingParamError('email'))) })
+    const { email } = httpRequest.body
+
+    const requiredFields = ['email', 'password']
+    for (const field of requiredFields) {
+      if (!httpRequest.body[field]) {
+        return await new Promise(resolve => { resolve(badRequest(new MissingParamError(field))) })
+      }
     }
 
-    if (!httpRequest.body.password) {
-      return await new Promise(resolve => { resolve(badRequest(new MissingParamError('password'))) })
-    }
-
-    const isValid = this.emailValidator.isValid(httpRequest.body.email as string)
+    const isValid = this.emailValidator.isValid(email as string)
     if (!isValid) {
       return await new Promise(resolve => { resolve(badRequest(new InvalidParamError('email'))) })
     }
