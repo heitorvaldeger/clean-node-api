@@ -1,6 +1,6 @@
 import { IAuthentication, IEmailValidator } from './login-interfaces'
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest, serverError, unauthorized } from '../../helpers/http-helpers'
+import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helpers'
 import { LoginControler } from './login'
 
 class EmailValidatorStub implements IEmailValidator {
@@ -136,6 +136,22 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(unauthorized())
+  })
+
+  test('Should returns 200 if valid credentials are provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'any_mail@mail.com',
+        password: 'any_password'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(ok({
+      accessToken: 'any_token'
+    }))
   })
 
   test('Should return 500 if Authentication throws', async () => {
