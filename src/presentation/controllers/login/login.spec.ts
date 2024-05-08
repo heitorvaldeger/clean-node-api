@@ -1,7 +1,6 @@
-import { IAuthentication } from '../../../domain/usecases/interfaces/authentication'
+import { IAuthentication, IEmailValidator } from './login-interfaces'
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { badRequest, serverError, unauthorized } from '../../helpers/http-helpers'
-import { IEmailValidator } from '../../interfaces'
 import { LoginControler } from './login'
 
 class EmailValidatorStub implements IEmailValidator {
