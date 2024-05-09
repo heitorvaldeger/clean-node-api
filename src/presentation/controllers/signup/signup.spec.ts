@@ -1,4 +1,4 @@
-import { IAccountModel, IAddAccount, IAddAccountModel, IEmailValidator } from './signup-interfaces'
+import { IAccountModel, IAddAccount, IAddAccountModel, IEmailValidator, IValidation } from './signup-interfaces'
 import { InvalidParamError, MissingParamError, ServerError } from '../../errors'
 import { SignUpController } from './signup'
 import { badRequest, ok, serverError } from '../../helpers/http-helpers'
@@ -23,21 +23,34 @@ const makeAddAccountStub = (): IAddAccount => {
   return new AddAccountStub()
 }
 
+const makeValidationStub = (): IValidation => {
+  class ValidationStub implements IValidation {
+    validate (input: any): Error | null {
+      return null
+    }
+  }
+
+  return new ValidationStub()
+}
+
 interface SignUpType {
   signUpController: SignUpController
   emailValidatorStub: IEmailValidator
   addAccountStub: IAddAccount
+  validationStub: IValidation
 }
 
 const makeSignupController = (): SignUpType => {
   const emailValidatorStub = makeEmailValidatorStub()
   const addAccountStub = makeAddAccountStub()
-  const signUpController = new SignUpController(emailValidatorStub, addAccountStub)
+  const validationStub = makeValidationStub()
+  const signUpController = new SignUpController(emailValidatorStub, addAccountStub, validationStub)
 
   return {
     signUpController,
     emailValidatorStub,
-    addAccountStub
+    addAccountStub,
+    validationStub
   }
 }
 
@@ -182,5 +195,16 @@ describe('SignUp Controller', () => {
       body: fakeRequest
     })
     expect(httpResponse).toEqual(ok(fakeAccount))
+  })
+
+  test('Shoud call Validation with correct value', async () => {
+    const { signUpController, validationStub } = makeSignupController()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+
+    await signUpController.handle({
+      body: fakeRequest
+    })
+
+    expect(validateSpy).toHaveBeenCalledWith(fakeRequest)
   })
 })
