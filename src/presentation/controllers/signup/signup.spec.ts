@@ -1,5 +1,5 @@
 import { IAccountModel, IAddAccount, IAddAccountModel, IEmailValidator, IValidation } from './signup-interfaces'
-import { InvalidParamError, MissingParamError, ServerError } from '../../errors'
+import { InvalidParamError, ServerError } from '../../errors'
 import { SignUpController } from './signup'
 import { badRequest, ok, serverError } from '../../helpers/http-helpers'
 
@@ -69,54 +69,6 @@ const fakeAccount: IAccountModel = {
 }
 
 describe('SignUp Controller', () => {
-  test('Shoud return 400 if no name is provided', async () => {
-    const { signUpController } = makeSignupController()
-    const { name, ...restParams } = fakeRequest
-
-    const httpResponse = await signUpController.handle({
-      body: {
-        ...restParams
-      }
-    })
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('name')))
-  })
-
-  test('Shoud return 400 if no email is provided', async () => {
-    const { signUpController } = makeSignupController()
-    const { email, ...restParams } = fakeRequest
-
-    const httpResponse = await signUpController.handle({
-      body: {
-        ...restParams
-      }
-    })
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')))
-  })
-
-  test('Shoud return 400 if no password is provided', async () => {
-    const { signUpController } = makeSignupController()
-    const { password, ...restParams } = fakeRequest
-
-    const httpResponse = await signUpController.handle({
-      body: {
-        ...restParams
-      }
-    })
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('password')))
-  })
-
-  test('Shoud return 400 if no password confirmation is provided', async () => {
-    const { signUpController } = makeSignupController()
-    const { passwordConfirmation, ...restParams } = fakeRequest
-
-    const httpResponse = await signUpController.handle({
-      body: {
-        ...restParams
-      }
-    })
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('passwordConfirmation')))
-  })
-
   test('Shoud return 400 if password confirmation fails', async () => {
     const { signUpController } = makeSignupController()
 
