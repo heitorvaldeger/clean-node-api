@@ -69,18 +69,6 @@ const fakeAccount: IAccountModel = {
 }
 
 describe('SignUp Controller', () => {
-  test('Shoud return 400 if password confirmation fails', async () => {
-    const { signUpController } = makeSignupController()
-
-    const httpResponse = await signUpController.handle({
-      body: {
-        ...fakeRequest,
-        passwordConfirmation: 'invalid_password'
-      }
-    })
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('passwordConfirmation')))
-  })
-
   test('Shoud return 400 if an invalid email is provided', async () => {
     const { signUpController, emailValidatorStub } = makeSignupController()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
