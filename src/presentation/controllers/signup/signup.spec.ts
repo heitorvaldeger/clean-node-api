@@ -1,17 +1,7 @@
-import { IAccountModel, IAddAccount, IAddAccountModel, IEmailValidator, IValidation } from './signup-interfaces'
-import { InvalidParamError, ServerError } from '../../errors'
+import { IAccountModel, IAddAccount, IAddAccountModel, IValidation } from './signup-interfaces'
+import { ServerError } from '../../errors'
 import { SignUpController } from './signup'
 import { badRequest, ok, serverError } from '../../helpers/http-helpers'
-
-const makeEmailValidatorStub = (): IEmailValidator => {
-  class EmailValidatorStub implements IEmailValidator {
-    isValid (email: string): boolean {
-      return true
-    }
-  }
-
-  return new EmailValidatorStub()
-}
 
 const makeAddAccountStub = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
@@ -35,20 +25,17 @@ const makeValidationStub = (): IValidation => {
 
 interface SignUpType {
   signUpController: SignUpController
-  emailValidatorStub: IEmailValidator
   addAccountStub: IAddAccount
   validationStub: IValidation
 }
 
 const makeSignupController = (): SignUpType => {
-  const emailValidatorStub = makeEmailValidatorStub()
   const addAccountStub = makeAddAccountStub()
   const validationStub = makeValidationStub()
-  const signUpController = new SignUpController(emailValidatorStub, addAccountStub, validationStub)
+  const signUpController = new SignUpController(addAccountStub, validationStub)
 
   return {
     signUpController,
-    emailValidatorStub,
     addAccountStub,
     validationStub
   }
@@ -69,39 +56,6 @@ const fakeAccount: IAccountModel = {
 }
 
 describe('SignUp Controller', () => {
-  test('Shoud return 400 if an invalid email is provided', async () => {
-    const { signUpController, emailValidatorStub } = makeSignupController()
-    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
-
-    const httpResponse = await signUpController.handle({
-      body: fakeRequest
-    })
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
-  })
-
-  test('Shoud call EmailValidator with correct email', async () => {
-    const { signUpController, emailValidatorStub } = makeSignupController()
-    const emailValidatorSpy = jest.spyOn(emailValidatorStub, 'isValid')
-
-    await signUpController.handle({
-      body: fakeRequest
-    })
-
-    expect(emailValidatorSpy).toHaveBeenCalledWith('any_email@mail.com')
-  })
-
-  test('Shoud return 500 if EmailValidator throws', async () => {
-    const { signUpController, emailValidatorStub } = makeSignupController()
-    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error()
-    })
-
-    const httpResponse = await signUpController.handle({
-      body: fakeRequest
-    })
-    expect(httpResponse).toEqual(serverError(new ServerError()))
-  })
-
   test('Shoud call AddAccount with correct values', async () => {
     const { signUpController, addAccountStub } = makeSignupController()
     const addSpy = jest.spyOn(addAccountStub, 'add')
