@@ -207,4 +207,14 @@ describe('SignUp Controller', () => {
 
     expect(validateSpy).toHaveBeenCalledWith(fakeRequest)
   })
+
+  test('Shoud return 400 if Validation returns fails', async () => {
+    const { signUpController, validationStub } = makeSignupController()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error()) // pode ser qualquer erro
+    const httpResponse = await signUpController.handle({
+      body: fakeRequest
+    })
+
+    expect(httpResponse).toEqual(badRequest(new Error()))
+  })
 })
