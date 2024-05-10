@@ -3,14 +3,29 @@ import { ValidationComposite } from './validation-composite'
 
 class ValidationStub implements IValidation {
   validate (input: any): Error | null {
-    return new Error()
+    return null
+  }
+}
+
+interface SutTypes {
+  sut: ValidationComposite
+  validationStub: IValidation
+}
+
+const makeSut = (): SutTypes => {
+  const validationStub = new ValidationStub()
+  const sut = new ValidationComposite([validationStub])
+
+  return {
+    validationStub,
+    sut
   }
 }
 
 describe('Validation Composite', () => {
   test('Should return an error if any validation fails', () => {
-    const validationStub = new ValidationStub()
-    const sut = new ValidationComposite([validationStub])
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
     const error = sut.validate({
       any_field: 'any_value'
     })
