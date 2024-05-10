@@ -1,10 +1,10 @@
-import { IAuthentication, IController, IEmailValidator, IHttpRequest, IHttpResponse } from './login-interfaces'
-import { InvalidParamError, MissingParamError } from '../../errors'
+import { IAuthentication, IController, IHttpRequest, IHttpResponse } from './login-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helpers'
+import { IValidation } from '../signup/signup-interfaces'
 
 export class LoginControler implements IController {
   constructor (
-    private readonly emailValidator: IEmailValidator,
+    private readonly validation: IValidation,
     private readonly authentication: IAuthentication
   ) {}
 
@@ -12,17 +12,21 @@ export class LoginControler implements IController {
     try {
       const { email, password } = httpRequest.body
 
-      const requiredFields = ['email', 'password']
-      for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
       }
+      // const requiredFields = ['email', 'password']
+      // for (const field of requiredFields) {
+      //   if (!httpRequest.body[field]) {
+      //     return badRequest(new MissingParamError(field))
+      //   }
+      // }
 
-      const isValid = this.emailValidator.isValid(email as string)
-      if (!isValid) {
-        return badRequest(new InvalidParamError('email'))
-      }
+      // const isValid = this.emailValidator.isValid(email as string)
+      // if (!isValid) {
+      //   return badRequest(new InvalidParamError('email'))
+      // }
 
       const accessToken = await this.authentication.auth(email as string, password as string)
       if (!accessToken) {

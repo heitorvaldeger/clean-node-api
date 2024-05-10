@@ -1,13 +1,7 @@
-import { IAuthentication, IEmailValidator } from './login-interfaces'
-import { InvalidParamError, MissingParamError } from '../../errors'
+import { IAuthentication } from './login-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helpers'
 import { LoginControler } from './login'
-
-class EmailValidatorStub implements IEmailValidator {
-  isValid (email: string): boolean {
-    return true
-  }
-}
+import { IValidation } from '../signup/signup-interfaces'
 
 class AuthenticationStub implements IAuthentication {
   async auth (email: string, password: string): Promise<string> {
@@ -15,99 +9,30 @@ class AuthenticationStub implements IAuthentication {
   }
 }
 
+class ValidationStub implements IValidation {
+  validate (input: any): Error | null {
+    return null
+  }
+}
+
 interface SutTypes {
   sut: LoginControler
-  emailValidatorStub: IEmailValidator
+  validationStub: IValidation
   authenticationStub: IAuthentication
 }
 const makeSut = (): SutTypes => {
-  const emailValidatorStub = new EmailValidatorStub()
+  const validationStub = new ValidationStub()
   const authenticationStub = new AuthenticationStub()
-  const sut = new LoginControler(emailValidatorStub, authenticationStub)
+  const sut = new LoginControler(validationStub, authenticationStub)
 
   return {
     sut,
-    emailValidatorStub,
+    validationStub,
     authenticationStub
   }
 }
 
 describe('Login Controller', () => {
-  test('Should returns 400 if email is not provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        password: 'any_password'
-      }
-    }
-
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')))
-  })
-
-  test('Should returns 400 if password is not provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        email: 'any_mail@mail.com'
-      }
-    }
-
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('password')))
-  })
-
-  test('Should returns 400 if an invalid email is provided', async () => {
-    const { sut, emailValidatorStub } = makeSut()
-    const httpRequest = {
-      body: {
-        email: 'any_mail@mail.com',
-        password: 'any_password'
-      }
-    }
-
-    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
-
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
-  })
-
-  test('Should call EmailValidator with correct email', async () => {
-    const { sut, emailValidatorStub } = makeSut()
-    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
-    const httpRequest = {
-      body: {
-        email: 'any_mail@mail.com',
-        password: 'any_password'
-      }
-    }
-
-    await sut.handle(httpRequest)
-
-    expect(isValidSpy).toHaveBeenCalledWith('any_mail@mail.com')
-  })
-
-  test('Should return 500 if EmailValidator throws', async () => {
-    const { sut, emailValidatorStub } = makeSut()
-    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error()
-    })
-
-    const httpRequest = {
-      body: {
-        email: 'any_mail@mail.com',
-        password: 'any_password'
-      }
-    }
-
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(serverError(new Error()))
-  })
-
   test('Should call Authentication with correct values', async () => {
     const { sut, authenticationStub } = makeSut()
     const authSpy = jest.spyOn(authenticationStub, 'auth')
@@ -168,5 +93,37 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Shoud call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+    const httpRequest = {
+      body: {
+        email: 'any_mail@mail.com',
+        password: 'any_password'
+      }
+    }
+
+    await sut.handle(httpRequest)
+    expect(validateSpy).toHaveBeenCalledWith({
+      email: 'any_mail@mail.com',
+      password: 'any_password'
+    })
+  })
+
+  test('Shoud return 400 if Validation returns fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
+    const httpRequest = {
+      body: {
+        email: 'any_mail@mail.com',
+        password: 'any_password'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(badRequest(new Error()))
   })
 })
