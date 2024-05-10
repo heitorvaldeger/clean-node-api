@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { IHttpRequest } from '../../presentation/interfaces'
 import { IController } from '../../presentation/controllers/interfaces/controller'
+import { IHttpRequest } from '../../presentation/helpers/http/interfaces/http'
 
 export const adapterExpress = (controller: IController) => {
   return (req: Request, res: Response) => {

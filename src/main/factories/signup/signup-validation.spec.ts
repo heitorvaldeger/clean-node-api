@@ -1,4 +1,4 @@
-import { IEmailValidator } from '../../../presentation/interfaces/email-validator'
+import { IEmailValidator } from '../../../adapters/interfaces/email-validator'
 import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation } from '../../../presentation/validators'
 import { IValidation } from '../../../presentation/validators/interfaces/validation'
 import { makeSignUpValidation } from './signup-validation'

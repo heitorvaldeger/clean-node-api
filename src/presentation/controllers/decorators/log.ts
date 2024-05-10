@@ -1,6 +1,6 @@
 import { ILogErrorRepository } from '../../../data/interfaces/log-error-repository'
 import { ServerError } from '../../errors'
-import { IHttpRequest, IHttpResponse } from '../../interfaces'
+import { IHttpRequest, IHttpResponse } from '../../helpers/http/interfaces/http'
 import { IController } from '../interfaces/controller'
 
 export class LogControllerDecorator implements IController {
