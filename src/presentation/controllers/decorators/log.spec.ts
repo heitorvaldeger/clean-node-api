@@ -1,5 +1,5 @@
 import { ILogErrorRepository } from '../../../data/interfaces/log-error-repository'
-import { ok, serverError } from '../../helpers/http-helpers'
+import { ok, serverError } from '../../helpers/http/http-helpers'
 import { IController, IHttpRequest, IHttpResponse } from '../../interfaces'
 import { LogControllerDecorator } from './log'
 

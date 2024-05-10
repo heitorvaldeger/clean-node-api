@@ -1,5 +1,5 @@
 import { IAuthentication } from './login-interfaces'
-import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helpers'
+import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helpers'
 import { LoginControler } from './login'
 import { IValidation } from '../signup/signup-interfaces'
 
