@@ -1,5 +1,4 @@
 export * from '../../interfaces/http'
-export * from '../../interfaces/controller'
 export * from '../../../domain/usecases/interfaces/add-account'
 export * from '../../../domain/model/account'
 export * from '../../validators/interfaces/validation'
