@@ -16,19 +16,11 @@ export class LoginControler implements IController {
       if (error) {
         return badRequest(error)
       }
-      // const requiredFields = ['email', 'password']
-      // for (const field of requiredFields) {
-      //   if (!httpRequest.body[field]) {
-      //     return badRequest(new MissingParamError(field))
-      //   }
-      // }
 
-      // const isValid = this.emailValidator.isValid(email as string)
-      // if (!isValid) {
-      //   return badRequest(new InvalidParamError('email'))
-      // }
-
-      const accessToken = await this.authentication.auth(email as string, password as string)
+      const accessToken = await this.authentication.auth({
+        email,
+        password
+      })
       if (!accessToken) {
         return unauthorized()
       }
