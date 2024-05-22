@@ -1,9 +1,11 @@
-import { IAuthentication } from '../../../domain/usecases/interfaces/authentication'
-import { IHashComparer } from '../../interfaces/crypto/hash-comparer'
-import { ITokenGenerator } from '../../interfaces/crypto/token-generator'
-import { ILoadAccountByEmailRepository } from '../../interfaces/db/load-account-by-email-repository'
-import { IUpdateAccessTokenRepository } from '../../interfaces/db/update-access-token-repository'
-import { IAccountModel } from '../add-account/db-add-account-interfaces'
+import {
+  IAuthentication,
+  IHashComparer,
+  ITokenGenerator,
+  ILoadAccountByEmailRepository,
+  IUpdateAccessTokenRepository,
+  IAccountModel
+} from './db-authentication-interfaces'
 import { DbAuthentication } from './db-authentication'
 
 const fakeAccount: IAccountModel = {
