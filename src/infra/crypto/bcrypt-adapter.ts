@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { IEncrypter } from '../../data/interfaces/encrypter'
+import { IEncrypter } from '../../data/interfaces/crypto/encrypter'
 
 export class BcryptAdapter implements IEncrypter {
   constructor (

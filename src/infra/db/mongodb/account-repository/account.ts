@@ -1,5 +1,5 @@
 import { WithId } from 'mongodb'
-import { IAddAccountRepository } from '../../../../data/interfaces/add-account-repository'
+import { IAddAccountRepository } from '../../../../data/interfaces/db/add-account-repository'
 import { IAddAccountModel } from '../../../../data/usecases/add-account/db-add-account-interfaces'
 import { IAccountModel } from '../../../../domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'

@@ -1,5 +1,5 @@
 import { IAuthentication } from '../../../domain/usecases/interfaces/authentication'
-import { ILoadAccountByEmailRepository } from '../../interfaces/load-account-by-email-repository'
+import { ILoadAccountByEmailRepository } from '../../interfaces/db/load-account-by-email-repository'
 import { IAccountModel } from '../add-account/db-add-account-interfaces'
 import { DbAuthentication } from './db-authentication'
 
