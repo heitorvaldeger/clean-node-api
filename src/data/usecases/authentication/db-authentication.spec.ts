@@ -96,4 +96,15 @@ describe('DbAuthentication UseCase', () => {
 
     await expect(authPromise).rejects.toThrow()
   })
+
+  test('Should return null if HashComparer returns false', async () => {
+    const { sut, hashComparerStub } = makeSut()
+    jest.spyOn(hashComparerStub, 'compare').mockReturnValueOnce(new Promise(resolve => { resolve(false) }))
+    const accessToken = await sut.auth({
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
+
+    expect(accessToken).toBeNull()
+  })
 })
