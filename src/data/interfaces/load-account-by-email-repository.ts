@@ -1,4 +1,4 @@
-import { IAccountModel } from '../usecases/db-add-account-interfaces'
+import { IAccountModel } from '../usecases/add-account/db-add-account-interfaces'
 
 export interface ILoadAccountByEmailRepository {
   load: (email: string) => Promise<IAccountModel>
