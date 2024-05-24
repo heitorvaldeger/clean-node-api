@@ -10,15 +10,11 @@ export class AccountMongoRepository implements IAddAccountRepository, ILoadAccou
     const accountCollection = await MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne<WithId<IAccountModel>>({ email })
 
-    if (!account) {
-      throw new Error('Account not found')
-    }
-
-    const { _id, ...rest } = account
-
-    return ({
-      ...rest,
-      id: _id.toHexString()
+    return account && ({
+      id: account._id.toHexString(),
+      email: account.email,
+      name: account.name,
+      password: account.password
     })
   }
 
