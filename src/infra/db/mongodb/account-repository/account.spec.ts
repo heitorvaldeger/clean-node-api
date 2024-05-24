@@ -1,3 +1,5 @@
+import { WithId } from 'mongodb'
+import { IAccountModel } from '../../../../domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'
 import { AccountMongoRepository } from './account'
 
@@ -70,5 +72,30 @@ describe('Account Mongo Repository', () => {
     const account = await sut.loadByEmail('any_email@mail.com')
 
     expect(account).toBeFalsy()
+  })
+
+  test('Should update the account accessToken on updateAccessToken success', async () => {
+    const accountCollection = await MongoHelper.getCollection('accounts')
+
+    const fakeAccountDocument = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
+
+    const fakeAccount = await accountCollection.findOne<WithId<IAccountModel>>({
+      _id: fakeAccountDocument.insertedId
+    })
+
+    expect(fakeAccount?.accessToken).toBeFalsy()
+
+    const sut = new AccountMongoRepository()
+    await sut.updateAccessToken(fakeAccountDocument.insertedId.toHexString(), 'any_token')
+
+    const account = await accountCollection.findOne<WithId<IAccountModel>>({
+      _id: fakeAccountDocument.insertedId
+    })
+    expect(account).toBeTruthy()
+    expect(account?.accessToken).toBe('any_token')
   })
 })
