@@ -3,8 +3,25 @@ import { IAddAccountRepository } from '../../../../data/interfaces/db/add-accoun
 import { IAddAccountModel } from '../../../../data/usecases/add-account/db-add-account-interfaces'
 import { IAccountModel } from '../../../../domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'
+import { ILoadAccountByEmailRepository } from '../../../../data/interfaces/db/load-account-by-email-repository'
 
-export class AccountMongoRepository implements IAddAccountRepository {
+export class AccountMongoRepository implements IAddAccountRepository, ILoadAccountByEmailRepository {
+  async loadByEmail (email: string): Promise<IAccountModel | null> {
+    const accountCollection = await MongoHelper.getCollection('accounts')
+    const account = await accountCollection.findOne<WithId<IAccountModel>>({ email })
+
+    if (!account) {
+      throw new Error('Account not found')
+    }
+
+    const { _id, ...rest } = account
+
+    return ({
+      ...rest,
+      id: _id.toHexString()
+    })
+  }
+
   async add (account: IAddAccountModel): Promise<IAccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const { insertedId } = await accountCollection.insertOne(account)
