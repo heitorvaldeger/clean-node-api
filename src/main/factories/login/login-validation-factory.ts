@@ -1,16 +1,6 @@
-import { IEmailValidator } from '../../../adapters/email-validator/interfaces/email-validator'
+import { EmailValidatorAdapter } from '../../../adapters/email-validator/email-validator-adapter'
 import { EmailValidation, RequiredFieldValidation, ValidationComposite } from '../../../presentation/validators'
 import { IValidation } from '../../../presentation/validators/interfaces/validation'
-
-const makeEmailValidatorStub = (): IEmailValidator => {
-  class EmailValidatorStub implements IEmailValidator {
-    isValid (email: string): boolean {
-      return true
-    }
-  }
-
-  return new EmailValidatorStub()
-}
 
 export const makeLoginValidation = (): IValidation => {
   const validations: IValidation[] = []
@@ -18,7 +8,7 @@ export const makeLoginValidation = (): IValidation => {
     validations.push(new RequiredFieldValidation(field))
   }
 
-  validations.push(new EmailValidation('email', makeEmailValidatorStub()))
+  validations.push(new EmailValidation('email', new EmailValidatorAdapter()))
 
   return new ValidationComposite(validations)
 }
