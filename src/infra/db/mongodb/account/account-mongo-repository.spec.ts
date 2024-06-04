@@ -1,7 +1,7 @@
 import { WithId } from 'mongodb'
 import { IAccountModel } from '../../../../domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'
-import { AccountMongoRepository } from './account'
+import { AccountMongoRepository } from './account-mongo-repository'
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {

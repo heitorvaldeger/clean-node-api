@@ -1,6 +1,6 @@
-import { IAuthentication, IHttpRequest, IHttpResponse } from './login-interfaces'
+import { IAuthentication, IHttpRequest, IHttpResponse } from './login-controller-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helpers'
-import { IValidation } from '../signup/signup-interfaces'
+import { IValidation } from '../signup/signup-controller-interfaces'
 import { IController } from '../interfaces/controller'
 
 export class LoginControler implements IController {

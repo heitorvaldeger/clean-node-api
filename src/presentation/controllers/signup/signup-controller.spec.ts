@@ -1,6 +1,6 @@
-import { IAccountModel, IAddAccount, IAddAccountModel, IValidation } from './signup-interfaces'
+import { IAccountModel, IAddAccount, IAddAccountModel, IValidation } from './signup-controller-interfaces'
 import { ServerError } from '../../errors'
-import { SignUpController } from './signup'
+import { SignUpController } from './signup-controller'
 import { badRequest, ok, serverError } from '../../helpers/http/http-helpers'
 
 const makeAddAccountStub = (): IAddAccount => {

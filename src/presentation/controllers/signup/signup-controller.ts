@@ -1,6 +1,6 @@
 import { badRequest, ok, serverError } from '../../helpers/http/http-helpers'
 import { IController } from '../interfaces/controller'
-import { IHttpRequest, IHttpResponse, IAddAccount, IValidation } from './signup-interfaces'
+import { IHttpRequest, IHttpResponse, IAddAccount, IValidation } from './signup-controller-interfaces'
 
 export class SignUpController implements IController {
   constructor (

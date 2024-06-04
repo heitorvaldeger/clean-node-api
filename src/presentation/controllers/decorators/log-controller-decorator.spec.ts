@@ -1,8 +1,8 @@
-import { ILogErrorRepository } from '../../../data/interfaces/db/log-error-repository'
+import { ILogErrorRepository } from '../../../data/interfaces/db/log/log-error-repository'
 import { ok, serverError } from '../../helpers/http/http-helpers'
 import { IHttpRequest, IHttpResponse } from '../../helpers/http/interfaces/http'
 import { IController } from '../interfaces/controller'
-import { LogControllerDecorator } from './log'
+import { LogControllerDecorator } from './log-controller-decorator'
 
 class LogErrorRepository implements ILogErrorRepository {
   async logError (stack: string): Promise<void> {

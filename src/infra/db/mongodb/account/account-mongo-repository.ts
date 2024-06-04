@@ -1,10 +1,10 @@
 import { ObjectId, WithId } from 'mongodb'
-import { IAddAccountRepository } from '../../../../data/interfaces/db/add-account-repository'
+import { IAddAccountRepository } from '../../../../data/interfaces/db/account/add-account-repository'
 import { IAddAccountModel } from '../../../../data/usecases/add-account/db-add-account-interfaces'
 import { IAccountModel } from '../../../../domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'
-import { ILoadAccountByEmailRepository } from '../../../../data/interfaces/db/load-account-by-email-repository'
-import { IUpdateAccessTokenRepository } from '../../../../data/interfaces/db/update-access-token-repository'
+import { ILoadAccountByEmailRepository } from '../../../../data/interfaces/db/account/load-account-by-email-repository'
+import { IUpdateAccessTokenRepository } from '../../../../data/interfaces/db/account/update-access-token-repository'
 
 export class AccountMongoRepository implements
   IAddAccountRepository,
