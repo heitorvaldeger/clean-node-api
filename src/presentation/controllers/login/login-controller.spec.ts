@@ -1,6 +1,6 @@
 import { AuthenticationModel, IAuthentication } from './login-controller-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helpers'
-import { LoginControler } from './login-controller'
+import { LoginController } from './login-controller'
 import { IValidation } from '../signup/signup-controller-interfaces'
 
 class AuthenticationStub implements IAuthentication {
@@ -16,14 +16,14 @@ class ValidationStub implements IValidation {
 }
 
 interface SutTypes {
-  sut: LoginControler
+  sut: LoginController
   validationStub: IValidation
   authenticationStub: IAuthentication
 }
 const makeSut = (): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationStub = new AuthenticationStub()
-  const sut = new LoginControler(validationStub, authenticationStub)
+  const sut = new LoginController(validationStub, authenticationStub)
 
   return {
     sut,

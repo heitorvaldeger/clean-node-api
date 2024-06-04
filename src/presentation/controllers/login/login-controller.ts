@@ -3,7 +3,7 @@ import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/ht
 import { IValidation } from '../signup/signup-controller-interfaces'
 import { IController } from '../interfaces/controller'
 
-export class LoginControler implements IController {
+export class LoginController implements IController {
   constructor (
     private readonly validation: IValidation,
     private readonly authentication: IAuthentication
