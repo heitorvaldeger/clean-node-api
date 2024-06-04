@@ -1,6 +1,6 @@
 import express from 'express'
 import { bodyParser, cors } from './middlewares'
-import routes from './routes'
+import routes from './routes/_index'
 
 const app = express()
 
