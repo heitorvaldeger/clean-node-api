@@ -8,6 +8,18 @@ services:
       - ./docker/mongo:/data/db
     ports:
       - "27017:27017"
+
+  postgres:
+    container_name: postgres-container
+    image: postgres:16-alpine
+    restart: always
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=clean-node-api
+      - POSTGRES_PASSWORD=root
   
   api:
     container_name: api-container
