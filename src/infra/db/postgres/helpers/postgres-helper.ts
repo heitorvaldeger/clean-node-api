@@ -24,6 +24,7 @@ export const PostgresHelper = {
   },
   async disconnect () {
     await this.client.destroy()
+    this.client = null as unknown as Knex
   },
   getTable (tableName: string) {
     if (!this.client) {
