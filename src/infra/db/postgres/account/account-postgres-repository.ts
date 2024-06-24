@@ -1,7 +1,8 @@
 import { IAccountModel, IAddAccountModel, IAddAccountRepository } from '../../../../data/usecases/add-account/db-add-account-interfaces'
+import { ILoadAccountByEmailRepository } from '../../../../data/usecases/authentication/db-authentication-interfaces'
 import { PostgresHelper } from '../helpers/postgres-helper'
 
-export class AccountPostgresRepository implements IAddAccountRepository {
+export class AccountPostgresRepository implements IAddAccountRepository, ILoadAccountByEmailRepository {
   async add (account: IAddAccountModel): Promise<IAccountModel> {
     const accountTable = PostgresHelper.getTable('accounts')
     const accountData = await accountTable.insert<IAccountModel>(account).returning('*')
@@ -11,5 +12,11 @@ export class AccountPostgresRepository implements IAddAccountRepository {
     }
 
     return accountData[0]
+  }
+
+  async loadByEmail (email: string): Promise<IAccountModel | null> {
+    const account = PostgresHelper.getTable('accounts').where('email', email).first<IAccountModel>()
+
+    return await new Promise(resolve => { resolve(account) })
   }
 }
