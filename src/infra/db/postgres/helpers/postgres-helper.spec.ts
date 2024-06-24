@@ -16,4 +16,11 @@ describe('PostgresHelper', () => {
     })
     expect(() => PostgresHelper.connect()).toThrow('Unable to connect to database')
   })
+
+  test('Should reconnect if Postgres is down', async () => {
+    await PostgresHelper.disconnect()
+
+    const accountTable = PostgresHelper.getTable('accounts')
+    expect(accountTable).toBeTruthy()
+  })
 })
