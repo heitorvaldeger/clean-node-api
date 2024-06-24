@@ -32,3 +32,4 @@ services:
     command: npm start
     links:
       - mongo
+      - postgres

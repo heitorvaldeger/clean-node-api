@@ -7,7 +7,7 @@ describe('AccountPostgresRepository', () => {
     PostgresHelper.connect()
   })
 
-  afterEach(async () => {
+  beforeEach(async () => {
     await PostgresHelper.getTable('accounts').whereNotNull('id').del()
   })
 

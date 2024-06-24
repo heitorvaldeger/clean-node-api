@@ -22,6 +22,10 @@ export const PostgresHelper = {
     await this.client.destroy()
   },
   getTable (tableName: string) {
+    if (!this.client) {
+      this.connect()
+    }
+
     return this.client.table(tableName)
   }
 }
