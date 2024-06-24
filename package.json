@@ -12,8 +12,7 @@
     "test:unit": "npm test -- --watch --findRelatedTests src/**/.spec.ts",
     "test:integration": "npm test -- --watch --testPathPattern=.test.ts",
     "test:staged": "npm test -- --findRelatedTests .spec.ts,.test.ts",
-    "test:ci": "npm test -- --coverage",
-    "prepare": "husky"
+    "test:ci": "npm test -- --coverage"
   },
   "keywords": [],
   "author": "",

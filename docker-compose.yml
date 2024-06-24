@@ -1,0 +1,22 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongo-container
+    image: mongo:4.4
+    restart: always
+    volumes:
+      - ./docker/mongo:/data/db
+    ports:
+      - "27017:27017"
+  
+  api:
+    container_name: api-container
+    restart: always
+    build: .
+    volumes:
+      - ./dist:/workspace/clean-node-api/dist
+    ports:
+      - "5050:5050"
+    command: npm start
+    links:
+      - mongo
