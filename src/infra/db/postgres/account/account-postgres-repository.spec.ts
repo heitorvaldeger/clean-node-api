@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { PostgresHelper } from '../helpers/postgres-helper'
 import { AccountPostgresRepository } from './account-postgres-repository'
 
@@ -53,5 +54,26 @@ describe('AccountPostgresRepository', () => {
     const account = await sut.loadByEmail('any_email@mail.com')
 
     expect(account).toBeFalsy()
+  })
+
+  test('Should update the account accessToken on updateAccessToken success', async () => {
+    const insertedRows = await PostgresHelper.getTable('accounts').insert({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    }, '*')
+
+    if (!(insertedRows.length > 0)) {
+      throw new Error('Inserted rows failure!')
+    }
+
+    expect(insertedRows[0].accessToken).toBeFalsy()
+
+    const sut = new AccountPostgresRepository()
+    await sut.updateAccessToken(insertedRows[0].id, 'any_token')
+
+    const account = await PostgresHelper.getTable('accounts').where('id', insertedRows[0].id).first()
+    expect(account).toBeTruthy()
+    expect(account?.accessToken).toBe('any_token')
   })
 })
