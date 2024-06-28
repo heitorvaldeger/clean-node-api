@@ -83,4 +83,26 @@ describe('AccountPostgresRepository', () => {
 
     await expect(promise).rejects.toThrow(new Error('Update access token failure!'))
   })
+
+  test('Should throws the add account error', async () => {
+    jest.spyOn(PostgresHelper, 'getTable').mockImplementationOnce((): any => {
+      return ({
+        insert () {
+          return this
+        },
+        returning () {
+          return []
+        }
+      })
+    })
+
+    const sut = new AccountPostgresRepository()
+    const promise = sut.add({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
+
+    await expect(promise).rejects.toThrow(new Error('Add account failure!'))
+  })
 })
