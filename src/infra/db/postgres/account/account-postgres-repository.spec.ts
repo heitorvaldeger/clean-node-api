@@ -76,4 +76,11 @@ describe('AccountPostgresRepository', () => {
     expect(account).toBeTruthy()
     expect(account?.accessToken).toBe('any_token')
   })
+
+  test('Should throws the accessToken account error', async () => {
+    const sut = new AccountPostgresRepository()
+    const promise = sut.updateAccessToken('-1', 'any_token')
+
+    await expect(promise).rejects.toThrow(new Error('Update access token failure!'))
+  })
 })
