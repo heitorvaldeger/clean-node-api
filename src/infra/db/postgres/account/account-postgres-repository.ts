@@ -27,7 +27,7 @@ export class AccountPostgresRepository implements IAddAccountRepository, ILoadAc
       }, '*')
 
     if (!(updatedRows.length > 0)) {
-      throw new Error('Account not found')
+      throw new Error('Update access token failure!')
     }
 
     return updatedRows[0]
