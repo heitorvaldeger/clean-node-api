@@ -29,6 +29,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^20.11.30",
+    "@types/pg": "^8.11.6",
     "@types/supertest": "^6.0.2",
     "@types/validator": "^13.11.9",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
