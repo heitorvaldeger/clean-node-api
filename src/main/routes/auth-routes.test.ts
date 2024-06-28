@@ -1,19 +1,19 @@
 import request from 'supertest'
 import app from '../app'
-import { MongoHelper } from '../../infra/db/mongodb/helpers/mongodb-helper'
+import { PostgresHelper } from '../../infra/db/postgres/helpers/postgres-helper'
 import { BcryptAdapter } from '../../infra/crypto/bcrypt-adapter/bcrypt-adapter'
 
 describe('Auth Routes', () => {
-  beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL)
-  })
-
-  afterAll(async () => {
-    await MongoHelper.disconnect()
+  beforeAll(() => {
+    PostgresHelper.connect()
   })
 
   beforeEach(async () => {
-    await (await MongoHelper.getCollection('accounts')).deleteMany()
+    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
+  })
+
+  afterAll(async () => {
+    await PostgresHelper.disconnect()
   })
 
   describe('POST /signup', () => {
@@ -32,10 +32,10 @@ describe('Auth Routes', () => {
 
   describe('POST /login', () => {
     test('Should return 200 on login', async () => {
-      const accountCollection = await MongoHelper.getCollection('accounts')
       const bcryptAdapter = new BcryptAdapter()
       const password = await bcryptAdapter.hash('any_password')
-      await accountCollection.insertOne({
+
+      await PostgresHelper.getTable('accounts').insert({
         name: 'any_name',
         email: 'any_email@mail.com',
         password
