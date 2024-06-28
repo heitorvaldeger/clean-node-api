@@ -1,4 +1,4 @@
-import knex, { Knex } from 'knex'
+import { Knex, knex } from 'knex'
 import dotenv from 'dotenv'
 
 export const PostgresHelper = {

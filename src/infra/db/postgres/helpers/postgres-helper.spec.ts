@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import { PostgresHelper } from './postgres-helper'
+import { knex } from 'knex'
 
 describe('PostgresHelper', () => {
   beforeAll(() => {
@@ -11,9 +12,10 @@ describe('PostgresHelper', () => {
   })
 
   test('Should throw an error if Postgres don\'t connect throws', () => {
-    jest.spyOn(PostgresHelper, 'connect').mockImplementationOnce(() => {
-      throw new Error('Unable to connect to database')
+    jest.spyOn(knex, 'knex').mockImplementationOnce(() => {
+      throw new Error()
     })
+
     expect(() => PostgresHelper.connect()).toThrow('Unable to connect to database')
   })
 
