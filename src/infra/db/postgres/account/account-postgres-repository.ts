@@ -7,7 +7,7 @@ export class AccountPostgresRepository implements IAddAccountRepository, ILoadAc
     const insertedRows = await PostgresHelper.getTable('accounts').insert<IAccountModel>(account).returning('*')
 
     if (!(insertedRows.length > 0)) {
-      throw new Error('Account not found')
+      throw new Error('Add account failure!')
     }
 
     return insertedRows[0]
