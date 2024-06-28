@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import { PostgresHelper } from './postgres-helper'
 import { knex } from 'knex'
 
@@ -16,7 +15,7 @@ describe('PostgresHelper', () => {
       throw new Error()
     })
 
-    expect(() => PostgresHelper.connect()).toThrow('Unable to connect to database')
+    expect(() => { PostgresHelper.connect() }).toThrow('Unable to connect to database')
   })
 
   test('Should reconnect if Postgres is down', async () => {
