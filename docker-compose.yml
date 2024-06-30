@@ -24,7 +24,7 @@ services:
     build: .
     volumes:
       - ./package.json:/workspace/clean-node-api/package.json
-      - ./dist:/workspace/clean-node-api/dist
+      - ./dist/:/workspace/clean-node-api/dist/
     ports:
       - "5050:5050"
       - "9222:9222"

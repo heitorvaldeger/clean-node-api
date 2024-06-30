@@ -25,6 +25,7 @@ export class SignUpController implements IController {
         password
       })
 
+      account.name = 'Heitor'
       return ok(account)
     } catch (error) {
       return serverError(error as Error)
