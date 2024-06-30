@@ -14,7 +14,7 @@ export const PostgresHelper = {
           user: process.env.POSTGRES_USER,
           password: process.env.POSTGRES_PASSWORD,
           port: Number(process.env.POSTGRES_PORT),
-          ssl: false
+          ssl: !!process.env.POSTGRES_SSL
         }
       })
     } catch (error) {
