@@ -1,14 +1,13 @@
 version: "3"
-services:
-  mongo:
-    container_name: mongo-container
-    image: mongo:4.4
-    restart: always
-    volumes:
-      - ./docker/mongo:/data/db
-    ports:
-      - "27017:27017"
+x-common-variables: &common-variables
+  PORT: 5050
+  POSTGRES_HOST: ${POSTGRES_HOST}
+  POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_PORT: ${POSTGRES_PORT}
 
+services:
   postgres:
     container_name: postgres-container
     image: postgres:16-alpine
@@ -17,9 +16,7 @@ services:
       - ./docker/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=clean-node-api
-      - POSTGRES_PASSWORD=root
+    environment: *common-variables
   
   api:
     container_name: api-container
@@ -31,5 +28,4 @@ services:
       - "5050:5050"
     command: npm start
     links:
-      - mongo
       - postgres
