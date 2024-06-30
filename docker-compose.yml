@@ -23,9 +23,11 @@ services:
     restart: always
     build: .
     volumes:
+      - ./package.json:/workspace/clean-node-api/package.json
       - ./dist:/workspace/clean-node-api/dist
     ports:
       - "5050:5050"
-    command: npm start
+      - "9222:9222"
+    command: npm run debug
     links:
       - postgres
