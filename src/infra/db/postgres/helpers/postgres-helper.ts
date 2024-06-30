@@ -6,7 +6,6 @@ export const PostgresHelper = {
   connect () {
     try {
       dotenv.config()
-      const postgresPort = Number(process.env.POSTGRES_PORT)
       this.client = knex({
         client: 'pg',
         connection: {
@@ -14,7 +13,7 @@ export const PostgresHelper = {
           database: process.env.POSTGRES_DATABASE,
           user: process.env.POSTGRES_USER,
           password: process.env.POSTGRES_PASSWORD,
-          port: postgresPort,
+          port: Number(process.env.POSTGRES_PORT),
           ssl: false
         }
       })
