@@ -1,7 +1,13 @@
-import { IAccountModel, IAddAccount, IAddAccountModel, IValidation } from './signup-controller-interfaces'
+import { AuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication, IValidation } from './signup-controller-interfaces'
 import { ServerError } from '../../errors'
 import { SignUpController } from './signup-controller'
 import { badRequest, ok, serverError } from '../../helpers/http/http-helpers'
+
+class AuthenticationStub implements IAuthentication {
+  async auth (authentication: AuthenticationModel): Promise<string> {
+    return await new Promise(resolve => { resolve('any_token') })
+  }
+}
 
 const makeAddAccountStub = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
@@ -24,20 +30,23 @@ const makeValidationStub = (): IValidation => {
 }
 
 interface SignUpType {
-  signUpController: SignUpController
+  sut: SignUpController
   addAccountStub: IAddAccount
+  authenticationStub: IAuthentication
   validationStub: IValidation
 }
 
-const makeSignupController = (): SignUpType => {
+const makeSut = (): SignUpType => {
   const addAccountStub = makeAddAccountStub()
   const validationStub = makeValidationStub()
-  const signUpController = new SignUpController(addAccountStub, validationStub)
+  const authenticationStub = new AuthenticationStub()
+  const sut = new SignUpController(addAccountStub, validationStub, authenticationStub)
 
   return {
-    signUpController,
+    sut,
     addAccountStub,
-    validationStub
+    validationStub,
+    authenticationStub
   }
 }
 
@@ -56,11 +65,29 @@ const fakeAccount: IAccountModel = {
 }
 
 describe('SignUp Controller', () => {
+  test('Should call Authentication with correct values', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authSpy = jest.spyOn(authenticationStub, 'auth')
+    const httpRequest = {
+      body: {
+        email: 'any_mail@mail.com',
+        password: 'any_password'
+      }
+    }
+
+    await sut.handle(httpRequest)
+
+    expect(authSpy).toHaveBeenCalledWith({
+      email: 'any_mail@mail.com',
+      password: 'any_password'
+    })
+  })
+
   test('Shoud call AddAccount with correct values', async () => {
-    const { signUpController, addAccountStub } = makeSignupController()
+    const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add')
 
-    await signUpController.handle({
+    await sut.handle({
       body: fakeRequest
     })
     expect(addSpy).toHaveBeenCalledWith({
@@ -71,31 +98,31 @@ describe('SignUp Controller', () => {
   })
 
   test('Shoud return 500 if AddAccount throws', async () => {
-    const { signUpController, addAccountStub } = makeSignupController()
+    const { sut, addAccountStub } = makeSut()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
       throw new Error()
     })
 
-    const httpResponse = await signUpController.handle({
+    const httpResponse = await sut.handle({
       body: fakeRequest
     })
     expect(httpResponse).toEqual(serverError(new ServerError()))
   })
 
   test('Shoud return 200 if valid data is provided', async () => {
-    const { signUpController } = makeSignupController()
+    const { sut } = makeSut()
 
-    const httpResponse = await signUpController.handle({
+    const httpResponse = await sut.handle({
       body: fakeRequest
     })
     expect(httpResponse).toEqual(ok(fakeAccount))
   })
 
   test('Shoud call Validation with correct value', async () => {
-    const { signUpController, validationStub } = makeSignupController()
+    const { sut, validationStub } = makeSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
 
-    await signUpController.handle({
+    await sut.handle({
       body: fakeRequest
     })
 
@@ -103,9 +130,9 @@ describe('SignUp Controller', () => {
   })
 
   test('Shoud return 400 if Validation returns fails', async () => {
-    const { signUpController, validationStub } = makeSignupController()
+    const { sut, validationStub } = makeSut()
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error()) // pode ser qualquer erro
-    const httpResponse = await signUpController.handle({
+    const httpResponse = await sut.handle({
       body: fakeRequest
     })
 
