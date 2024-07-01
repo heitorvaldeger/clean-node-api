@@ -1,7 +1,7 @@
 import { AuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication, IValidation } from './signup-controller-interfaces'
-import { ServerError } from '../../errors'
+import { EmailInUseError, ServerError } from '../../errors'
 import { SignUpController } from './signup-controller'
-import { badRequest, ok, serverError } from '../../helpers/http/http-helpers'
+import { badRequest, forbidden, ok, serverError } from '../../helpers/http/http-helpers'
 
 class AuthenticationStub implements IAuthentication {
   async auth (authentication: AuthenticationModel): Promise<string> {
@@ -11,7 +11,7 @@ class AuthenticationStub implements IAuthentication {
 
 const makeAddAccountStub = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
-    async add (account: IAddAccountModel): Promise<IAccountModel> {
+    async add (account: IAddAccountModel): Promise<IAccountModel | null> {
       return await new Promise(resolve => { resolve(fakeAccount) })
     }
   }
@@ -134,6 +134,19 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(ok({
       accessToken: 'any_token'
     }))
+  })
+
+  test('Shoud return 403 if AddAccount returns null', async () => {
+    const { sut, addAccountStub } = makeSut()
+
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => {
+      resolve(null)
+    }))
+
+    const httpResponse = await sut.handle({
+      body: fakeRequest
+    })
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
 
   test('Shoud call Validation with correct value', async () => {
