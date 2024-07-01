@@ -6,5 +6,5 @@ export interface IAddAccountModel {
   password: string
 }
 export interface IAddAccount {
-  add: (account: IAddAccountModel) => Promise<IAccountModel>
+  add: (account: IAddAccountModel) => Promise<IAccountModel | null>
 }
