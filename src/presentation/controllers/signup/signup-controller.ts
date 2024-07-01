@@ -1,11 +1,12 @@
 import { badRequest, ok, serverError } from '../../helpers/http/http-helpers'
 import { IController } from '../interfaces/controller'
-import { IHttpRequest, IHttpResponse, IAddAccount, IValidation } from './signup-controller-interfaces'
+import { IHttpRequest, IHttpResponse, IAddAccount, IValidation, IAuthentication } from './signup-controller-interfaces'
 
 export class SignUpController implements IController {
   constructor (
     private readonly addAccount: IAddAccount,
-    private readonly validation: IValidation
+    private readonly validation: IValidation,
+    private readonly authentication: IAuthentication
   ) {
 
   }
@@ -25,7 +26,10 @@ export class SignUpController implements IController {
         password
       })
 
-      account.name = 'Heitor'
+      await this.authentication.auth({
+        email,
+        password
+      })
       return ok(account)
     } catch (error) {
       return serverError(error as Error)
