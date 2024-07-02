@@ -5,6 +5,6 @@ import { AccountPostgresRepository } from '../../../../infra/db/postgres/account
 
 export const makeDbAddAccountFactory = (): IAddAccount => {
   const bcrypter = new BcryptAdapter()
-  const addAccountRepository = new AccountPostgresRepository()
-  return new DbAddAccount(bcrypter, addAccountRepository)
+  const accountPostgresRepository = new AccountPostgresRepository()
+  return new DbAddAccount(bcrypter, accountPostgresRepository, accountPostgresRepository)
 }
