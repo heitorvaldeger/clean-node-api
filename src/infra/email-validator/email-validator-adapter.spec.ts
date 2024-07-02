@@ -1,6 +1,6 @@
 import validator from 'validator'
 import { EmailValidatorAdapter } from './email-validator-adapter'
-import { IEmailValidator } from './interfaces/email-validator'
+import { IEmailValidator } from '../../validations/validators/interfaces/email-validator'
 
 const makeEmailValidatorAdapter = (): IEmailValidator => {
   return new EmailValidatorAdapter()
