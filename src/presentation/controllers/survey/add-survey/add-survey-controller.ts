@@ -1,8 +1,9 @@
-import { IController, IHttpRequest, IHttpResponse, IValidation, badRequest } from './add-survey-controller-interfaces'
+import { IAddSurvey, IController, IHttpRequest, IHttpResponse, IValidation, badRequest, ok } from './add-survey-controller-interfaces'
 
 export class AddSurveyController implements IController {
   constructor (
-    private readonly validation: IValidation
+    private readonly validation: IValidation,
+    private readonly addSurvey: IAddSurvey
   ) {}
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
@@ -11,11 +12,12 @@ export class AddSurveyController implements IController {
       return badRequest(error)
     }
 
-    return await new Promise(resolve => {
-      resolve({
-        body: null,
-        statusCode: 200
-      })
+    const { question, answers } = httpRequest.body
+    await this.addSurvey.add({
+      question,
+      answers
     })
+
+    return ok({})
   }
 }
