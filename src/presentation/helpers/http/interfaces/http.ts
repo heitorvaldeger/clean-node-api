@@ -1,5 +1,5 @@
-export interface IHttpRequest {
-  body?: any
+export interface IHttpRequest<B = any> {
+  body?: B
 }
 
 export interface IHttpResponse {
