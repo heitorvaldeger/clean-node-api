@@ -1,6 +1,6 @@
-import { EmailInUseError } from '../../errors'
-import { badRequest, forbidden, ok, serverError } from '../../helpers/http/http-helpers'
-import { IController } from '../interfaces/controller'
+import { EmailInUseError } from '../../../errors'
+import { badRequest, forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
+import { IController } from '../../interfaces/controller'
 import { IHttpRequest, IHttpResponse, IAddAccount, IValidation, IAuthentication } from './signup-controller-interfaces'
 
 export class SignUpController implements IController {
