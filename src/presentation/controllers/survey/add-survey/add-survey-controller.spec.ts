@@ -1,4 +1,4 @@
-import { IController, IHttpRequest, IValidation } from './add-survey-controller-interfaces'
+import { IController, IHttpRequest, IValidation, badRequest } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
 const fakeRequest: IHttpRequest = {
   body: {
@@ -40,5 +40,13 @@ describe('AddSurvey Controller', () => {
     await sut.handle(fakeRequest)
 
     expect(validateSpy).toHaveBeenCalledWith(fakeRequest.body)
+  })
+
+  test('Should returns 400 if Validation fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
+    const httpResponse = await sut.handle(fakeRequest)
+
+    expect(httpResponse).toEqual(badRequest(new Error()))
   })
 })
