@@ -1,4 +1,4 @@
-import { IController, IHttpRequest, IValidation, badRequest } from './add-survey-controller-interfaces'
+import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IValidation, badRequest } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
 const fakeRequest: IHttpRequest = {
   body: {
@@ -18,18 +18,26 @@ class ValidationStub implements IValidation {
   }
 }
 
+class AddSurveyStub implements IAddSurvey {
+  async add (surveyData: IAddSurveyModel): Promise<void> {
+  }
+}
+
 interface SutType {
   sut: IController
   validationStub: IValidation
+  addSurveyStub: IAddSurvey
 }
 
 const makeSut = (): SutType => {
   const validationStub = new ValidationStub()
-  const sut = new AddSurveyController(validationStub)
+  const addSurveyStub = new AddSurveyStub()
+  const sut = new AddSurveyController(validationStub, addSurveyStub)
 
   return {
     validationStub,
-    sut
+    sut,
+    addSurveyStub
   }
 }
 
@@ -48,5 +56,13 @@ describe('AddSurvey Controller', () => {
     const httpResponse = await sut.handle(fakeRequest)
 
     expect(httpResponse).toEqual(badRequest(new Error()))
+  })
+
+  test('Should calls AddSurvey with correct values', async () => {
+    const { sut, addSurveyStub } = makeSut()
+    const addSpy = jest.spyOn(addSurveyStub, 'add')
+    await sut.handle(fakeRequest)
+
+    expect(addSpy).toHaveBeenCalledWith(fakeRequest.body)
   })
 })
