@@ -1,4 +1,4 @@
-import { IAddSurvey, IController, IHttpRequest, IHttpResponse, IValidation, badRequest, ok, serverError } from './add-survey-controller-interfaces'
+import { IAddSurvey, IController, IHttpRequest, IHttpResponse, IValidation, badRequest, created, serverError } from './add-survey-controller-interfaces'
 
 export class AddSurveyController implements IController {
   constructor (
@@ -19,7 +19,7 @@ export class AddSurveyController implements IController {
         answers
       })
 
-      return ok({})
+      return created()
     } catch (error) {
       return serverError(error as Error)
     }
