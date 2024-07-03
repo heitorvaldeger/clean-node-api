@@ -3,7 +3,6 @@ import { PostgresHelper } from '../helpers/postgres-helper'
 
 export class SurveyPostgresRepository implements IAddSurveyRepository {
   async add (surveyData: IAddSurveyModel): Promise<void> {
-    await PostgresHelper.getTable('surveys').count()
     const insertedRows = await PostgresHelper.getTable('surveys').insert({
       question: surveyData.question
     }).returning('*')
