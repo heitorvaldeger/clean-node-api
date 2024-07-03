@@ -1,4 +1,4 @@
-import { IController, IHttpRequest, IHttpResponse, IValidation } from './add-survey-controller-interfaces'
+import { IController, IHttpRequest, IHttpResponse, IValidation, badRequest } from './add-survey-controller-interfaces'
 
 export class AddSurveyController implements IController {
   constructor (
@@ -6,7 +6,11 @@ export class AddSurveyController implements IController {
   ) {}
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    this.validation.validate(httpRequest.body)
+    const error = this.validation.validate(httpRequest.body)
+    if (error) {
+      return badRequest(error)
+    }
+
     return await new Promise(resolve => {
       resolve({
         body: null,
