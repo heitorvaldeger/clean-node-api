@@ -1,5 +1,5 @@
 import { IEmailValidator } from '../../../../../validations/interfaces/email-validator'
-import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation } from '../../../../../validations'
+import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation, IsStringValidation } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
 import { makeSignUpValidation } from './signup-validation-factory'
 
@@ -22,6 +22,7 @@ describe('SignUpValidation Factory', () => {
     const validations: IValidation[] = []
     for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {
       validations.push(new RequiredFieldValidation(field))
+      validations.push(new IsStringValidation(field))
     }
 
     validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
