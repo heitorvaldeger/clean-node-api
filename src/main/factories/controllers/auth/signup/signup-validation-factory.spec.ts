@@ -1,5 +1,5 @@
 import { IEmailValidator } from '../../../../../validations/interfaces/email-validator'
-import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation, IsStringValidation } from '../../../../../validations'
+import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation, IsStringValidation, MinLengthStringValidation } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
 import { makeSignUpValidation } from './signup-validation-factory'
 
@@ -16,7 +16,8 @@ const fields = [
     fieldName: 'name',
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
-      new IsStringValidation(fieldName)
+      new IsStringValidation(fieldName),
+      new MinLengthStringValidation(fieldName, 3)
     ])
   },
   {
@@ -24,14 +25,16 @@ const fields = [
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
       new IsStringValidation(fieldName),
-      new EmailValidation('email', new EmailValidatorStub())
+      new EmailValidation(fieldName, new EmailValidatorStub()),
+      new MinLengthStringValidation(fieldName, 10)
     ])
   },
   {
     fieldName: 'password',
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
-      new IsStringValidation(fieldName)
+      new IsStringValidation(fieldName),
+      new MinLengthStringValidation(fieldName, 8)
     ])
   },
   {
@@ -39,7 +42,8 @@ const fields = [
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
       new IsStringValidation(fieldName),
-      new CompareFieldsValidation('password', fieldName)
+      new CompareFieldsValidation('password', fieldName),
+      new MinLengthStringValidation(fieldName, 8)
     ])
   }
 ]

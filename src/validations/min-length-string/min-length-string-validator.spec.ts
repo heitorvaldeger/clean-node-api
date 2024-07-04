@@ -1,5 +1,5 @@
 import { InvalidParamError } from '../../presentation/errors'
-import { MinLengthStringValidation } from './min-length-string'
+import { MinLengthStringValidation } from './min-length-string-validator'
 
 describe('MinLengthString Validation', () => {
   test('Should return a InvalidParamError if validation fails', () => {

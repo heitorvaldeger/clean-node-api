@@ -1,4 +1,4 @@
-import { RequiredFieldValidation, ValidationComposite, IsStringValidation, IsArrayValidation } from '../../../../../validations'
+import { RequiredFieldValidation, ValidationComposite, IsStringValidation, IsArrayValidation, MinLengthStringValidation } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
 import { makeAddSurveyValidation } from './add-survey-validation-factory'
 
@@ -9,7 +9,8 @@ const fields = [
     fieldName: 'question',
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
-      new IsStringValidation(fieldName)
+      new IsStringValidation(fieldName),
+      new MinLengthStringValidation(fieldName, 3)
     ])
   },
   {

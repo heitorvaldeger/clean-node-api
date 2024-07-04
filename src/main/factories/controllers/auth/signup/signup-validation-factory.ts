@@ -1,5 +1,5 @@
 import { EmailValidatorAdapter } from '../../../../../infra/email-validator/email-validator-adapter'
-import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation, IsStringValidation } from '../../../../../validations'
+import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation, IsStringValidation, MinLengthStringValidation } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
 
 const fields = [
@@ -7,7 +7,8 @@ const fields = [
     fieldName: 'name',
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
-      new IsStringValidation(fieldName)
+      new IsStringValidation(fieldName),
+      new MinLengthStringValidation(fieldName, 3)
     ])
   },
   {
@@ -15,14 +16,16 @@ const fields = [
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
       new IsStringValidation(fieldName),
-      new EmailValidation('email', new EmailValidatorAdapter())
+      new EmailValidation(fieldName, new EmailValidatorAdapter()),
+      new MinLengthStringValidation(fieldName, 10)
     ])
   },
   {
     fieldName: 'password',
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
-      new IsStringValidation(fieldName)
+      new IsStringValidation(fieldName),
+      new MinLengthStringValidation(fieldName, 8)
     ])
   },
   {
@@ -30,7 +33,8 @@ const fields = [
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
       new IsStringValidation(fieldName),
-      new CompareFieldsValidation('password', fieldName)
+      new CompareFieldsValidation('password', fieldName),
+      new MinLengthStringValidation(fieldName, 8)
     ])
   }
 ]

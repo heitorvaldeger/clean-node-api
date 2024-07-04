@@ -1,5 +1,5 @@
 import { EmailValidatorAdapter } from '../../../../../infra/email-validator/email-validator-adapter'
-import { EmailValidation, RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
+import { EmailValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
 import { IsStringValidation } from '../../../../../validations/is-string/is-string-validation'
 import { makeLoginValidation } from './login-validation-factory'
@@ -12,14 +12,16 @@ const fields = [
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
       new IsStringValidation(fieldName),
-      new EmailValidation('email', new EmailValidatorAdapter())
+      new EmailValidation('email', new EmailValidatorAdapter()),
+      new MinLengthStringValidation(fieldName, 10)
     ])
   },
   {
     fieldName: 'password',
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
-      new IsStringValidation(fieldName)
+      new IsStringValidation(fieldName),
+      new MinLengthStringValidation(fieldName, 8)
     ])
   }
 ]
