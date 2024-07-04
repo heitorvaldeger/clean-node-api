@@ -7,7 +7,7 @@ export class IsStringValidation implements IValidation {
   ) {}
 
   validate (input: any): Error | null {
-    if (typeof input !== 'string') {
+    if (typeof input[this.fieldName] !== 'string') {
       return new InvalidParamError(this.fieldName)
     }
 
