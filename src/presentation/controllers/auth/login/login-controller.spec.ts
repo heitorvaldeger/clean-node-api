@@ -1,10 +1,10 @@
-import { AuthenticationModel, IAuthentication } from './login-controller-interfaces'
+import { IAuthenticationModel, IAuthentication } from './login-controller-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http/http-helpers'
 import { LoginController } from './login-controller'
 import { IValidation } from '../../../../validations/interfaces/validation'
 
 class AuthenticationStub implements IAuthentication {
-  async auth (authentication: AuthenticationModel): Promise<string> {
+  async auth (authentication: IAuthenticationModel): Promise<string> {
     return await new Promise(resolve => { resolve('any_token') })
   }
 }
