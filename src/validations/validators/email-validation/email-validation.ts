@@ -1,6 +1,6 @@
-import { IEmailValidator } from './interfaces/email-validator'
-import { InvalidParamError } from '../../presentation/errors'
-import { IValidation } from './interfaces/validation'
+import { IEmailValidator } from '../interfaces/email-validator'
+import { InvalidParamError } from '../../../presentation/errors'
+import { IValidation } from '../interfaces/validation'
 
 export class EmailValidation implements IValidation {
   constructor (

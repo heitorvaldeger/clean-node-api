@@ -3,7 +3,7 @@ import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareF
 import { IValidation } from '../../../../../validations/validators/interfaces/validation'
 import { makeSignUpValidation } from './signup-validation-factory'
 
-jest.mock('../../../../../validations/validators/validation-composite')
+jest.mock('../../../../../validations/validators/validation-composite/validation-composite')
 
 const makeEmailValidatorStub = (): IEmailValidator => {
   class EmailValidatorStub implements IEmailValidator {
