@@ -6,17 +6,32 @@ import { makeLoginValidation } from './login-validation-factory'
 
 jest.mock('../../../../../validations/validation-composite/validation-composite')
 
+const fields = [
+  {
+    fieldName: 'email',
+    validations: (fieldName: string) => ([
+      new RequiredFieldValidation(fieldName),
+      new IsStringValidation(fieldName),
+      new EmailValidation('email', new EmailValidatorAdapter())
+    ])
+  },
+  {
+    fieldName: 'password',
+    validations: (fieldName: string) => ([
+      new RequiredFieldValidation(fieldName),
+      new IsStringValidation(fieldName)
+    ])
+  }
+]
+
 describe('LoginValidator Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
     makeLoginValidation()
 
     const validations: IValidation[] = []
-    for (const field of ['email', 'password']) {
-      validations.push(new RequiredFieldValidation(field))
-      validations.push(new IsStringValidation(field))
+    for (const field of fields) {
+      validations.push(...field.validations(field.fieldName))
     }
-
-    validations.push(new EmailValidation('email', new EmailValidatorAdapter()))
 
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
