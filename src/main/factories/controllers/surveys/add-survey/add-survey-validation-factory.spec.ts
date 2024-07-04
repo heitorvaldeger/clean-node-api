@@ -1,4 +1,4 @@
-import { RequiredFieldValidation, ValidationComposite, IsStringValidation } from '../../../../../validations'
+import { RequiredFieldValidation, ValidationComposite, IsStringValidation, IsArrayValidation } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
 import { makeAddSurveyValidation } from './add-survey-validation-factory'
 
@@ -14,6 +14,10 @@ describe('AddSurveyValidator Factory', () => {
 
       if (field === 'question') {
         validations.push(new IsStringValidation(field))
+      }
+
+      if (field === 'answers') {
+        validations.push(new IsArrayValidation(field))
       }
     }
 
