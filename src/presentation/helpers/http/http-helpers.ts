@@ -22,7 +22,7 @@ export const serverError = (error: Error): IHttpResponse => ({
   body: new ServerError(error.stack)
 })
 
-export const ok = (data: any): IHttpResponse => ({
+export const ok = <T>(data: T): IHttpResponse => ({
   statusCode: 200,
   body: data
 })
