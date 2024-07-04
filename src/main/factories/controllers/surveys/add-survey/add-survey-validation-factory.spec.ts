@@ -1,4 +1,4 @@
-import { RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
+import { RequiredFieldValidation, ValidationComposite, IsStringValidation } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
 import { makeAddSurveyValidation } from './add-survey-validation-factory'
 
@@ -11,6 +11,10 @@ describe('AddSurveyValidator Factory', () => {
     const validations: IValidation[] = []
     for (const field of ['question', 'answers']) {
       validations.push(new RequiredFieldValidation(field))
+
+      if (field === 'question') {
+        validations.push(new IsStringValidation(field))
+      }
     }
 
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
