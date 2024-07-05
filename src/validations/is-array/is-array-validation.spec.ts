@@ -11,6 +11,13 @@ describe('IsArray Validation', () => {
     expect(error).toEqual(new InvalidParamError('any_field'))
   })
 
+  test('Should return a InvalidParamError if field is undefined', () => {
+    const sut = new IsArrayValidation('any_field')
+    const error = sut.validate({})
+
+    expect(error).toEqual(new InvalidParamError('any_field'))
+  })
+
   test('Should not return if validation succeeds', () => {
     const sut = new IsArrayValidation('any_field')
     const isValid = sut.validate({
