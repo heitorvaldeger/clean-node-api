@@ -8,7 +8,7 @@ export class MinLengthStringValidation implements IValidation {
   ) {}
 
   validate (input: any): Error | null {
-    if (input[this.fieldName].length < this.stringLength) {
+    if (!input[this.fieldName] || (input[this.fieldName].length < this.stringLength)) {
       return new InvalidParamError(this.fieldName)
     }
 
