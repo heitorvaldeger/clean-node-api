@@ -1,5 +1,6 @@
 import { IsArrayValidation, IsStringValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
+import { IValidationComposite } from '../../../../../validations/interfaces/validation-composite'
 
 const fields = [
   {
@@ -19,7 +20,7 @@ const fields = [
   }
 ]
 
-export const makeAddSurveyValidation = (): IValidation => {
+export const makeAddSurveyValidation = (): IValidationComposite => {
   const validations: IValidation[] = []
   for (const field of fields) {
     validations.push(...field.validations(field.fieldName))

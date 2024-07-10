@@ -1,6 +1,7 @@
 import { EmailValidatorAdapter } from '../../../../../infra/email-validator/email-validator-adapter'
 import { EmailValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
 import { IValidation } from '../../../../../validations/interfaces/validation'
+import { IValidationComposite } from '../../../../../validations/interfaces/validation-composite'
 import { IsStringValidation } from '../../../../../validations/is-string/is-string-validation'
 
 const fields = [
@@ -23,7 +24,7 @@ const fields = [
   }
 ]
 
-export const makeLoginValidation = (): IValidation => {
+export const makeLoginValidation = (): IValidationComposite => {
   const validations: IValidation[] = []
   for (const field of fields) {
     validations.push(...field.validations(field.fieldName))

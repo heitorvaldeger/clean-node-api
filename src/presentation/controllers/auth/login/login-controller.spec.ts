@@ -1,7 +1,7 @@
 import { IAuthenticationModel, IAuthentication } from './login-controller-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http/http-helpers'
 import { LoginController } from './login-controller'
-import { IValidation } from '../../../../validations/interfaces/validation'
+import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
 
 class AuthenticationStub implements IAuthentication {
   async auth (authentication: IAuthenticationModel): Promise<string> {
@@ -9,15 +9,15 @@ class AuthenticationStub implements IAuthentication {
   }
 }
 
-class ValidationStub implements IValidation {
-  validate (input: any): Error | null {
+class ValidationStub implements IValidationComposite {
+  validate (input: any): Error[] | null {
     return null
   }
 }
 
 interface SutTypes {
   sut: LoginController
-  validationStub: IValidation
+  validationStub: IValidationComposite
   authenticationStub: IAuthentication
 }
 const makeSut = (): SutTypes => {
@@ -117,7 +117,9 @@ describe('Login Controller', () => {
 
   test('Shoud return 400 if Validation returns fails', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce([
+      new Error()
+    ])
     const httpRequest = {
       body: {
         email: 'any_mail@mail.com',
@@ -127,6 +129,8 @@ describe('Login Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse).toEqual(badRequest(new Error()))
+    expect(httpResponse).toEqual(badRequest([
+      new Error()
+    ]))
   })
 })

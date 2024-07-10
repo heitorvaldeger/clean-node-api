@@ -1,7 +1,8 @@
-import { IAuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication, IValidation } from './signup-controller-interfaces'
+import { IAuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication } from './signup-controller-interfaces'
 import { EmailInUseError, ServerError } from '../../../errors'
 import { SignUpController } from './signup-controller'
 import { badRequest, forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
+import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
 
 class AuthenticationStub implements IAuthentication {
   async auth (authentication: IAuthenticationModel): Promise<string> {
@@ -19,9 +20,9 @@ const makeAddAccountStub = (): IAddAccount => {
   return new AddAccountStub()
 }
 
-const makeValidationStub = (): IValidation => {
-  class ValidationStub implements IValidation {
-    validate (input: any): Error | null {
+const makeValidationStub = (): IValidationComposite => {
+  class ValidationStub implements IValidationComposite {
+    validate (input: any): Error[] | null {
       return null
     }
   }
@@ -33,7 +34,7 @@ interface SignUpType {
   sut: SignUpController
   addAccountStub: IAddAccount
   authenticationStub: IAuthentication
-  validationStub: IValidation
+  validationStub: IValidationComposite
 }
 
 const makeSut = (): SignUpType => {
@@ -153,11 +154,15 @@ describe('SignUp Controller', () => {
 
   test('Shoud return 400 if Validation returns fails', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error()) // pode ser qualquer erro
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce([
+      new Error()
+    ]) // pode ser qualquer erro
     const httpResponse = await sut.handle({
       body: fakeRequest
     })
 
-    expect(httpResponse).toEqual(badRequest(new Error()))
+    expect(httpResponse).toEqual(badRequest([
+      new Error()
+    ]))
   })
 })

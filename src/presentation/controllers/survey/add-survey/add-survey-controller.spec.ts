@@ -1,5 +1,6 @@
-import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IValidation, badRequest, created, serverError } from './add-survey-controller-interfaces'
+import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, badRequest, created, serverError } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
+import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
 const fakeRequest: IHttpRequest = {
   body: {
     question: 'any_question',
@@ -12,8 +13,8 @@ const fakeRequest: IHttpRequest = {
   }
 }
 
-class ValidationStub implements IValidation {
-  validate (input: any): Error | null {
+class ValidationStub implements IValidationComposite {
+  validate (input: any): Error[] | null {
     return null
   }
 }
@@ -25,7 +26,7 @@ class AddSurveyStub implements IAddSurvey {
 
 interface SutType {
   sut: IController
-  validationStub: IValidation
+  validationStub: IValidationComposite
   addSurveyStub: IAddSurvey
 }
 
@@ -52,10 +53,14 @@ describe('AddSurvey Controller', () => {
 
   test('Should returns 400 if Validation fails', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce([
+      new Error()
+    ])
     const httpResponse = await sut.handle(fakeRequest)
 
-    expect(httpResponse).toEqual(badRequest(new Error()))
+    expect(httpResponse).toEqual(badRequest([
+      new Error()
+    ]))
   })
 
   test('Should calls AddSurvey with correct values', async () => {

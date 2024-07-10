@@ -1,8 +1,9 @@
-import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IHttpResponse, IValidation, badRequest, created, serverError } from './add-survey-controller-interfaces'
+import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
+import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IHttpResponse, badRequest, created, serverError } from './add-survey-controller-interfaces'
 
 export class AddSurveyController implements IController {
   constructor (
-    private readonly validation: IValidation,
+    private readonly validation: IValidationComposite,
     private readonly addSurvey: IAddSurvey
   ) {}
 

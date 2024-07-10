@@ -31,7 +31,9 @@ describe('Validation Composite', () => {
       any_field: 'any_value'
     })
 
-    expect(error).toEqual(new Error())
+    expect(error).toEqual([
+      new Error()
+    ])
   })
 
   test('Should return the first error if more then one validations fails', () => {
@@ -43,7 +45,10 @@ describe('Validation Composite', () => {
       any_field: 'any_value'
     })
 
-    expect(error).toEqual(new MissingParamError('field'))
+    expect(error).toEqual([
+      new MissingParamError('field'),
+      new Error()
+    ])
   })
 
   test('Should not return if validation succeeds', () => {

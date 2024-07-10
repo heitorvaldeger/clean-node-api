@@ -12,6 +12,10 @@ export const adapterExpress = (controller: IController) => {
       .then(({ statusCode, body }) => {
         if (statusCode >= 200 && statusCode <= 299) {
           res.status(statusCode).json(null)
+        } else if (statusCode >= 400 && statusCode <= 499) {
+          res.status(statusCode).json({
+            errors: body
+          })
         } else {
           res.status(statusCode).json({
             error: body.message

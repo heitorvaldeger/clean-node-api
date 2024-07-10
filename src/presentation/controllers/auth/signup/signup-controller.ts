@@ -1,12 +1,13 @@
+import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
 import { EmailInUseError } from '../../../errors'
 import { badRequest, forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
 import { IController } from '../../interfaces/controller'
-import { IHttpRequest, IHttpResponse, IAddAccount, IValidation, IAuthentication, IAddAccountModel } from './signup-controller-interfaces'
+import { IHttpRequest, IHttpResponse, IAddAccount, IAuthentication, IAddAccountModel } from './signup-controller-interfaces'
 
 export class SignUpController implements IController {
   constructor (
     private readonly addAccount: IAddAccount,
-    private readonly validation: IValidation,
+    private readonly validation: IValidationComposite,
     private readonly authentication: IAuthentication
   ) {
 
