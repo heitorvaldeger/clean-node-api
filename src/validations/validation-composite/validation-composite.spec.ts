@@ -68,7 +68,7 @@ describe('Validation Composite', () => {
     expect(error).toBeFalsy()
   })
 
-  test('Should return an error list if any validation fails', () => {
+  test('Should return an error list objects if any validation fails', () => {
     const { sut, validationStubs } = makeSut()
     jest.spyOn(validationStubs[0], 'validate').mockReturnValueOnce(new Error())
 
