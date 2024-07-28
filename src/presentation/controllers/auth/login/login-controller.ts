@@ -13,7 +13,7 @@ export class LoginController implements IController {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {
-        return badRequest(error)
+        return badRequest(this.validation.getErrors())
       }
 
       const { email, password } = httpRequest.body!

@@ -2,7 +2,7 @@ import { ServerError } from '../../errors/server-error'
 import { UnauthorizedError } from '../../errors/unauthorized-error'
 import { IHttpResponse } from './interfaces/http'
 
-export const badRequest = (errors: Error[]): IHttpResponse => ({
+export const badRequest = (errors: any[]): IHttpResponse => ({
   statusCode: 400,
   body: errors
 })
