@@ -11,12 +11,8 @@ class AuthenticationStub implements IAuthentication {
 }
 
 class ValidationStub implements IValidationComposite {
-  validate (input: any): Error[] | null {
+  validate (input: any): IValidationError[] | null {
     return null
-  }
-
-  getErrors (): IValidationError[] | [] {
-    return []
   }
 }
 
@@ -123,15 +119,12 @@ describe('Login Controller', () => {
   test('Shoud return 400 if Validation returns fails', async () => {
     const { sut, validationStub } = makeSut()
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce([
-      new Error()
-    ])
-
-    jest.spyOn(validationStub, 'getErrors').mockReturnValueOnce([
       {
         fieldName: 'any_fieldname',
         message: 'any_message'
       }
     ])
+
     const httpRequest = {
       body: {
         email: 'any_mail@mail.com',

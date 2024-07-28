@@ -22,12 +22,8 @@ const makeAddAccountStub = (): IAddAccount => {
 
 const makeValidationStub = (): IValidationComposite => {
   class ValidationStub implements IValidationComposite {
-    validate (input: any): Error[] | null {
+    validate (input: any): IValidationError[] | null {
       return null
-    }
-
-    getErrors (): IValidationError[] | [] {
-      return []
     }
   }
 
@@ -159,14 +155,20 @@ describe('SignUp Controller', () => {
   test('Shoud return 400 if Validation returns fails', async () => {
     const { sut, validationStub } = makeSut()
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce([
-      new Error()
+      {
+        fieldName: 'any_fieldname',
+        message: 'any_message'
+      }
     ]) // pode ser qualquer erro
     const httpResponse = await sut.handle({
       body: fakeRequest
     })
 
     expect(httpResponse).toEqual(badRequest([
-      new Error()
+      {
+        fieldName: 'any_fieldname',
+        message: 'any_message'
+      }
     ]))
   })
 })

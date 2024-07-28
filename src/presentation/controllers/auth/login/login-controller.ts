@@ -11,9 +11,9 @@ export class LoginController implements IController {
 
   async handle (httpRequest: IHttpRequest<IAuthenticationModel>): Promise<IHttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
-      if (error) {
-        return badRequest(this.validation.getErrors())
+      const errors = this.validation.validate(httpRequest.body)
+      if (errors) {
+        return badRequest(errors)
       }
 
       const { email, password } = httpRequest.body!

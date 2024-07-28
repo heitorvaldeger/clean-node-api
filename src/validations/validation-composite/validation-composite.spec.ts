@@ -1,4 +1,3 @@
-import { MissingParamError } from '../../presentation/errors'
 import { IValidation, IValidationError } from '../interfaces/validation'
 import { ValidationComposite } from './validation-composite'
 
@@ -39,22 +38,10 @@ describe('Validation Composite', () => {
     })
 
     expect(error).toEqual([
-      new Error()
-    ])
-  })
-
-  test('Should return the first error if more then one validations fails', () => {
-    const { sut, validationStubs } = makeSut()
-    jest.spyOn(validationStubs[0], 'validate').mockReturnValueOnce(new MissingParamError('field'))
-    jest.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new Error())
-
-    const error = sut.validate({
-      any_field: 'any_value'
-    })
-
-    expect(error).toEqual([
-      new MissingParamError('field'),
-      new Error()
+      {
+        fieldName: 'any_fieldname',
+        message: 'any_message'
+      }
     ])
   })
 
@@ -66,23 +53,5 @@ describe('Validation Composite', () => {
     })
 
     expect(error).toBeFalsy()
-  })
-
-  test('Should return an error list objects if any validation fails', () => {
-    const { sut, validationStubs } = makeSut()
-    jest.spyOn(validationStubs[0], 'validate').mockReturnValueOnce(new Error())
-
-    sut.validate({
-      any_field: 'any_value'
-    })
-
-    const errors = sut.getErrors()
-
-    expect(errors).toEqual([
-      {
-        fieldName: 'any_fieldname',
-        message: 'any_message'
-      }
-    ])
   })
 })

@@ -2,20 +2,17 @@ import { IValidation, IValidationError } from '../interfaces/validation'
 import { IValidationComposite } from '../interfaces/validation-composite'
 
 export class ValidationComposite implements IValidationComposite {
-  private validatorsWithError: IValidation[] = []
-
   constructor (
     private readonly validators: IValidation[]
   ) {}
 
-  validate (input: any): Error[] | null {
-    const errors: Error[] = []
-    this.validatorsWithError = []
+  validate (input: any): IValidationError[] | null {
+    const errors: IValidationError[] = []
     for (const validator of this.validators) {
       const error = validator.validate(input)
       if (error) {
-        errors.push(error)
-        this.validatorsWithError.push(validator)
+        const fullError = validator.getError()
+        errors.push(fullError)
       }
     }
 
@@ -24,13 +21,5 @@ export class ValidationComposite implements IValidationComposite {
     }
 
     return null
-  }
-
-  getErrors (): IValidationError[] | [] {
-    if (this.validatorsWithError.length > 0) {
-      return this.validatorsWithError.map(validator => validator.getError())
-    }
-
-    return []
   }
 }
