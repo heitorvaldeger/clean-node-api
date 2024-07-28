@@ -125,6 +125,13 @@ describe('Login Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce([
       new Error()
     ])
+
+    jest.spyOn(validationStub, 'getErrors').mockReturnValueOnce([
+      {
+        fieldName: 'any_fieldname',
+        message: 'any_message'
+      }
+    ])
     const httpRequest = {
       body: {
         email: 'any_mail@mail.com',
@@ -135,7 +142,10 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(badRequest([
-      new Error()
+      {
+        fieldName: 'any_fieldname',
+        message: 'any_message'
+      }
     ]))
   })
 })
