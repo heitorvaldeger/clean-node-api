@@ -2,7 +2,7 @@ import { IValidation, IValidationError } from '../interfaces/validation'
 import { IValidationComposite } from '../interfaces/validation-composite'
 
 export class ValidationComposite implements IValidationComposite {
-  private readonly validatorsWithError: IValidation[] = []
+  private validatorsWithError: IValidation[] = []
 
   constructor (
     private readonly validators: IValidation[]
@@ -10,6 +10,7 @@ export class ValidationComposite implements IValidationComposite {
 
   validate (input: any): Error[] | null {
     const errors: Error[] = []
+    this.validatorsWithError = []
     for (const validator of this.validators) {
       const error = validator.validate(input)
       if (error) {
