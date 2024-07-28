@@ -1,6 +1,6 @@
 import { IEmailValidator } from '../interfaces/email-validator'
 import { InvalidParamError } from '../../presentation/errors'
-import { IValidation } from '../interfaces/validation'
+import { IValidation, IValidationError } from '../interfaces/validation'
 
 export class EmailValidation implements IValidation {
   constructor (
@@ -12,5 +12,12 @@ export class EmailValidation implements IValidation {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const isValid = this.emailValidator.isValid(input[this.fieldName])
     return !isValid ? new InvalidParamError(this.fieldName) : null
+  }
+
+  getError (): IValidationError {
+    return {
+      fieldName: this.fieldName,
+      message: 'The email address is invalid. Please enter a valid email address.'
+    }
   }
 }

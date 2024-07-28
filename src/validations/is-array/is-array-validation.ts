@@ -1,4 +1,4 @@
-import { IValidation } from '../interfaces/validation'
+import { IValidation, IValidationError } from '../interfaces/validation'
 import { InvalidParamError } from '../../presentation/errors'
 
 export class IsArrayValidation implements IValidation {
@@ -12,5 +12,12 @@ export class IsArrayValidation implements IValidation {
     }
 
     return null
+  }
+
+  getError (): IValidationError {
+    return {
+      fieldName: this.fieldName,
+      message: 'The email address is invalid. Please enter a valid email address.'
+    }
   }
 }

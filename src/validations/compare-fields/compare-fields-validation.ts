@@ -1,5 +1,5 @@
 import { InvalidParamError } from '../../presentation/errors'
-import { IValidation } from '../interfaces/validation'
+import { IValidation, IValidationError } from '../interfaces/validation'
 
 export class CompareFieldsValidation implements IValidation {
   constructor (
@@ -9,5 +9,12 @@ export class CompareFieldsValidation implements IValidation {
 
   validate (input: any): Error | null {
     return input[this.fieldName] !== input[this.fieldToCompareName] ? new InvalidParamError(this.fieldName) : null
+  }
+
+  getError (): IValidationError {
+    return {
+      fieldName: this.fieldName,
+      message: 'any_message'
+    }
   }
 }
