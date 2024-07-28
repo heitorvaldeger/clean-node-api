@@ -35,4 +35,13 @@ describe('MinLengthString Validation', () => {
 
     expect(isValid).toBeFalsy()
   })
+
+  test('Shoud return an object with call getError method', () => {
+    const sut = new MinLengthStringValidation('any_field', 5)
+
+    expect(sut.getError()).toEqual({
+      fieldName: 'any_field',
+      message: 'any_message'
+    })
+  })
 })

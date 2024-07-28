@@ -19,4 +19,13 @@ describe('IsString Validation', () => {
 
     expect(isValid).toBeFalsy()
   })
+
+  test('Shoud return an object with call getError method', () => {
+    const sut = new IsStringValidation('any_field')
+
+    expect(sut.getError()).toEqual({
+      fieldName: 'any_field',
+      message: 'any_message'
+    })
+  })
 })

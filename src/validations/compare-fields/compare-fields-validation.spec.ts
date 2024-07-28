@@ -15,4 +15,13 @@ describe('CompareFields Validation', () => {
 
     expect(isValid).toBeFalsy()
   })
+
+  test('Shoud return an object with call getError method', () => {
+    const sut = new CompareFieldsValidation('field', 'fieldToCompare')
+
+    expect(sut.getError()).toEqual({
+      fieldName: 'field',
+      message: 'any_message'
+    })
+  })
 })

@@ -57,4 +57,13 @@ describe('Email Validation', () => {
 
     expect(error).toEqual(new InvalidParamError('email'))
   })
+
+  test('Shoud return an object with call getError method', () => {
+    const { sut } = makeSut()
+
+    expect(sut.getError()).toEqual({
+      fieldName: 'email',
+      message: 'The email address is invalid. Please enter a valid email address.'
+    })
+  })
 })

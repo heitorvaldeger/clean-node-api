@@ -1,10 +1,17 @@
 import { MissingParamError } from '../../presentation/errors'
-import { IValidation } from '../interfaces/validation'
+import { IValidation, IValidationError } from '../interfaces/validation'
 import { ValidationComposite } from './validation-composite'
 
 class ValidationStub implements IValidation {
   validate (input: any): Error | null {
     return null
+  }
+
+  getError (): IValidationError {
+    return {
+      fieldName: 'any_fieldname',
+      message: 'any_message'
+    }
   }
 }
 
