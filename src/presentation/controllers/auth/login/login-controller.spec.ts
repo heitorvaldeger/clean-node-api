@@ -2,6 +2,7 @@ import { IAuthenticationModel, IAuthentication } from './login-controller-interf
 import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http/http-helpers'
 import { LoginController } from './login-controller'
 import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
+import { IValidationError } from '../../../../validations/interfaces/validation'
 
 class AuthenticationStub implements IAuthentication {
   async auth (authentication: IAuthenticationModel): Promise<string> {
@@ -12,6 +13,10 @@ class AuthenticationStub implements IAuthentication {
 class ValidationStub implements IValidationComposite {
   validate (input: any): Error[] | null {
     return null
+  }
+
+  getErrors (): IValidationError[] | [] {
+    return []
   }
 }
 

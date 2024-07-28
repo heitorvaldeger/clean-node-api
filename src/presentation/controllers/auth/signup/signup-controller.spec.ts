@@ -1,4 +1,4 @@
-import { IAuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication } from './signup-controller-interfaces'
+import { IAuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication, IValidationError } from './signup-controller-interfaces'
 import { EmailInUseError, ServerError } from '../../../errors'
 import { SignUpController } from './signup-controller'
 import { badRequest, forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
@@ -24,6 +24,10 @@ const makeValidationStub = (): IValidationComposite => {
   class ValidationStub implements IValidationComposite {
     validate (input: any): Error[] | null {
       return null
+    }
+
+    getErrors (): IValidationError[] | [] {
+      return []
     }
   }
 

@@ -1,4 +1,4 @@
-import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, badRequest, created, serverError } from './add-survey-controller-interfaces'
+import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
 import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
 const fakeRequest: IHttpRequest = {
@@ -16,6 +16,10 @@ const fakeRequest: IHttpRequest = {
 class ValidationStub implements IValidationComposite {
   validate (input: any): Error[] | null {
     return null
+  }
+
+  getErrors (): IValidationError[] | [] {
+    return []
   }
 }
 
