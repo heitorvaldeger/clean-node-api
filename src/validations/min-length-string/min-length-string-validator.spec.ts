@@ -37,11 +37,12 @@ describe('MinLengthString Validation', () => {
   })
 
   test('Shoud return an object with call getError method', () => {
-    const sut = new MinLengthStringValidation('any_field', 5)
+    const stringLength = 5
+    const sut = new MinLengthStringValidation('any_field', stringLength)
 
     expect(sut.getError()).toEqual({
       fieldName: 'any_field',
-      message: 'any_message'
+      message: `The input meets the minimum length requirement of ${stringLength} characters.`
     })
   })
 })

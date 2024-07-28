@@ -26,4 +26,13 @@ describe('IsArray Validation', () => {
 
     expect(isValid).toBeFalsy()
   })
+
+  test('Shoud return an object with call getError method', () => {
+    const sut = new IsArrayValidation('any_field')
+
+    expect(sut.getError()).toEqual({
+      fieldName: 'any_field',
+      message: 'The input must be a non-empty array. Please provide a valid array.'
+    })
+  })
 })

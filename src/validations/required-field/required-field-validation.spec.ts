@@ -21,7 +21,7 @@ describe('RequiredField Validation', () => {
 
     expect(sut.getError()).toEqual({
       fieldName: 'any_field',
-      message: 'any_message'
+      message: 'This field is required. Please enter a value.'
     })
   })
 })

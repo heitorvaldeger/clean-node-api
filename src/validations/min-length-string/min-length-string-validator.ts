@@ -20,7 +20,7 @@ export class MinLengthStringValidation implements IValidation {
   getError (): IValidationError {
     return {
       fieldName: this.fieldName,
-      message: 'any_message'
+      message: `The input meets the minimum length requirement of ${this.stringLength} characters.`
     }
   }
 }

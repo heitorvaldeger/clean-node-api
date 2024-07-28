@@ -17,7 +17,7 @@ export class IsArrayValidation implements IValidation {
   getError (): IValidationError {
     return {
       fieldName: this.fieldName,
-      message: 'The email address is invalid. Please enter a valid email address.'
+      message: 'The input must be a non-empty array. Please provide a valid array.'
     }
   }
 }

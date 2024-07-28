@@ -14,7 +14,7 @@ export class CompareFieldsValidation implements IValidation {
   getError (): IValidationError {
     return {
       fieldName: this.fieldName,
-      message: 'any_message'
+      message: `The inputs ${this.fieldName} and ${this.fieldToCompareName} do not match. Please ensure both fields are the same.`
     }
   }
 }

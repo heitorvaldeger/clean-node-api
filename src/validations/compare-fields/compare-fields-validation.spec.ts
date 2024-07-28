@@ -21,7 +21,7 @@ describe('CompareFields Validation', () => {
 
     expect(sut.getError()).toEqual({
       fieldName: 'field',
-      message: 'any_message'
+      message: 'The inputs field and fieldToCompare do not match. Please ensure both fields are the same.'
     })
   })
 })

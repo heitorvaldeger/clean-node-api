@@ -25,7 +25,7 @@ describe('IsString Validation', () => {
 
     expect(sut.getError()).toEqual({
       fieldName: 'any_field',
-      message: 'any_message'
+      message: 'The input must be a non-empty string. Please provide a valid input.'
     })
   })
 })

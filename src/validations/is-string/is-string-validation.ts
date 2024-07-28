@@ -17,7 +17,7 @@ export class IsStringValidation implements IValidation {
   getError (): IValidationError {
     return {
       fieldName: this.fieldName,
-      message: 'any_message'
+      message: 'The input must be a non-empty string. Please provide a valid input.'
     }
   }
 }

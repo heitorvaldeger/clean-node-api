@@ -13,7 +13,7 @@ export class RequiredFieldValidation implements IValidation {
   getError (): IValidationError {
     return {
       fieldName: this.fieldName,
-      message: 'any_message'
+      message: 'This field is required. Please enter a value.'
     }
   }
 }
