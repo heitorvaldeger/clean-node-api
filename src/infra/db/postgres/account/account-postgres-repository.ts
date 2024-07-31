@@ -42,7 +42,9 @@ export class AccountPostgresRepository implements
     let account: IAccountModel | null
     if (!role) {
       account = PostgresHelper.getTable('accounts').where('accessToken', accessToken)
-        .whereNull('role').first<IAccountModel>() as unknown as IAccountModel
+        .where(function () {
+          void this.whereNull('role').orWhere('role', '=', 'admin')
+        }).first<IAccountModel>() as unknown as IAccountModel
     } else {
       account = PostgresHelper.getTable('accounts').where('accessToken', accessToken)
         .where('role', role).first<IAccountModel>() as unknown as IAccountModel

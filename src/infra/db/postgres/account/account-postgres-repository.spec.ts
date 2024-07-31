@@ -154,6 +154,43 @@ describe('AccountPostgresRepository', () => {
       expect(account?.password).toBe('any_password')
     })
 
+    test('Should return null on loadByToken with invalid role', async () => {
+      const accountTable = PostgresHelper.getTable('accounts')
+
+      await accountTable.insert({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token'
+      })
+
+      const sut = new AccountPostgresRepository()
+      const account = await sut.loadByToken('any_token', 'any_role')
+
+      expect(account).toBeFalsy()
+    })
+
+    test('Should return an account on loadByToken with if user is admin', async () => {
+      const accountTable = PostgresHelper.getTable('accounts')
+
+      await accountTable.insert({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        accessToken: 'any_token',
+        role: 'admin'
+      })
+
+      const sut = new AccountPostgresRepository()
+      const account = await sut.loadByToken('any_token')
+
+      expect(account).toBeTruthy()
+      expect(account?.id).toBeTruthy()
+      expect(account?.name).toBe('any_name')
+      expect(account?.email).toBe('any_email@mail.com')
+      expect(account?.password).toBe('any_password')
+    })
+
     test('Should return null on loadByToken fails', async () => {
       const sut = new AccountPostgresRepository()
       const account = await sut.loadByToken('any_token')
