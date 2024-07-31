@@ -1,9 +1,7 @@
 import { forbidden, ok, serverError } from '../helpers/http/http-helpers'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
-import { IAccountModel } from '../../domain/model/account'
-import { ILoadAccountByToken } from '../../domain/usecases/interfaces/load-account-by-token'
-import { IHttpRequest } from '../helpers/http/interfaces/http'
+import { IAccountModel, ILoadAccountByToken, IHttpRequest } from './auth-middleware-interfaces'
 
 class LoadAccountByTokenStub implements ILoadAccountByToken {
   async load (accessToken: string, role?: string): Promise<IAccountModel> {
