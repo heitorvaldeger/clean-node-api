@@ -5,7 +5,7 @@ import { IMiddleware } from '../../presentation/middlewares/auth-middleware-inte
 export const adapterMiddleware = (middleware: IMiddleware) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const httpRequest: IHttpRequest = {
-      body: req.body
+      headers: req.headers
     }
 
     middleware.handle(httpRequest)
