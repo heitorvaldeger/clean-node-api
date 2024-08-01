@@ -31,3 +31,16 @@ services:
     command: npm run debug
     links:
       - postgres
+  
+  jenkins:
+    container_name: jenkins-container
+    image: jenkins/jenkins:lts-jdk17
+    restart: always
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./docker/jenkins:/var/jenkins_home
+    environment: *common-variables
+    links:
+      - postgres
