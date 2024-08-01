@@ -10,9 +10,9 @@ describe('Surveys Routes', () => {
   })
 
   beforeEach(async () => {
-    // await PostgresHelper.getTable('answers').whereNotNull('id').del()
-    // await PostgresHelper.getTable('surveys').whereNotNull('id').del()
-    // await PostgresHelper.getTable('accounts').whereNotNull('id').del()
+    await PostgresHelper.getTable('answers').whereNotNull('id').del()
+    await PostgresHelper.getTable('surveys').whereNotNull('id').del()
+    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
   })
 
   afterAll(async () => {
