@@ -70,4 +70,24 @@ describe('SurveyPostgresRepository', () => {
       await expect(promise).rejects.toThrow(new Error('Add survey failure!'))
     })
   })
+
+  describe('loadAll()', () => {
+    test('Should loadAll surveys on success', async () => {
+      await PostgresHelper.getTable('surveys').insert({
+        question: 'any_question',
+        createdAt: new Date()
+      })
+
+      await PostgresHelper.getTable('surveys').insert({
+        question: 'other_question',
+        createdAt: new Date()
+      })
+
+      const { sut } = makeSut()
+      const surveys = await sut.loadAll()
+      expect(surveys.length).toBe(2)
+      expect(surveys[0].question).toBe('any_question')
+      expect(surveys[1].question).toBe('other_question')
+    })
+  })
 })
