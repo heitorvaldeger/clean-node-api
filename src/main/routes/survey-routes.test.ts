@@ -103,5 +103,42 @@ describe('Surveys Routes', () => {
         .send()
         .expect(204)
     })
+
+    test('Should return 200 on load surveys success with accessToken', async () => {
+      const insertedRows = await PostgresHelper.getTable('accounts').insert({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        role: 'admin'
+      }, '*')
+
+      if (!(insertedRows.length > 0)) {
+        throw new Error('Inserted rows failure!')
+      }
+
+      const accountId = insertedRows[0].id as string
+      const accessToken = sign(accountId, env.jwtSecret)
+      await PostgresHelper.getTable('accounts')
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        .where('id', insertedRows[0].id)
+        .update({
+          accessToken
+        }, '*')
+
+      await PostgresHelper.getTable('surveys').insert({
+        question: 'any_question',
+        createdAt: new Date()
+      })
+
+      await PostgresHelper.getTable('surveys').insert({
+        question: 'other_question',
+        createdAt: new Date()
+      })
+
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .send().expect(200)
+    })
   })
 })
