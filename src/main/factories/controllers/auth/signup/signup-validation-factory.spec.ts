@@ -58,7 +58,6 @@ describe('SignUpValidation Factory', () => {
     }
 
     // validations.push(new EmailValidation('email', new EmailValidatorStub()))
-    console.log(validations)
 
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
