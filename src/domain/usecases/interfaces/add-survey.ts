@@ -1,6 +1,7 @@
 export interface IAddSurveyModel {
   question: string
   answers: AnswerSurvey[]
+  createdAt: Date
 }
 
 interface AnswerSurvey {

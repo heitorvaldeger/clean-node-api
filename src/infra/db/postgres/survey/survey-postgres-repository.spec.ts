@@ -23,7 +23,8 @@ const fakeSurvey: IAddSurveyModel = {
     {
       answer: 'any_answer'
     }
-  ]
+  ],
+  createdAt: new Date()
 }
 
 describe('SurveyPostgresRepository', () => {
