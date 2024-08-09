@@ -1,4 +1,4 @@
-import { IController, IHttpRequest, IHttpResponse, ok, ILoadSurveys } from './load-survey-controller-interfaces'
+import { IController, IHttpRequest, IHttpResponse, ok, ILoadSurveys, serverError } from './load-survey-controller-interfaces'
 
 export class LoadSurveysController implements IController {
   constructor (
@@ -6,7 +6,11 @@ export class LoadSurveysController implements IController {
   ) {}
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    const surveys = await this.loadSurveys.load()
-    return ok(surveys)
+    try {
+      const surveys = await this.loadSurveys.load()
+      return ok(surveys)
+    } catch (error) {
+      return serverError(error as Error)
+    }
   }
 }
