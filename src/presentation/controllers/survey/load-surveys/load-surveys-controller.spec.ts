@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import { ILoadSurveys, ISurveyModel } from './load-survey-controller-interfaces'
+import { ILoadSurveys, ISurveyModel, ok } from './load-survey-controller-interfaces'
 import { LoadSurveysController } from './load-surveys-controller'
 
 const makeFakeSurveys = (): ISurveyModel[] => ([
@@ -61,5 +61,12 @@ describe('LoadSurveys Controller', () => {
     await sut.handle({})
 
     expect(loadSpy).toHaveBeenCalled()
+  })
+
+  test('Should returns 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({})
+
+    expect(httpResponse).toEqual(ok(makeFakeSurveys()))
   })
 })
