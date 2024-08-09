@@ -41,31 +41,33 @@ describe('SurveyPostgresRepository', () => {
     await PostgresHelper.disconnect()
   })
 
-  test('Should create a survey', async () => {
-    const { sut } = makeSut()
-    await sut.add(fakeSurvey)
+  describe('add()', () => {
+    test('Should create a survey', async () => {
+      const { sut } = makeSut()
+      await sut.add(fakeSurvey)
 
-    const surveysCounter = (await PostgresHelper.getTable('surveys').count())[0].count
-    const answersCounter = (await PostgresHelper.getTable('answers').count())[0].count
-    expect(Number(surveysCounter)).toBe(1)
-    expect(Number(answersCounter)).toBe(2)
-  })
-
-  test('Should throws a create survey error', async () => {
-    jest.spyOn(PostgresHelper, 'getTable').mockImplementationOnce((): any => {
-      return ({
-        insert () {
-          return this
-        },
-        returning () {
-          return []
-        }
-      })
+      const surveysCounter = (await PostgresHelper.getTable('surveys').count())[0].count
+      const answersCounter = (await PostgresHelper.getTable('answers').count())[0].count
+      expect(Number(surveysCounter)).toBe(1)
+      expect(Number(answersCounter)).toBe(2)
     })
 
-    const { sut } = makeSut()
-    const promise = sut.add(fakeSurvey)
+    test('Should throws a create survey error', async () => {
+      jest.spyOn(PostgresHelper, 'getTable').mockImplementationOnce((): any => {
+        return ({
+          insert () {
+            return this
+          },
+          returning () {
+            return []
+          }
+        })
+      })
 
-    await expect(promise).rejects.toThrow(new Error('Add survey failure!'))
+      const { sut } = makeSut()
+      const promise = sut.add(fakeSurvey)
+
+      await expect(promise).rejects.toThrow(new Error('Add survey failure!'))
+    })
   })
 })

@@ -4,7 +4,8 @@ import { PostgresHelper } from '../helpers/postgres-helper'
 export class SurveyPostgresRepository implements IAddSurveyRepository {
   async add (surveyData: IAddSurveyModel): Promise<void> {
     const insertedRows = await PostgresHelper.getTable('surveys').insert({
-      question: surveyData.question
+      question: surveyData.question,
+      createdAt: surveyData.createdAt
     }).returning('*')
 
     if (!(insertedRows.length > 0)) {
