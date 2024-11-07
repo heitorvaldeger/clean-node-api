@@ -1,5 +1,5 @@
-import { IAddSurveyModel, IAddSurveyRepository } from '../../../../data/usecases/add-survey/db-add-survey-interfaces'
-import { ILoadSurveysRepository, ISurveyModel } from '../../../../data/usecases/load-surveys/db-load-surveys-interfaces'
+import { IAddSurveyModel, IAddSurveyRepository } from '#data/usecases/add-survey/db-add-survey-interfaces'
+import { ILoadSurveysRepository, ISurveyModel } from '#data/usecases/load-surveys/db-load-surveys-interfaces'
 import { PostgresHelper } from '../helpers/postgres-helper'
 
 export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurveysRepository {

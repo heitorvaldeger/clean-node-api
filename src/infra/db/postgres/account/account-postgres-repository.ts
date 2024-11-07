@@ -1,6 +1,6 @@
-import { ILoadAccountByTokenRepository } from '../../../../data/interfaces/db/account/load-account-by-token-repository'
-import { IAccountModel, IAddAccountModel, IAddAccountRepository } from '../../../../data/usecases/add-account/db-add-account-interfaces'
-import { ILoadAccountByEmailRepository, IUpdateAccessTokenRepository } from '../../../../data/usecases/authentication/db-authentication-interfaces'
+import { ILoadAccountByTokenRepository } from '#data/interfaces/db/account/load-account-by-token-repository'
+import { IAccountModel, IAddAccountModel, IAddAccountRepository } from '#data/usecases/add-account/db-add-account-interfaces'
+import { ILoadAccountByEmailRepository, IUpdateAccessTokenRepository } from '#data/usecases/authentication/db-authentication-interfaces'
 import { PostgresHelper } from '../helpers/postgres-helper'
 
 export class AccountPostgresRepository implements

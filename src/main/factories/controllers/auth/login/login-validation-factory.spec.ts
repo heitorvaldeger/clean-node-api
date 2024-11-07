@@ -1,10 +1,10 @@
-import { EmailValidatorAdapter } from '../../../../../infra/email-validator/email-validator-adapter'
-import { EmailValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
-import { IValidation } from '../../../../../validations/interfaces/validation'
-import { IsStringValidation } from '../../../../../validations/is-string/is-string-validation'
+import { EmailValidatorAdapter } from '#infra/email-validator/email-validator-adapter'
+import { EmailValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '#validations/index'
+import { IValidation } from '#validations/interfaces/validation'
+import { IsStringValidation } from '#validations/is-string/is-string-validation'
 import { makeLoginValidation } from './login-validation-factory'
 
-jest.mock('../../../../../validations/validation-composite/validation-composite')
+jest.mock('#validations/validation-composite/validation-composite')
 
 const fields = [
   {

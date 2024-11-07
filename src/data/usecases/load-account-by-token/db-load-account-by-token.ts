@@ -1,5 +1,5 @@
-import { IAccountModel } from '../../../domain/model/account'
-import { ILoadAccountByToken } from '../../../domain/usecases/interfaces/load-account-by-token'
+import { IAccountModel } from '#domain/model/account'
+import { ILoadAccountByToken } from '#domain/usecases/interfaces/load-account-by-token'
 import { IDecrypter } from '../../interfaces/crypto/decrypter'
 import { ILoadAccountByTokenRepository } from '../../interfaces/db/account/load-account-by-token-repository'
 

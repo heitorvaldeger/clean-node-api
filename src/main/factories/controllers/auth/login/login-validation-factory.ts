@@ -1,8 +1,8 @@
-import { EmailValidatorAdapter } from '../../../../../infra/email-validator/email-validator-adapter'
-import { EmailValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
-import { IValidation } from '../../../../../validations/interfaces/validation'
-import { IValidationComposite } from '../../../../../validations/interfaces/validation-composite'
-import { IsStringValidation } from '../../../../../validations/is-string/is-string-validation'
+import { EmailValidatorAdapter } from '#infra/email-validator/email-validator-adapter'
+import { EmailValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '#validations/index'
+import { IValidation } from '#validations/interfaces/validation'
+import { IValidationComposite } from '#validations/interfaces/validation-composite'
+import { IsStringValidation } from '#validations/is-string/is-string-validation'
 
 const fields = [
   {

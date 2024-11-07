@@ -1,4 +1,4 @@
-import { ILogErrorRepository } from '../../../../data/interfaces/db/log/log-error-repository'
+import { ILogErrorRepository } from '#data/interfaces/db/log/log-error-repository'
 import { PostgresHelper } from '../helpers/postgres-helper'
 
 export class LogPostgresRepository implements ILogErrorRepository {

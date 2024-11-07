@@ -1,6 +1,6 @@
-import { IsArrayValidation, IsStringValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '../../../../../validations'
-import { IValidation } from '../../../../../validations/interfaces/validation'
-import { IValidationComposite } from '../../../../../validations/interfaces/validation-composite'
+import { IsArrayValidation, IsStringValidation, MinLengthStringValidation, RequiredFieldValidation, ValidationComposite } from '#validations/index'
+import { IValidation } from '#validations/interfaces/validation'
+import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
 const fields = [
   {

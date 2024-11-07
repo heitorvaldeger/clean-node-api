@@ -1,4 +1,4 @@
-import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
+import { IValidationComposite } from '#validations/interfaces/validation-composite'
 import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IHttpResponse, badRequest, created, serverError } from './add-survey-controller-interfaces'
 
 export class AddSurveyController implements IController {

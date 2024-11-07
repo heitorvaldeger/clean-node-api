@@ -1,6 +1,6 @@
-import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
-import { EmailInUseError } from '../../../errors'
-import { badRequest, forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
+import { IValidationComposite } from '#validations/interfaces/validation-composite'
+import { EmailInUseError } from '#presentation/errors/index'
+import { badRequest, forbidden, ok, serverError } from '#presentation/helpers/http/http-helpers'
 import { IController } from '../../interfaces/controller'
 import { IHttpRequest, IHttpResponse, IAddAccount, IAuthentication, IAddAccountModel } from './signup-controller-interfaces'
 
