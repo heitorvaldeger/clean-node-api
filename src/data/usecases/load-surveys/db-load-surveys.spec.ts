@@ -1,5 +1,7 @@
 import { ISurveyModel, ILoadSurveysRepository } from './db-load-surveys-interfaces'
 import { DbLoadSurveys } from './db-load-surveys'
+
+const createdAt = new Date()
 const makeFakeSurveys = (): ISurveyModel[] => ([
   {
     id: 'any_id',
@@ -10,7 +12,7 @@ const makeFakeSurveys = (): ISurveyModel[] => ([
         answer: 'any_answer'
       }
     ],
-    createdAt: new Date()
+    createdAt
   },
   {
     id: 'other_id',
@@ -21,7 +23,7 @@ const makeFakeSurveys = (): ISurveyModel[] => ([
         answer: 'other_answer'
       }
     ],
-    createdAt: new Date()
+    createdAt
   }
 ])
 

@@ -1,8 +1,8 @@
-import { RequiredFieldValidation, ValidationComposite, IsStringValidation, IsArrayValidation, MinLengthStringValidation } from '../../../../../validations'
-import { IValidation } from '../../../../../validations/interfaces/validation'
+import { RequiredFieldValidation, ValidationComposite, IsStringValidation, IsArrayValidation, MinLengthStringValidation } from '#validations/index'
+import { IValidation } from '#validations/interfaces/validation'
 import { makeAddSurveyValidation } from './add-survey-validation-factory'
 
-jest.mock('../../../../../validations/validation-composite/validation-composite')
+jest.mock('#validations/validation-composite/validation-composite')
 
 const fields = [
   {

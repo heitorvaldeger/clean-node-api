@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { IEncrypter } from '../../../data/interfaces/crypto/encrypter'
-import { IDecrypter } from '../../../data/interfaces/crypto/decrypter'
+import { IEncrypter } from '#data/interfaces/crypto/encrypter'
+import { IDecrypter } from '#data/interfaces/crypto/decrypter'
 
 export class JwtAdapter implements IEncrypter, IDecrypter {
   constructor (

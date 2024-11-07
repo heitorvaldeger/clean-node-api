@@ -1,4 +1,4 @@
-import { PostgresHelper } from '../infra/db/postgres/helpers/postgres-helper'
+import { PostgresHelper } from '#infra/db/postgres/helpers/postgres-helper'
 import env from './config/env'
 
 const run = async (): Promise<void> => {

@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { sign } from 'jsonwebtoken'
 import app from '../app'
-import { PostgresHelper } from '../../infra/db/postgres/helpers/postgres-helper'
+import { PostgresHelper } from '#infra/db/postgres/helpers/postgres-helper'
 import env from '../config/env'
 
 const makeAccessToken = async (): Promise<string> => {

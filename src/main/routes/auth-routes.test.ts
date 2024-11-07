@@ -1,7 +1,7 @@
 import request from 'supertest'
 import app from '../app'
-import { PostgresHelper } from '../../infra/db/postgres/helpers/postgres-helper'
-import { BcryptAdapter } from '../../infra/crypto/bcrypt-adapter/bcrypt-adapter'
+import { PostgresHelper } from '#infra/db/postgres/helpers/postgres-helper'
+import { BcryptAdapter } from '#infra/crypto/bcrypt-adapter/bcrypt-adapter'
 
 describe('Auth Routes', () => {
   beforeAll(() => {

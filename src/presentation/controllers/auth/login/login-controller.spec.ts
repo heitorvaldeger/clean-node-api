@@ -1,8 +1,8 @@
 import { IAuthenticationModel, IAuthentication } from './login-controller-interfaces'
-import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http/http-helpers'
+import { badRequest, ok, serverError, unauthorized } from '#presentation/helpers/http/http-helpers'
 import { LoginController } from './login-controller'
-import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
-import { IValidationError } from '../../../../validations/interfaces/validation'
+import { IValidationComposite } from '#validations/interfaces/validation-composite'
+import { IValidationError } from '#validations/interfaces/validation'
 
 class AuthenticationStub implements IAuthentication {
   async auth (authentication: IAuthenticationModel): Promise<string> {

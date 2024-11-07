@@ -1,8 +1,8 @@
 import { IAuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication, IValidationError } from './signup-controller-interfaces'
-import { EmailInUseError, ServerError } from '../../../errors'
+import { EmailInUseError, ServerError } from '#presentation/errors/index'
 import { SignUpController } from './signup-controller'
-import { badRequest, forbidden, ok, serverError } from '../../../helpers/http/http-helpers'
-import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
+import { badRequest, forbidden, ok, serverError } from '#presentation/helpers/http/http-helpers'
+import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
 class AuthenticationStub implements IAuthentication {
   async auth (authentication: IAuthenticationModel): Promise<string> {

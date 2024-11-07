@@ -1,4 +1,4 @@
-import { IAccountModel } from '../../../domain/model/account'
+import { IAccountModel } from '#domain/model/account'
 import { IDecrypter } from '../../interfaces/crypto/decrypter'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
 import { ILoadAccountByTokenRepository } from '../../interfaces/db/account/load-account-by-token-repository'

@@ -1,7 +1,7 @@
 import MockDate from 'mockdate'
 import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
-import { IValidationComposite } from '../../../../validations/interfaces/validation-composite'
+import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
 const makeFakeRequest = (): IHttpRequest => ({
   body: {
