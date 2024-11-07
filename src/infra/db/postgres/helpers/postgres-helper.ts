@@ -31,5 +31,15 @@ export const PostgresHelper = {
     }
 
     return this.client.table(tableName)
+  },
+  async truncateAllTables () {
+    const tables = await this.client.table('information_schema.tables')
+      .select('table_name')
+      .where('table_schema', 'public')
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    for (const { table_name } of tables) {
+      await this.client.raw(`TRUNCATE TABLE ${table_name} CASCADE`)
+    }
   }
 }

@@ -8,8 +8,15 @@ describe('Auth Routes', () => {
     PostgresHelper.connect()
   })
 
+  beforeEach(async () => {
+    await PostgresHelper.truncateAllTables()
+  })
+
+  afterEach(async () => {
+    await PostgresHelper.truncateAllTables()
+  })
+
   afterAll(async () => {
-    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
     await PostgresHelper.disconnect()
   })
 

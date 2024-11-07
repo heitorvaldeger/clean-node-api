@@ -33,8 +33,11 @@ describe('SurveyPostgresRepository', () => {
   })
 
   beforeEach(async () => {
-    await PostgresHelper.getTable('answers').whereNotNull('id').del()
-    await PostgresHelper.getTable('surveys').whereNotNull('id').del()
+    await PostgresHelper.truncateAllTables()
+  })
+
+  afterEach(async () => {
+    await PostgresHelper.truncateAllTables()
   })
 
   afterAll(async () => {

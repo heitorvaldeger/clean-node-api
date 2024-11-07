@@ -21,7 +21,7 @@ export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurv
   }
 
   async loadAll (): Promise<SurveyModel[]> {
-    const surveys = await PostgresHelper.getTable('surveys').leftJoin('answers', 'survey_id', '=', 'surveys.id').select().returning<SurveyModel[]>('*')
+    const surveys = await PostgresHelper.getTable('surveys').leftJoin('answers', 'survey_id', '=', 'surveys.id').orderBy('surveys.id').select().returning<SurveyModel[]>('*')
     return surveys
   }
 }

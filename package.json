@@ -12,7 +12,7 @@
     "down": "docker-compose down",
     "test": "jest --passWithNoTests --silent --noStackTrace",
     "test:verbose": "jest --passWithNoTests",
-    "test:unit": "npm test -- --watch --findRelatedTests src/**/.spec.ts",
+    "test:unit": "npm test -- --watch --testPathPattern=.spec.ts",
     "test:integration": "npm test -- --watch --testPathPattern=.test.ts",
     "test:staged": "npm test -- --findRelatedTests .spec.ts,.test.ts",
     "test:ci": "npm test -- --coverage"

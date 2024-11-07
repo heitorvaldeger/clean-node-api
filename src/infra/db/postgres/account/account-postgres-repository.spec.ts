@@ -6,11 +6,15 @@ describe('AccountPostgresRepository', () => {
     PostgresHelper.connect()
   })
 
-  // beforeEach(async () => {
-  // })
+  beforeEach(async () => {
+    await PostgresHelper.truncateAllTables()
+  })
+
+  afterEach(async () => {
+    await PostgresHelper.truncateAllTables()
+  })
 
   afterAll(async () => {
-    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
     await PostgresHelper.disconnect()
   })
 

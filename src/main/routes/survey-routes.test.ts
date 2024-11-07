@@ -19,7 +19,6 @@ const makeAccessToken = async (): Promise<string> => {
   const accountId = insertedRows[0].id as string
   const accessToken = sign(accountId, env.jwtSecret)
   await PostgresHelper.getTable('accounts')
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     .where('id', insertedRows[0].id)
     .update({
       accessToken
@@ -34,9 +33,11 @@ describe('Surveys Routes', () => {
   })
 
   beforeEach(async () => {
-    await PostgresHelper.getTable('answers').whereNotNull('id').del()
-    await PostgresHelper.getTable('surveys').whereNotNull('id').del()
-    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
+    await PostgresHelper.truncateAllTables()
+  })
+
+  afterEach(async () => {
+    await PostgresHelper.truncateAllTables()
   })
 
   afterAll(async () => {

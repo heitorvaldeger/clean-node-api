@@ -7,7 +7,11 @@ describe('Log Postgres Repository', () => {
   })
 
   beforeEach(async () => {
-    await PostgresHelper.getTable('errors').whereNotNull('id').del()
+    await PostgresHelper.truncateAllTables()
+  })
+
+  afterEach(async () => {
+    await PostgresHelper.truncateAllTables()
   })
 
   afterAll(async () => {
