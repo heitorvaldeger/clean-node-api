@@ -1,4 +1,4 @@
-import { IAccountModel } from '#domain/model/account'
+import { AccountModel } from '#domain/model/account'
 import { IDecrypter } from '../../interfaces/crypto/decrypter'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
 import { ILoadAccountByTokenRepository } from '../../interfaces/db/account/load-account-by-token-repository'
@@ -9,7 +9,7 @@ class DecrypterStub implements IDecrypter {
   }
 }
 
-const fakeAccount: IAccountModel = {
+const fakeAccount: AccountModel = {
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
@@ -17,12 +17,12 @@ const fakeAccount: IAccountModel = {
 }
 
 class LoadAccountByTokenRepositoryStub implements ILoadAccountByTokenRepository {
-  async loadByToken (accessToken: string, role?: string): Promise<IAccountModel | null> {
+  async loadByToken (accessToken: string, role?: string): Promise<AccountModel | null> {
     return await new Promise(resolve => { resolve(fakeAccount) })
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: DbLoadAccountByToken
   decrypterStub: DecrypterStub
   loadAccountByTokenRepositoryStub: LoadAccountByTokenRepositoryStub

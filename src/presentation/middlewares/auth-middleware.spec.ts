@@ -1,10 +1,10 @@
 import { forbidden, ok, serverError } from '../helpers/http/http-helpers'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
-import { IAccountModel, ILoadAccountByToken, IHttpRequest } from './auth-middleware-interfaces'
+import { AccountModel, ILoadAccountByToken, HttpRequest } from './auth-middleware-interfaces'
 
 class LoadAccountByTokenStub implements ILoadAccountByToken {
-  async load (accessToken: string, role?: string): Promise<IAccountModel> {
+  async load (accessToken: string, role?: string): Promise<AccountModel> {
     return await new Promise(resolve => {
       resolve({
         id: 'valid_id',
@@ -16,13 +16,13 @@ class LoadAccountByTokenStub implements ILoadAccountByToken {
   }
 }
 
-const makeFakeRequest = (): IHttpRequest => ({
+const makeFakeRequest = (): HttpRequest => ({
   headers: {
     'x-access-token': 'any_token'
   }
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: AuthMiddleware
   loadAccountByTokenStub: ILoadAccountByToken
 }

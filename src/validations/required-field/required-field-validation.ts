@@ -1,5 +1,5 @@
 import { MissingParamError } from '../../presentation/errors'
-import { IValidation, IValidationError } from '../interfaces/validation'
+import { IValidation, ValidationError } from '../interfaces/validation'
 
 export class RequiredFieldValidation implements IValidation {
   constructor (
@@ -10,7 +10,7 @@ export class RequiredFieldValidation implements IValidation {
     return !input[this.fieldName] ? new MissingParamError(this.fieldName) : null
   }
 
-  getError (): IValidationError {
+  getError (): ValidationError {
     return {
       fieldName: this.fieldName,
       message: 'This field is required. Please enter a value.'

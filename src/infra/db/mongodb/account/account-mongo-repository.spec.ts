@@ -1,5 +1,5 @@
 import { WithId } from 'mongodb'
-import { IAccountModel } from '#domain/model/account'
+import { AccountModel } from '#domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'
 import { AccountMongoRepository } from './account-mongo-repository'
 
@@ -83,7 +83,7 @@ describe('Account Mongo Repository', () => {
       password: 'any_password'
     })
 
-    const fakeAccount = await accountCollection.findOne<WithId<IAccountModel>>({
+    const fakeAccount = await accountCollection.findOne<WithId<AccountModel>>({
       _id: fakeAccountDocument.insertedId
     })
 
@@ -92,7 +92,7 @@ describe('Account Mongo Repository', () => {
     const sut = new AccountMongoRepository()
     await sut.updateAccessToken(fakeAccountDocument.insertedId.toHexString(), 'any_token')
 
-    const account = await accountCollection.findOne<WithId<IAccountModel>>({
+    const account = await accountCollection.findOne<WithId<AccountModel>>({
       _id: fakeAccountDocument.insertedId
     })
     expect(account).toBeTruthy()

@@ -1,5 +1,5 @@
-import { ISurveyModel } from '#data/usecases/load-surveys/db-load-surveys-interfaces'
+import { SurveyModel } from '#data/usecases/load-surveys/db-load-surveys-interfaces'
 
 export interface ILoadSurveysRepository {
-  loadAll: () => Promise<ISurveyModel[]>
+  loadAll: () => Promise<SurveyModel[]>
 }

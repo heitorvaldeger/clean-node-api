@@ -1,6 +1,6 @@
 import { ILogErrorRepository } from '#data/interfaces/db/log/log-error-repository'
 import { ok, serverError } from '#presentation/helpers/http/http-helpers'
-import { IHttpRequest, IHttpResponse } from '#presentation/helpers/http/interfaces/http'
+import { HttpRequest, HttpResponse } from '#presentation/helpers/http/interfaces/http'
 import { IController } from '../../interfaces/controller'
 import { LogControllerDecorator } from './log-controller-decorator'
 
@@ -11,7 +11,7 @@ class LogErrorRepository implements ILogErrorRepository {
 }
 
 class ControllerStub implements IController {
-  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     return await new Promise(resolve => {
       resolve({
         statusCode: 200,
@@ -23,7 +23,7 @@ class ControllerStub implements IController {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: LogControllerDecorator
   controllerStub: IController
   logErrorRepository: ILogErrorRepository
@@ -92,7 +92,7 @@ describe('LogController Decorator', () => {
     const { sut, controllerStub, logErrorRepository } = makeSut()
 
     const logSpy = jest.spyOn(logErrorRepository, 'logError')
-    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise<IHttpResponse>(resolve => {
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise<HttpResponse>(resolve => {
       resolve(({
         statusCode: 500,
         body: {

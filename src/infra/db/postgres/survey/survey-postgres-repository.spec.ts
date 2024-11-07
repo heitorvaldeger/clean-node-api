@@ -1,8 +1,8 @@
-import { IAddSurveyModel } from '#domain/usecases/interfaces/add-survey'
+import { AddSurveyModel } from '#domain/usecases/interfaces/add-survey'
 import { PostgresHelper } from '../helpers/postgres-helper'
 import { SurveyPostgresRepository } from './survey-postgres-repository'
 
-interface SutTypes {
+type SutTypes = {
   sut: SurveyPostgresRepository
 }
 const makeSut = (): SutTypes => {
@@ -13,7 +13,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeSurvey: IAddSurveyModel = {
+const fakeSurvey: AddSurveyModel = {
   question: 'any_question',
   answers: [
     {

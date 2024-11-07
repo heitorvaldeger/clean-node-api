@@ -4,11 +4,11 @@ import {
   IEncrypter,
   ILoadAccountByEmailRepository,
   IUpdateAccessTokenRepository,
-  IAccountModel
+  AccountModel
 } from './db-authentication-interfaces'
 import { DbAuthentication } from './db-authentication'
 
-const fakeAccount: IAccountModel = {
+const fakeAccount: AccountModel = {
   id: 'any_id',
   email: 'any_email@mail.com',
   name: 'any_name',
@@ -16,7 +16,7 @@ const fakeAccount: IAccountModel = {
 }
 
 class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
-  async loadByEmail (email: string): Promise<IAccountModel> {
+  async loadByEmail (email: string): Promise<AccountModel> {
     return await new Promise(resolve => { resolve(fakeAccount) })
   }
 }
@@ -39,7 +39,7 @@ class UpdateAccessTokenRepositoryStub implements IUpdateAccessTokenRepository {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: IAuthentication
   hashComparerStub: IHashComparer
   encrypterStub: IEncrypter

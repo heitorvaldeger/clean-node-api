@@ -4,15 +4,12 @@ import { PostgresHelper } from '#infra/db/postgres/helpers/postgres-helper'
 import { BcryptAdapter } from '#infra/crypto/bcrypt-adapter/bcrypt-adapter'
 
 describe('Auth Routes', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     PostgresHelper.connect()
   })
 
-  beforeEach(async () => {
-    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
-  })
-
   afterAll(async () => {
+    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
     await PostgresHelper.disconnect()
   })
 
@@ -53,8 +50,8 @@ describe('Auth Routes', () => {
       await request(app)
         .post('/api/login')
         .send({
-          email: 'any_email@mail.com',
-          password: 'any_password'
+          email: 'other_email@mail.com',
+          password: 'other_password'
         })
         .expect(401)
     })

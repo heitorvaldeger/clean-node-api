@@ -1,5 +1,5 @@
-import { IValidationError } from './validation'
+import { ValidationError } from './validation'
 
 export interface IValidationComposite {
-  validate: (input: any) => IValidationError[] | null
+  validate: (input: any) => ValidationError[] | null
 }

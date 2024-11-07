@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import { IHttpRequest } from '../../presentation/helpers/http/interfaces/http'
+import { HttpRequest } from '../../presentation/helpers/http/interfaces/http'
 import { IMiddleware } from '../../presentation/middlewares/auth-middleware-interfaces'
 
 export const adapterMiddleware = (middleware: IMiddleware) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const httpRequest: IHttpRequest = {
+    const httpRequest: HttpRequest = {
       headers: req.headers
     }
 

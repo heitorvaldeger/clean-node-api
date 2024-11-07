@@ -1,4 +1,4 @@
-import { IAccountModel, IAddAccount, IAddAccountModel, IAddAccountRepository, IHasher, ILoadAccountByEmailRepository } from './db-add-account-interfaces'
+import { AccountModel, IAddAccount, AddAccountModel, IAddAccountRepository, IHasher, ILoadAccountByEmailRepository } from './db-add-account-interfaces'
 export class DbAddAccount implements IAddAccount {
   constructor (
     private readonly Hasher: IHasher,
@@ -6,7 +6,7 @@ export class DbAddAccount implements IAddAccount {
     private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository
   ) {}
 
-  async add (accountData: IAddAccountModel): Promise<IAccountModel | null> {
+  async add (accountData: AddAccountModel): Promise<AccountModel | null> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(accountData.email)
 
     if (!account) {

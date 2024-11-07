@@ -1,8 +1,8 @@
-import { IAccountModel, IAddAccountModel, IHasher, IAddAccountRepository, ILoadAccountByEmailRepository } from './db-add-account-interfaces'
+import { AccountModel, AddAccountModel, IHasher, IAddAccountRepository, ILoadAccountByEmailRepository } from './db-add-account-interfaces'
 import { DbAddAccount } from './db-add-account'
 
 class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
-  async loadByEmail (email: string): Promise<IAccountModel | null> {
+  async loadByEmail (email: string): Promise<AccountModel | null> {
     return await new Promise(resolve => { resolve(null) })
   }
 }
@@ -14,7 +14,7 @@ class HasherStub implements IHasher {
 }
 
 class AddAccountRepositoryStub implements IAddAccountRepository {
-  async add (account: IAddAccountModel): Promise<IAccountModel> {
+  async add (account: AddAccountModel): Promise<AccountModel> {
     return await new Promise(resolve => { resolve(fakeAccount) })
   }
 }
@@ -22,7 +22,7 @@ const makeAddAccountRepository = (): IAddAccountRepository => {
   return new AddAccountRepositoryStub()
 }
 
-interface SutTypes {
+type SutTypes = {
   hasherStub: IHasher
   sut: DbAddAccount
   addAccountRepositoryStub: IAddAccountRepository
@@ -43,13 +43,13 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeAccountData: IAddAccountModel = {
+const fakeAccountData: AddAccountModel = {
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
 }
 
-const fakeAccount: IAccountModel = {
+const fakeAccount: AccountModel = {
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',

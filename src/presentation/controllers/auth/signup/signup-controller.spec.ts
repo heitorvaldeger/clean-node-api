@@ -1,18 +1,18 @@
-import { IAuthenticationModel, IAccountModel, IAddAccount, IAddAccountModel, IAuthentication, IValidationError } from './signup-controller-interfaces'
+import { AuthenticationModel, AccountModel, IAddAccount, AddAccountModel, IAuthentication, ValidationError } from './signup-controller-interfaces'
 import { EmailInUseError, ServerError } from '#presentation/errors/index'
 import { SignUpController } from './signup-controller'
 import { badRequest, forbidden, ok, serverError } from '#presentation/helpers/http/http-helpers'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
 class AuthenticationStub implements IAuthentication {
-  async auth (authentication: IAuthenticationModel): Promise<string> {
+  async auth (authentication: AuthenticationModel): Promise<string> {
     return await new Promise(resolve => { resolve('any_token') })
   }
 }
 
 const makeAddAccountStub = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
-    async add (account: IAddAccountModel): Promise<IAccountModel | null> {
+    async add (account: AddAccountModel): Promise<AccountModel | null> {
       return await new Promise(resolve => { resolve(fakeAccount) })
     }
   }
@@ -22,7 +22,7 @@ const makeAddAccountStub = (): IAddAccount => {
 
 const makeValidationStub = (): IValidationComposite => {
   class ValidationStub implements IValidationComposite {
-    validate (input: any): IValidationError[] | null {
+    validate (input: any): ValidationError[] | null {
       return null
     }
   }
@@ -30,14 +30,14 @@ const makeValidationStub = (): IValidationComposite => {
   return new ValidationStub()
 }
 
-interface SignUpType {
+type SutTypes = {
   sut: SignUpController
   addAccountStub: IAddAccount
   authenticationStub: IAuthentication
   validationStub: IValidationComposite
 }
 
-const makeSut = (): SignUpType => {
+const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccountStub()
   const validationStub = makeValidationStub()
   const authenticationStub = new AuthenticationStub()
@@ -58,7 +58,7 @@ const fakeRequest = {
   passwordConfirmation: 'any_password'
 }
 
-const fakeAccount: IAccountModel = {
+const fakeAccount: AccountModel = {
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',

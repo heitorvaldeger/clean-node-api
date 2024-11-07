@@ -1,4 +1,4 @@
-import { IValidation, IValidationError } from '../interfaces/validation'
+import { IValidation, ValidationError } from '../interfaces/validation'
 import { IValidationComposite } from '../interfaces/validation-composite'
 
 export class ValidationComposite implements IValidationComposite {
@@ -6,8 +6,8 @@ export class ValidationComposite implements IValidationComposite {
     private readonly validators: IValidation[]
   ) {}
 
-  validate (input: any): IValidationError[] | null {
-    const errors: IValidationError[] = []
+  validate (input: any): ValidationError[] | null {
+    const errors: ValidationError[] = []
     for (const validator of this.validators) {
       const error = validator.validate(input)
       if (error) {

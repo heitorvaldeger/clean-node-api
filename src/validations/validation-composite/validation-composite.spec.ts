@@ -1,4 +1,4 @@
-import { IValidation, IValidationError } from '../interfaces/validation'
+import { IValidation, ValidationError } from '../interfaces/validation'
 import { ValidationComposite } from './validation-composite'
 
 class ValidationStub implements IValidation {
@@ -6,7 +6,7 @@ class ValidationStub implements IValidation {
     return null
   }
 
-  getError (): IValidationError {
+  getError (): ValidationError {
     return {
       fieldName: 'any_fieldname',
       message: 'any_message'
@@ -14,7 +14,7 @@ class ValidationStub implements IValidation {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: ValidationComposite
   validationStubs: IValidation[]
 }

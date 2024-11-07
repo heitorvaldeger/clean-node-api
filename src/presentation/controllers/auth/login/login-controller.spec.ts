@@ -1,22 +1,22 @@
-import { IAuthenticationModel, IAuthentication } from './login-controller-interfaces'
+import { AuthenticationModel, IAuthentication } from './login-controller-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '#presentation/helpers/http/http-helpers'
 import { LoginController } from './login-controller'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
-import { IValidationError } from '#validations/interfaces/validation'
+import { ValidationError } from '#validations/interfaces/validation'
 
 class AuthenticationStub implements IAuthentication {
-  async auth (authentication: IAuthenticationModel): Promise<string> {
+  async auth (authentication: AuthenticationModel): Promise<string> {
     return await new Promise(resolve => { resolve('any_token') })
   }
 }
 
 class ValidationStub implements IValidationComposite {
-  validate (input: any): IValidationError[] | null {
+  validate (input: any): ValidationError[] | null {
     return null
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: LoginController
   validationStub: IValidationComposite
   authenticationStub: IAuthentication

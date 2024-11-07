@@ -1,6 +1,6 @@
 import { IEmailValidator } from '../interfaces/email-validator'
 import { InvalidParamError } from '../../presentation/errors'
-import { IValidation, IValidationError } from '../interfaces/validation'
+import { IValidation, ValidationError } from '../interfaces/validation'
 
 export class EmailValidation implements IValidation {
   constructor (
@@ -14,7 +14,7 @@ export class EmailValidation implements IValidation {
     return !isValid ? new InvalidParamError(this.fieldName) : null
   }
 
-  getError (): IValidationError {
+  getError (): ValidationError {
     return {
       fieldName: this.fieldName,
       message: 'The email address is invalid. Please enter a valid email address.'

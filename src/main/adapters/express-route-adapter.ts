@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import { IController } from '../../presentation/controllers/interfaces/controller'
-import { IHttpRequest } from '../../presentation/helpers/http/interfaces/http'
+import { HttpRequest } from '../../presentation/helpers/http/interfaces/http'
 
 export const adapterExpress = (controller: IController) => {
   return (req: Request, res: Response) => {
-    const httpRequest: IHttpRequest = {
+    const httpRequest: HttpRequest = {
       body: req.body
     }
 

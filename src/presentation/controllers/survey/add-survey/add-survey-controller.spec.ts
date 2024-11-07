@@ -1,9 +1,9 @@
 import MockDate from 'mockdate'
-import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
+import { IAddSurvey, AddSurveyModel, IController, HttpRequest, ValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
-const makeFakeRequest = (): IHttpRequest => ({
+const makeFakeRequest = (): HttpRequest => ({
   body: {
     question: 'any_question',
     answers: [
@@ -17,17 +17,17 @@ const makeFakeRequest = (): IHttpRequest => ({
 })
 
 class ValidationStub implements IValidationComposite {
-  validate (input: any): IValidationError[] | null {
+  validate (input: any): ValidationError[] | null {
     return null
   }
 }
 
 class AddSurveyStub implements IAddSurvey {
-  async add (surveyData: IAddSurveyModel): Promise<void> {
+  async add (surveyData: AddSurveyModel): Promise<void> {
   }
 }
 
-interface SutType {
+type SutType = {
   sut: IController
   validationStub: IValidationComposite
   addSurveyStub: IAddSurvey

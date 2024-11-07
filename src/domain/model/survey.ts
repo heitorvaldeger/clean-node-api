@@ -1,11 +1,11 @@
-export interface ISurveyModel {
+export type SurveyModel = {
   id: string
   question: string
   answers: AnswerSurveyModel[]
   createdAt: Date
 }
 
-export interface AnswerSurveyModel {
+export type AnswerSurveyModel = {
   image?: string
   answer: string
 }

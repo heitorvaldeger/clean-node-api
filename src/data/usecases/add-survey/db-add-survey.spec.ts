@@ -1,12 +1,12 @@
 import MockDate from 'mockdate'
-import { IAddSurvey, IAddSurveyModel, IAddSurveyRepository } from './db-add-survey-interfaces'
+import { IAddSurvey, AddSurveyModel, IAddSurveyRepository } from './db-add-survey-interfaces'
 import { DbAddSurvey } from './db-add-survey'
 class AddSurveyRepositoryStub implements IAddSurveyRepository {
-  async add (surveyData: IAddSurveyModel): Promise<void> {
+  async add (surveyData: AddSurveyModel): Promise<void> {
   }
 }
 
-interface SutTypes {
+type SutTypes = {
   addSurveyRepositoryStub: IAddSurveyRepository
   sut: IAddSurvey
 }
@@ -21,7 +21,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeSurveyData: IAddSurveyModel = {
+const fakeSurveyData: AddSurveyModel = {
   question: 'any_question',
   answers: [
     {

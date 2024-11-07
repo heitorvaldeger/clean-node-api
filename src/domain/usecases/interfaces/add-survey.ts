@@ -1,11 +1,11 @@
 import { AnswerSurveyModel } from '../../model/survey'
 
-export interface IAddSurveyModel {
+export type AddSurveyModel = {
   question: string
   answers: AnswerSurveyModel[]
   createdAt: Date
 }
 
 export interface IAddSurvey {
-  add: (surveyData: IAddSurveyModel) => Promise<void>
+  add: (surveyData: AddSurveyModel) => Promise<void>
 }

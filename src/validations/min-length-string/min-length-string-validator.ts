@@ -1,4 +1,4 @@
-import { IValidation, IValidationError } from '../interfaces/validation'
+import { IValidation, ValidationError } from '../interfaces/validation'
 import { InvalidParamError } from '../../presentation/errors'
 
 export class MinLengthStringValidation implements IValidation {
@@ -17,7 +17,7 @@ export class MinLengthStringValidation implements IValidation {
     return null
   }
 
-  getError (): IValidationError {
+  getError (): ValidationError {
     return {
       fieldName: this.fieldName,
       message: `The input meets the minimum length requirement of ${this.stringLength} characters.`

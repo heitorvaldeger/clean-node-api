@@ -1,5 +1,5 @@
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
-import { IAddSurvey, IAddSurveyModel, IController, IHttpRequest, IHttpResponse, badRequest, created, serverError } from './add-survey-controller-interfaces'
+import { IAddSurvey, AddSurveyModel, IController, HttpRequest, HttpResponse, badRequest, created, serverError } from './add-survey-controller-interfaces'
 
 export class AddSurveyController implements IController {
   constructor (
@@ -7,7 +7,7 @@ export class AddSurveyController implements IController {
     private readonly addSurvey: IAddSurvey
   ) {}
 
-  async handle (httpRequest: IHttpRequest<IAddSurveyModel>): Promise<IHttpResponse> {
+  async handle (httpRequest: HttpRequest<AddSurveyModel>): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {

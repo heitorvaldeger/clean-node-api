@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { PostgresHelper } from '../helpers/postgres-helper'
 import { AccountPostgresRepository } from './account-postgres-repository'
 
@@ -7,11 +6,11 @@ describe('AccountPostgresRepository', () => {
     PostgresHelper.connect()
   })
 
-  beforeEach(async () => {
-    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
-  })
+  // beforeEach(async () => {
+  // })
 
   afterAll(async () => {
+    await PostgresHelper.getTable('accounts').whereNotNull('id').del()
     await PostgresHelper.disconnect()
   })
 
@@ -76,7 +75,7 @@ describe('AccountPostgresRepository', () => {
 
     test('Should return null on loadByEmail fails', async () => {
       const sut = new AccountPostgresRepository()
-      const account = await sut.loadByEmail('any_email@mail.com')
+      const account = await sut.loadByEmail('other_email@mail.com')
 
       expect(account).toBeFalsy()
     })
@@ -165,7 +164,7 @@ describe('AccountPostgresRepository', () => {
       })
 
       const sut = new AccountPostgresRepository()
-      const account = await sut.loadByToken('any_token', 'any_role')
+      const account = await sut.loadByToken('any_token', 'other_role')
 
       expect(account).toBeFalsy()
     })
@@ -193,7 +192,7 @@ describe('AccountPostgresRepository', () => {
 
     test('Should return null on loadByToken fails', async () => {
       const sut = new AccountPostgresRepository()
-      const account = await sut.loadByToken('any_token')
+      const account = await sut.loadByToken('other_token')
 
       expect(account).toBeFalsy()
     })

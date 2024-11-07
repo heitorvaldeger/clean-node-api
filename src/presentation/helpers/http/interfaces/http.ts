@@ -1,9 +1,9 @@
-export interface IHttpRequest<B = any> {
+export type HttpRequest<B = any> = {
   body?: B
   headers?: any
 }
 
-export interface IHttpResponse<T = any> {
+export type HttpResponse<T = any> = {
   statusCode: number
   body: T
 }

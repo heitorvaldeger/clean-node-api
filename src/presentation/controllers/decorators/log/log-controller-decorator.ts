@@ -1,6 +1,6 @@
 import { ILogErrorRepository } from '#data/interfaces/db/log/log-error-repository'
 import { ServerError } from '#presentation/errors/index'
-import { IHttpRequest, IHttpResponse } from '#presentation/helpers/http/interfaces/http'
+import { HttpRequest, HttpResponse } from '#presentation/helpers/http/interfaces/http'
 import { IController } from '../../interfaces/controller'
 
 export class LogControllerDecorator implements IController {
@@ -9,7 +9,7 @@ export class LogControllerDecorator implements IController {
     private readonly logErrorRepository: ILogErrorRepository
   ) {}
 
-  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const httpResponse = await this.controller.handle(httpRequest)
 
     if (httpResponse.statusCode >= 500 && httpResponse.statusCode <= 599) {

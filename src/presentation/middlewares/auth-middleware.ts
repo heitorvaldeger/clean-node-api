@@ -1,4 +1,4 @@
-import { ILoadAccountByToken, IHttpRequest, IHttpResponse, IMiddleware } from './auth-middleware-interfaces'
+import { ILoadAccountByToken, HttpRequest, HttpResponse, IMiddleware } from './auth-middleware-interfaces'
 import { AccessDeniedError } from '../errors'
 import { forbidden, ok, serverError } from '../helpers/http/http-helpers'
 
@@ -8,7 +8,7 @@ export class AuthMiddleware implements IMiddleware {
     private readonly role?: string
   ) {}
 
-  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const accessToken = httpRequest.headers?.['x-access-token'] as string
 
