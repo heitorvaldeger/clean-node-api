@@ -45,7 +45,7 @@ describe('DbLoadSurveyById', () => {
     expect(loadByIdSpy).toHaveBeenCalledWith('any_id')
   })
 
-  test('Should returns a list of surveys on success', async () => {
+  test('Should return survey on success', async () => {
     const { sut } = makeSut()
     const surveys = await sut.loadById('any_id')
 
