@@ -58,7 +58,7 @@ describe('DbLoadSurveyById', () => {
       reject(new Error())
     }))
 
-    const promise = sut.loadById('any_id')
+    const promise = sut.loadById('any_')
 
     await expect(promise).rejects.toThrow()
   })
