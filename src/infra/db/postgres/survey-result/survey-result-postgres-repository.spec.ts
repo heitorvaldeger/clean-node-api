@@ -68,5 +68,30 @@ describe('SurveyResultPostgresRepository', () => {
       expect(surveyResult?.id).toBeTruthy()
       expect(surveyResult?.answer).toBe('any_answer')
     })
+
+    test('Should update a survey result if its not new', async () => {
+      const { sut } = makeSut()
+      const account = await makeFakeAccount()
+      const survey = await makeFakeSurvey()
+
+      const surveyResultInserted = await PostgresHelper.getTable('survey_results')
+        .insert({
+          account_id: account.id,
+          survey_id: survey.id,
+          answer: 'any_answer',
+          date: new Date()
+        }, '*')
+
+      const surveyResult = await sut.save({
+        accountId: account.id,
+        surveyId: survey.id,
+        answer: 'other_answer',
+        date: new Date()
+      })
+
+      expect(surveyResult).toBeTruthy()
+      expect(surveyResult?.id).toBe(surveyResultInserted[0].id)
+      expect(surveyResult?.answer).toBe('other_answer')
+    })
   })
 })
