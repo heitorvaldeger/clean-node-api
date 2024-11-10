@@ -1,7 +1,6 @@
-import { AccountModel } from '#domain/model/account'
-import { IDecrypter } from '../../interfaces/crypto/decrypter'
+import { AccountModel, IDecrypter, ILoadAccountByTokenRepository } from './db-load-account-by-interfaces'
+
 import { DbLoadAccountByToken } from './db-load-account-by-token'
-import { ILoadAccountByTokenRepository } from '../../interfaces/db/account/load-account-by-token-repository'
 
 class DecrypterStub implements IDecrypter {
   async decrypt (value: string): Promise<string | null> {

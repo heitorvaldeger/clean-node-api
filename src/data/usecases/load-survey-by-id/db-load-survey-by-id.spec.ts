@@ -1,5 +1,4 @@
-import { ILoadSurveyByIdRepository } from '#data/interfaces/db/survey/load-survey-by-id-repository'
-import { SurveyModel } from '#domain/model/survey'
+import { ILoadSurveyByIdRepository, SurveyModel } from './db-load-survey-by-id-interfaces'
 import { DbLoadSurveyById } from './db-load-survey-by-id'
 
 const createdAt = new Date()

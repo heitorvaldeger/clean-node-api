@@ -1,7 +1,4 @@
-import { AccountModel } from '#domain/model/account'
-import { ILoadAccountByToken } from '#domain/usecases/interfaces/load-account-by-token'
-import { IDecrypter } from '../../interfaces/crypto/decrypter'
-import { ILoadAccountByTokenRepository } from '../../interfaces/db/account/load-account-by-token-repository'
+import { AccountModel, ILoadAccountByToken, IDecrypter, ILoadAccountByTokenRepository } from './db-load-account-by-interfaces'
 
 export class DbLoadAccountByToken implements ILoadAccountByToken {
   constructor (
