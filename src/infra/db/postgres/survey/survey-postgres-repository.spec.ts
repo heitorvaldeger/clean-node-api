@@ -99,4 +99,18 @@ describe('SurveyPostgresRepository', () => {
       expect(surveys.length).toBe(0)
     })
   })
+
+  describe('loadById()', () => {
+    test('Should load survey by id on success', async () => {
+      const surveyData = await PostgresHelper.getTable('surveys').insert({
+        question: 'any_question',
+        createdAt: new Date()
+      }, '*')
+
+      const { sut } = makeSut()
+      const survey = await sut.loadById(surveyData[0].id)
+      expect(survey).toBeTruthy()
+      expect(survey?.question).toBe('any_question')
+    })
+  })
 })
