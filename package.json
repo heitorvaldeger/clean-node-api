@@ -10,7 +10,7 @@
     "dev": "tsx watch src/main/server.ts",
     "up": "npm run build && docker-compose up -d",
     "down": "docker-compose down",
-    "test": "jest --passWithNoTests --silent --noStackTrace",
+    "test": "tsc && jest --passWithNoTests --silent --noStackTrace",
     "test:verbose": "jest --passWithNoTests",
     "test:unit": "npm test -- --watch --testPathPattern=.spec.ts --findRelatedTests src/**/*.spec.ts",
     "test:integration": "npm test -- --watch --testPathPattern=.test.ts",

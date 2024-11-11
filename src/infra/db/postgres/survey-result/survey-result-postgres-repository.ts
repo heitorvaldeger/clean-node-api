@@ -1,4 +1,4 @@
-import { ISaveSurveyResultRepository, SaveSurveyResultModel, SurveyResultModel } from '#data/usecases/save-survey-result/db-save-survey-result-interfaces'
+import { ISaveSurveyResultRepository, SaveSurveyResultModel, SurveyResultModel } from '#data/usecases/survey-result/save-survey-result/db-save-survey-result-interfaces'
 import { PostgresHelper } from '../helpers/postgres-helper'
 
 export class SurveyResultPostgresRepository implements ISaveSurveyResultRepository {

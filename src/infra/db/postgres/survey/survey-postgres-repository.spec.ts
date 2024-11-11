@@ -1,4 +1,4 @@
-import { AddSurveyModel } from '#domain/usecases/interfaces/add-survey'
+import { AddSurveyModel } from '#domain/usecases/interfaces/survey/add-survey'
 import { PostgresHelper } from '../helpers/postgres-helper'
 import { SurveyPostgresRepository } from './survey-postgres-repository'
 

@@ -1,6 +1,6 @@
 import { ObjectId, WithId } from 'mongodb'
 import { IAddAccountRepository } from '#data/interfaces/db/account/add-account-repository'
-import { AddAccountModel } from '#data/usecases/add-account/db-add-account-interfaces'
+import { AddAccountModel } from '#data/usecases/account/add-account/db-add-account-interfaces'
 import { AccountModel } from '#domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'
 import { ILoadAccountByEmailRepository } from '#data/interfaces/db/account/load-account-by-email-repository'

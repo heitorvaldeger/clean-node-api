@@ -1,5 +1,5 @@
 export * from '#presentation/helpers/http/interfaces/http'
-export * from '#domain/usecases/interfaces/add-account'
-export * from '#domain/usecases/interfaces/authentication'
+export * from '#domain/usecases/interfaces/account/add-account'
+export * from '#domain/usecases/interfaces/account/authentication'
 export * from '#domain/model/account'
 export * from '#validations/interfaces/validation'

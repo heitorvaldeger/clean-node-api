@@ -1,4 +1,4 @@
-export * from '../../domain/usecases/interfaces/load-account-by-token'
+export * from '../../domain/usecases/interfaces/account/load-account-by-token'
 export * from '../../domain/model/account'
 export * from '../helpers/http/http-helpers'
 export * from '../helpers/http/interfaces/http'

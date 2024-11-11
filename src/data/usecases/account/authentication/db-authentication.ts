@@ -1,4 +1,4 @@
-import { AuthenticationModel } from '#domain/usecases/interfaces/authentication'
+import { AuthenticationModel } from '#domain/usecases/interfaces/account/authentication'
 import {
   IAuthentication,
   IHashComparer,
