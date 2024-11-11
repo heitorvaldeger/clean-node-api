@@ -1,5 +1,6 @@
 export type HttpRequest<B = any> = {
   body?: B
+  params?: any
   headers?: any
 }
 
