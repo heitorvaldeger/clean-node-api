@@ -57,7 +57,9 @@ export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurv
         survey.answers = []
       }
 
-      survey.answers.push(s.answer)
+      survey.answers.push({
+        answer: s.answer
+      })
     })
 
     return survey

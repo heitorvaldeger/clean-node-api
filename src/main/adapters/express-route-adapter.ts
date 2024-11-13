@@ -5,7 +5,9 @@ import { HttpRequest } from '../../presentation/helpers/http/interfaces/http'
 export const adapterExpress = (controller: IController) => {
   return (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {
-      body: req.body
+      body: req.body,
+      params: req.params,
+      accountId: req.accountId
     }
 
     controller.handle(httpRequest)
