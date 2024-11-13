@@ -107,10 +107,22 @@ describe('SurveyPostgresRepository', () => {
         createdAt: new Date()
       }, '*')
 
+      await PostgresHelper.getTable('answers').insert({
+        answer: 'any_answer',
+        survey_id: surveyData[0].id
+      }, '*')
+
+      await PostgresHelper.getTable('answers').insert({
+        answer: 'other_answer',
+        survey_id: surveyData[0].id
+      }, '*')
+
       const { sut } = makeSut()
       const survey = await sut.loadById(surveyData[0].id)
       expect(survey).toBeTruthy()
       expect(survey?.question).toBe('any_question')
+      expect(survey?.answers.length).toBe(2)
+      expect(Array.isArray(survey?.answers)).toBeTruthy()
     })
   })
 })

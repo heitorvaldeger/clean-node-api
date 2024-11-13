@@ -31,10 +31,35 @@ export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurv
   }
 
   async loadById (surveyId: number): Promise<SurveyModel | null> {
-    const survey = await PostgresHelper.getTable('surveys')
-      .where('id', surveyId)
+    const surveys = await PostgresHelper.getTable('surveys')
+      .leftJoin('answers', 'survey_id', '=', 'surveys.id')
+      .where('surveys.id', surveyId)
       .orderBy('surveys.id')
-      .first()
+      .select()
+      .returning<any[]>('*')
+
+    return this.mapperSurvey(surveys)
+  }
+
+  private mapperSurvey (surveys: any[]): SurveyModel | null {
+    let survey: SurveyModel | null = null
+    surveys.forEach(s => {
+      if (!survey) {
+        survey = {
+          id: s.id,
+          question: s.question,
+          createdAt: s.createdAt,
+          answers: []
+        }
+      }
+
+      if (!survey?.answers) {
+        survey.answers = []
+      }
+
+      survey.answers.push(s.answer)
+    })
+
     return survey
   }
 }
