@@ -53,10 +53,6 @@ export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurv
         }
       }
 
-      if (!survey?.answers) {
-        survey.answers = []
-      }
-
       survey.answers.push({
         answer: s.answer
       })
