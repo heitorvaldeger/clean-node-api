@@ -1,5 +1,5 @@
 import MockDate from 'mockdate'
-import { IAddSurvey, AddSurveyModel, IController, HttpRequest, ValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
+import { IAddSurvey, AddSurveyParams, IController, HttpRequest, ValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
@@ -23,7 +23,7 @@ class ValidationStub implements IValidationComposite {
 }
 
 class AddSurveyStub implements IAddSurvey {
-  async add (surveyData: AddSurveyModel): Promise<void> {
+  async add (surveyData: AddSurveyParams): Promise<void> {
   }
 }
 

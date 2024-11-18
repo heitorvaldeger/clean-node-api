@@ -1,18 +1,18 @@
-import { AuthenticationModel, AccountModel, IAddAccount, AddAccountModel, IAuthentication, ValidationError } from './signup-controller-interfaces'
+import { AuthenticationParams, AccountModel, IAddAccount, AddAccountParams, IAuthentication, ValidationError } from './signup-controller-interfaces'
 import { EmailInUseError, ServerError } from '#presentation/errors/index'
 import { SignUpController } from './signup-controller'
 import { badRequest, forbidden, ok, serverError } from '#presentation/helpers/http/http-helpers'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
 class AuthenticationStub implements IAuthentication {
-  async auth (authentication: AuthenticationModel): Promise<string> {
+  async auth (authentication: AuthenticationParams): Promise<string> {
     return await new Promise(resolve => { resolve('any_token') })
   }
 }
 
 const makeAddAccountStub = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
-    async add (account: AddAccountModel): Promise<AccountModel | null> {
+    async add (account: AddAccountParams): Promise<AccountModel | null> {
       return await new Promise(resolve => { resolve(fakeAccount) })
     }
   }

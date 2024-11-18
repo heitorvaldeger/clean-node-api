@@ -1,8 +1,8 @@
-import { ISaveSurveyResultRepository, SaveSurveyResultModel, SurveyResultModel } from '#data/usecases/survey-result/save-survey-result/db-save-survey-result-interfaces'
+import { ISaveSurveyResultRepository, SaveSurveyResultParams, SurveyResultModel } from '#data/usecases/survey-result/save-survey-result/db-save-survey-result-interfaces'
 import { PostgresHelper } from '../helpers/postgres-helper'
 
 export class SurveyResultPostgresRepository implements ISaveSurveyResultRepository {
-  async save (data: SaveSurveyResultModel): Promise<SurveyResultModel | null> {
+  async save (data: SaveSurveyResultParams): Promise<SurveyResultModel | null> {
     await PostgresHelper.getTable('survey_results')
       .insert({
         account_id: data.accountId,

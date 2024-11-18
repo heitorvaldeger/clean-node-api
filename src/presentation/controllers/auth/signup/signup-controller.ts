@@ -2,7 +2,7 @@ import { IValidationComposite } from '#validations/interfaces/validation-composi
 import { EmailInUseError } from '#presentation/errors/index'
 import { badRequest, forbidden, ok, serverError } from '#presentation/helpers/http/http-helpers'
 import { IController } from '../../interfaces/controller'
-import { HttpRequest, HttpResponse, IAddAccount, IAuthentication, AddAccountModel } from './signup-controller-interfaces'
+import { HttpRequest, HttpResponse, IAddAccount, IAuthentication, AddAccountParams } from './signup-controller-interfaces'
 
 export class SignUpController implements IController {
   constructor (
@@ -13,7 +13,7 @@ export class SignUpController implements IController {
 
   }
 
-  async handle (httpRequest: HttpRequest<AddAccountModel>): Promise<HttpResponse> {
+  async handle (httpRequest: HttpRequest<AddAccountParams>): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {

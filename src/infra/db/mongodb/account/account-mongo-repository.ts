@@ -1,6 +1,6 @@
 import { ObjectId, WithId } from 'mongodb'
 import { IAddAccountRepository } from '#data/interfaces/db/account/add-account-repository'
-import { AddAccountModel } from '#data/usecases/account/add-account/db-add-account-interfaces'
+import { AddAccountParams } from '#data/usecases/account/add-account/db-add-account-interfaces'
 import { AccountModel } from '#domain/model/account'
 import { MongoHelper } from '../helpers/mongodb-helper'
 import { ILoadAccountByEmailRepository } from '#data/interfaces/db/account/load-account-by-email-repository'
@@ -33,7 +33,7 @@ export class AccountMongoRepository implements
     })
   }
 
-  async add (account: AddAccountModel): Promise<AccountModel> {
+  async add (account: AddAccountParams): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const { insertedId } = await accountCollection.insertOne(account)
     const accountData = await accountCollection.findOne<WithId<AccountModel>>({

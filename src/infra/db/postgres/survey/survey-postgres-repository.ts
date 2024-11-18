@@ -1,11 +1,11 @@
 import { IAddSurveyRepository } from '#data/usecases/survey/add-survey/db-add-survey-interfaces'
 import { ILoadSurveysRepository, SurveyModel } from '#data/usecases/survey/load-surveys/db-load-surveys-interfaces'
-import { AddSurveyModel } from '#domain/usecases/interfaces/survey/add-survey'
+import { AddSurveyParams } from '#domain/usecases/interfaces/survey/add-survey'
 import { ILoadSurveyById } from '#domain/usecases/interfaces/survey/load-survey-by-id'
 import { PostgresHelper } from '../helpers/postgres-helper'
 
 export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurveysRepository, ILoadSurveyById {
-  async add (surveyData: AddSurveyModel): Promise<void> {
+  async add (surveyData: AddSurveyParams): Promise<void> {
     const insertedRows = await PostgresHelper.getTable('surveys').insert({
       question: surveyData.question,
       createdAt: surveyData.createdAt

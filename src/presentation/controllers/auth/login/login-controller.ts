@@ -1,4 +1,4 @@
-import { IAuthentication, AuthenticationModel, HttpRequest, HttpResponse } from './login-controller-interfaces'
+import { IAuthentication, AuthenticationParams, HttpRequest, HttpResponse } from './login-controller-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '#presentation/helpers/http/http-helpers'
 import { IController } from '../../interfaces/controller'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
@@ -9,7 +9,7 @@ export class LoginController implements IController {
     private readonly authentication: IAuthentication
   ) {}
 
-  async handle (httpRequest: HttpRequest<AuthenticationModel>): Promise<HttpResponse> {
+  async handle (httpRequest: HttpRequest<AuthenticationParams>): Promise<HttpResponse> {
     try {
       const errors = this.validation.validate(httpRequest.body)
       if (errors) {
