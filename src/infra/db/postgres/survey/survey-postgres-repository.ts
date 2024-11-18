@@ -26,8 +26,8 @@ export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurv
     const surveys = await PostgresHelper.getTable('surveys')
       .leftJoin('answers', 'survey_id', '=', 'surveys.id')
       .orderBy('surveys.id')
-      .select().returning<SurveyModel[]>('*')
-    return surveys
+      .select().returning<any[]>('*')
+    return this.mapperSurveyList(surveys)
   }
 
   async loadById (surveyId: number): Promise<SurveyModel | null> {
@@ -59,5 +59,30 @@ export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurv
     })
 
     return survey
+  }
+
+  private mapperSurveyList (surveys: any[]): SurveyModel[] {
+    const newSurveys: SurveyModel[] = []
+    surveys.forEach(s => {
+      const ns = newSurveys.findIndex(ns => ns.id === s.survey_id)
+      if (ns >= 0) {
+        newSurveys[ns].answers.push({
+          answer: s.answer
+        })
+      } else {
+        newSurveys.push({
+          id: s.survey_id,
+          question: s.question,
+          createdAt: s.createdAt,
+          answers: s.answer
+            ? [{
+                answer: s.answer
+              }]
+            : []
+        })
+      }
+    })
+
+    return newSurveys
   }
 }

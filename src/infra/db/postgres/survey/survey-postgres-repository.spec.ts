@@ -76,21 +76,32 @@ describe('SurveyPostgresRepository', () => {
 
   describe('loadAll()', () => {
     test('Should loadAll surveys on success', async () => {
-      await PostgresHelper.getTable('surveys').insert({
+      const surveyData = await PostgresHelper.getTable('surveys').insert({
         question: 'any_question',
         createdAt: new Date()
-      })
+      }, '*')
+
+      await PostgresHelper.getTable('answers').insert({
+        answer: 'any_answer',
+        survey_id: surveyData[0].id
+      }, '*')
+
+      await PostgresHelper.getTable('answers').insert({
+        answer: 'other_answer',
+        survey_id: surveyData[0].id
+      }, '*')
 
       await PostgresHelper.getTable('surveys').insert({
         question: 'other_question',
         createdAt: new Date()
-      })
+      }, '*')
 
       const { sut } = makeSut()
       const surveys = await sut.loadAll()
       expect(surveys.length).toBe(2)
       expect(surveys[0].question).toBe('any_question')
       expect(surveys[1].question).toBe('other_question')
+      expect(Array.isArray(surveys[0].answers)).toBeTruthy()
     })
 
     test('Should loadAll empty list', async () => {
