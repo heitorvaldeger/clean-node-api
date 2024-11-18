@@ -1,15 +1,9 @@
-import { IEmailValidator } from '#validations/interfaces/email-validator'
 import { EmailValidation, RequiredFieldValidation, ValidationComposite, CompareFieldsValidation, IsStringValidation, MinLengthStringValidation } from '#validations/index'
 import { IValidation } from '#validations/interfaces/validation'
 import { makeSignUpValidation } from './signup-validation-factory'
+import { mockEmailValidatorStub } from '#validations/test'
 
 jest.mock('#validations/validation-composite/validation-composite')
-
-class EmailValidatorStub implements IEmailValidator {
-  isValid (email: string): boolean {
-    return true
-  }
-}
 
 const fields = [
   {
@@ -25,7 +19,7 @@ const fields = [
     validations: (fieldName: string) => ([
       new RequiredFieldValidation(fieldName),
       new IsStringValidation(fieldName),
-      new EmailValidation(fieldName, new EmailValidatorStub()),
+      new EmailValidation(fieldName, mockEmailValidatorStub()),
       new MinLengthStringValidation(fieldName, 10)
     ])
   },

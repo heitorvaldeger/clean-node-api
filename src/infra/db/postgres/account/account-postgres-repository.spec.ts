@@ -1,3 +1,4 @@
+import { mockAddAccountParams } from '#domain/test'
 import { PostgresHelper } from '../helpers/postgres-helper'
 import { AccountPostgresRepository } from './account-postgres-repository'
 
@@ -21,11 +22,7 @@ describe('AccountPostgresRepository', () => {
   describe('add()', () => {
     test('Should return an account on add success', async () => {
       const sut = new AccountPostgresRepository()
-      const account = await sut.add({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      })
+      const account = await sut.add(mockAddAccountParams())
 
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
@@ -47,11 +44,7 @@ describe('AccountPostgresRepository', () => {
       })
 
       const sut = new AccountPostgresRepository()
-      const promise = sut.add({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      })
+      const promise = sut.add(mockAddAccountParams())
 
       await expect(promise).rejects.toThrow(new Error('Add account failure!'))
     })
@@ -61,11 +54,7 @@ describe('AccountPostgresRepository', () => {
     test('Should return an account on loadByEmail success', async () => {
       const accountTable = PostgresHelper.getTable('accounts')
 
-      await accountTable.insert({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      })
+      await accountTable.insert(mockAddAccountParams())
 
       const sut = new AccountPostgresRepository()
       const account = await sut.loadByEmail('any_email@mail.com')
@@ -87,11 +76,7 @@ describe('AccountPostgresRepository', () => {
 
   describe('updateAccessToken()', () => {
     test('Should update the account accessToken on updateAccessToken success', async () => {
-      const insertedRows = await PostgresHelper.getTable('accounts').insert({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      }, '*')
+      const insertedRows = await PostgresHelper.getTable('accounts').insert(mockAddAccountParams(), '*')
 
       if (!(insertedRows.length > 0)) {
         throw new Error('Inserted rows failure!')
@@ -120,9 +105,7 @@ describe('AccountPostgresRepository', () => {
       const accountTable = PostgresHelper.getTable('accounts')
 
       await accountTable.insert({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
+        ...mockAddAccountParams(),
         accessToken: 'any_token'
       })
 
@@ -140,9 +123,7 @@ describe('AccountPostgresRepository', () => {
       const accountTable = PostgresHelper.getTable('accounts')
 
       await accountTable.insert({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
+        ...mockAddAccountParams(),
         accessToken: 'any_token',
         role: 'any_role'
       })
@@ -161,9 +142,7 @@ describe('AccountPostgresRepository', () => {
       const accountTable = PostgresHelper.getTable('accounts')
 
       await accountTable.insert({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
+        ...mockAddAccountParams(),
         accessToken: 'any_token'
       })
 
@@ -177,9 +156,7 @@ describe('AccountPostgresRepository', () => {
       const accountTable = PostgresHelper.getTable('accounts')
 
       await accountTable.insert({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
+        ...mockAddAccountParams(),
         accessToken: 'any_token',
         role: 'admin'
       })

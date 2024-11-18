@@ -1,14 +1,9 @@
 import { ILogErrorRepository } from '#data/interfaces/db/log/log-error-repository'
+import { mockLogErrorRepository } from '#data/test'
 import { ok, serverError } from '#presentation/helpers/http/http-helpers'
 import { HttpRequest, HttpResponse } from '#presentation/helpers/http/interfaces/http'
 import { IController } from '../../interfaces/controller'
 import { LogControllerDecorator } from './log-controller-decorator'
-
-class LogErrorRepository implements ILogErrorRepository {
-  async logError (stack: string): Promise<void> {
-    await new Promise((resolve) => { resolve(null) })
-  }
-}
 
 class ControllerStub implements IController {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -30,7 +25,7 @@ type SutTypes = {
 }
 const makeSut = (): SutTypes => {
   const controllerStub = new ControllerStub()
-  const logErrorRepository = new LogErrorRepository()
+  const logErrorRepository = mockLogErrorRepository()
   const sut = new LogControllerDecorator(controllerStub, logErrorRepository)
 
   return {
