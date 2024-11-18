@@ -5,13 +5,11 @@ import { AccountModel, ILoadAccountByToken, HttpRequest } from './auth-middlewar
 
 class LoadAccountByTokenStub implements ILoadAccountByToken {
   async load (accessToken: string, role?: string): Promise<AccountModel> {
-    return await new Promise(resolve => {
-      resolve({
-        id: 'valid_id',
-        name: 'valid_name',
-        email: 'valid_email@mail.com',
-        password: 'valid_password'
-      })
+    return await Promise.resolve({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: 'valid_password'
     })
   }
 }
@@ -55,7 +53,7 @@ describe('Auth Middleware', () => {
 
   test('Should return 403 if LoadAccountByToken returns null', async () => {
     const { sut, loadAccountByTokenStub } = makeSut()
-    jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(new Promise(resolve => { resolve(null) }))
+    jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
 
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))

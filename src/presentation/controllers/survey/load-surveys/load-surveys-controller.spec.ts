@@ -29,7 +29,7 @@ const makeFakeSurveys = (): SurveyModel[] => ([
 
 class LoadSurveysStub implements ILoadSurveys {
   async load (): Promise<SurveyModel[]> {
-    return await new Promise(resolve => { resolve(makeFakeSurveys()) })
+    return await Promise.resolve(makeFakeSurveys())
   }
 }
 
@@ -72,7 +72,7 @@ describe('LoadSurveys Controller', () => {
 
   test('Should returns 204 if LoadSurveys returns empty list', async () => {
     const { sut, loadSurveysStub } = makeSut()
-    jest.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(new Promise(resolve => { resolve([]) }))
+    jest.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(Promise.resolve([]))
     const httpResponse = await sut.handle({})
 
     expect(httpResponse).toEqual(noContent())
@@ -80,9 +80,7 @@ describe('LoadSurveys Controller', () => {
 
   test('Should returns 500 if LoadSurveys throws', async () => {
     const { sut, loadSurveysStub } = makeSut()
-    jest.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(new Promise((resolve, reject) => {
-      reject(new Error())
-    }))
+    jest.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(Promise.reject(new Error()))
 
     const httpResponse = await sut.handle({})
 

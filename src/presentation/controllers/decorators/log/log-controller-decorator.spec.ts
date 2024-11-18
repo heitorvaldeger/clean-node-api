@@ -7,13 +7,11 @@ import { LogControllerDecorator } from './log-controller-decorator'
 
 class ControllerStub implements IController {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    return await new Promise(resolve => {
-      resolve({
-        statusCode: 200,
-        body: {
-          any_field_one: 'any_value'
-        }
-      })
+    return await Promise.resolve({
+      statusCode: 200,
+      body: {
+        any_field_one: 'any_value'
+      }
     })
   }
 }
@@ -75,7 +73,7 @@ describe('LogController Decorator', () => {
     const { sut, controllerStub, logErrorRepository } = makeSut()
 
     const logSpy = jest.spyOn(logErrorRepository, 'logError')
-    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise(resolve => { resolve(serverError(fakeError)) }))
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(Promise.resolve(serverError(fakeError)))
     await sut.handle({
       body: fakeRequest
     })
@@ -87,13 +85,11 @@ describe('LogController Decorator', () => {
     const { sut, controllerStub, logErrorRepository } = makeSut()
 
     const logSpy = jest.spyOn(logErrorRepository, 'logError')
-    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(new Promise<HttpResponse>(resolve => {
-      resolve(({
-        statusCode: 500,
-        body: {
-          stack: null
-        }
-      }))
+    jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(Promise.resolve({
+      statusCode: 500,
+      body: {
+        stack: null
+      }
     }))
 
     await sut.handle({
