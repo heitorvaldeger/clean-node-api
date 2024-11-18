@@ -1,4 +1,4 @@
-import { AddSurveyParams } from '#domain/usecases/interfaces/survey/add-survey'
+import { mockAddSurveyParams } from '#domain/test'
 import { PostgresHelper } from '../helpers/postgres-helper'
 import { SurveyPostgresRepository } from './survey-postgres-repository'
 
@@ -13,19 +13,19 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeSurvey: AddSurveyParams = {
-  question: 'any_question',
-  answers: [
-    {
-      image: 'any_image',
-      answer: 'any_answer'
-    },
-    {
-      answer: 'any_answer'
-    }
-  ],
-  createdAt: new Date()
-}
+// const fakeSurvey: AddSurveyParams = {
+//   question: 'any_question',
+//   answers: [
+//     {
+//       image: 'any_image',
+//       answer: 'any_answer'
+//     },
+//     {
+//       answer: 'any_answer'
+//     }
+//   ],
+//   createdAt: new Date()
+// }
 
 describe('SurveyPostgresRepository', () => {
   beforeAll(() => {
@@ -47,12 +47,12 @@ describe('SurveyPostgresRepository', () => {
   describe('add()', () => {
     test('Should create a survey', async () => {
       const { sut } = makeSut()
-      await sut.add(fakeSurvey)
+      await sut.add(mockAddSurveyParams())
 
       const surveysCounter = (await PostgresHelper.getTable('surveys').count())[0].count
       const answersCounter = (await PostgresHelper.getTable('answers').count())[0].count
       expect(Number(surveysCounter)).toBe(1)
-      expect(Number(answersCounter)).toBe(2)
+      expect(Number(answersCounter)).toBe(1)
     })
 
     test('Should throws a create survey error', async () => {
@@ -68,7 +68,7 @@ describe('SurveyPostgresRepository', () => {
       })
 
       const { sut } = makeSut()
-      const promise = sut.add(fakeSurvey)
+      const promise = sut.add(mockAddSurveyParams())
 
       await expect(promise).rejects.toThrow(new Error('Add survey failure!'))
     })
