@@ -1,5 +1,5 @@
 import { ISaveSurveyResult } from '#domain/usecases/interfaces/survey-result/save-survey-result'
-import { InvalidParamError } from '#presentation/errors'
+import { InvalidParamError } from '#presentation/errors/index'
 import { HttpRequest, HttpResponse, IController, ok, ILoadSurveyById, serverError, forbidden } from './save-survey-result-controller-protocols'
 
 export class SaveSurveyResultController implements IController {
