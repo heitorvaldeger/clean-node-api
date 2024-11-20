@@ -11,7 +11,7 @@ export class JwtAdapter implements IEncrypter, IDecrypter {
     return await new Promise(resolve => { resolve(jwt.sign({ id: value }, this.secret)) })
   }
 
-  async decrypt (token: string): Promise<string> {
+  async decrypt (token: string): Promise<string | null> {
     const value = jwt.verify(token, this.secret) as string
 
     return await new Promise(resolve => { resolve(value) })

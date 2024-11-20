@@ -7,6 +7,7 @@ import { loginPath } from './paths/login-path'
 import { signUpPath } from './paths/signup-path'
 import { surveyPath } from './paths/survey-path'
 import { accountSchema } from './schemas/account-schema'
+import { addSurveyParamsSchema } from './schemas/add-survey-params-schema'
 import { errorSchema } from './schemas/error-schema'
 import { loginParamsSchema } from './schemas/login-params-schema'
 import { signUpParamsSchema } from './schemas/signup-params-schema'
@@ -41,7 +42,8 @@ export default {
     error: errorSchema,
     surveys: surveysSchema,
     survey: surveySchema,
-    surveyAnswer: surveyAnswerSchema
+    surveyAnswer: surveyAnswerSchema,
+    addSurveyParams: addSurveyParamsSchema
   },
   components: {
     badRequest,
