@@ -4,10 +4,12 @@ import { notFound } from './components/notFound-component'
 import { serverError } from './components/serverError-component'
 import { unauthorized } from './components/unauthorized-component'
 import { loginPath } from './paths/login-path'
+import { signUpPath } from './paths/signup-path'
 import { surveyPath } from './paths/survey-path'
 import { accountSchema } from './schemas/account-schema'
 import { errorSchema } from './schemas/error-schema'
 import { loginParamsSchema } from './schemas/login-params-schema'
+import { signUpParamsSchema } from './schemas/signup-params-schema'
 import { surveyAnswerSchema } from './schemas/survey-answer-schema'
 import { surveySchema } from './schemas/survey-schema'
 import { surveysSchema } from './schemas/surveys-schema'
@@ -29,11 +31,13 @@ export default {
   }],
   paths: {
     '/login': loginPath,
+    '/signup': signUpPath,
     '/surveys': surveyPath
   },
   schemas: {
     account: accountSchema,
     loginParams: loginParamsSchema,
+    signUpParams: signUpParamsSchema,
     error: errorSchema,
     surveys: surveysSchema,
     survey: surveySchema,
