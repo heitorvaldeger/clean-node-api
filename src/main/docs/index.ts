@@ -6,12 +6,15 @@ import { unauthorized } from './components/unauthorized-component'
 import { loginPath } from './paths/login-path'
 import { signUpPath } from './paths/signup-path'
 import { surveyPath } from './paths/survey-path'
+import { surveyResultPath } from './paths/survey-result-path'
 import { accountSchema } from './schemas/account-schema'
 import { addSurveyParamsSchema } from './schemas/add-survey-params-schema'
 import { errorSchema } from './schemas/error-schema'
 import { loginParamsSchema } from './schemas/login-params-schema'
+import { saveSurveyParamsSchema } from './schemas/save-survey-params-schema'
 import { signUpParamsSchema } from './schemas/signup-params-schema'
 import { surveyAnswerSchema } from './schemas/survey-answer-schema'
+import { surveyResultSchema } from './schemas/survey-result-schema'
 import { surveySchema } from './schemas/survey-schema'
 import { surveysSchema } from './schemas/surveys-schema'
 
@@ -33,7 +36,8 @@ export default {
   paths: {
     '/login': loginPath,
     '/signup': signUpPath,
-    '/surveys': surveyPath
+    '/surveys': surveyPath,
+    '/surveys/{surveyId}/results': surveyResultPath
   },
   schemas: {
     account: accountSchema,
@@ -43,7 +47,9 @@ export default {
     surveys: surveysSchema,
     survey: surveySchema,
     surveyAnswer: surveyAnswerSchema,
-    addSurveyParams: addSurveyParamsSchema
+    addSurveyParams: addSurveyParamsSchema,
+    saveSurveyParams: saveSurveyParamsSchema,
+    surveyResult: surveyResultSchema
   },
   components: {
     badRequest,
