@@ -1,5 +1,23 @@
+import pg from 'pg'
 import { Knex, knex } from 'knex'
 import dotenv from 'dotenv'
+
+// The OID 20 corresponds the 'bigint' type on PostgresSQL
+const BIGINT_OID = 20
+
+pg.types.setTypeParser(BIGINT_OID, (val) => {
+  if (val === null) {
+    return null
+  }
+
+  const num = Number.parseInt(val, 10)
+
+  if (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER) {
+    throw new Error(`BigInt value is out of secure range to Number: ${val}`)
+  }
+
+  return num
+})
 
 export const PostgresHelper = {
   client: null as unknown as Knex,
@@ -31,6 +49,9 @@ export const PostgresHelper = {
     }
 
     return this.client.table(tableName)
+  },
+  raw (sql: string) {
+    return this.client.raw(sql)
   },
   async truncateAllTables () {
     const tables = await this.client.table('information_schema.tables')

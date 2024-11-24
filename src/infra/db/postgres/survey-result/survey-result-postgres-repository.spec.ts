@@ -1,5 +1,6 @@
 import { AccountModel } from '#domain/model/account'
 import { SurveyModel } from '#domain/model/survey'
+import moment from 'moment'
 import { PostgresHelper } from '../helpers/postgres-helper'
 import { SurveyResultPostgresRepository } from './survey-result-postgres-repository'
 
@@ -32,6 +33,16 @@ const makeFakeSurvey = async (): Promise<SurveyModel> => {
       createdAt: new Date()
     }, '*')
 
+  await PostgresHelper.getTable('answers').insert({
+    answer: 'any_answer',
+    survey_id: surveys[0].id
+  }, '*')
+
+  await PostgresHelper.getTable('answers').insert({
+    answer: 'other_answer',
+    survey_id: surveys[0].id
+  }, '*')
+
   return surveys[0]
 }
 
@@ -57,16 +68,20 @@ describe('SurveyResultPostgresRepository', () => {
       const { sut } = makeSut()
       const account = await makeFakeAccount()
       const survey = await makeFakeSurvey()
-      const surveyResult = await sut.save({
+      const surveyResults = await sut.save({
         accountId: account.id,
         surveyId: survey.id,
         answer: 'any_answer',
         date: new Date()
       })
 
-      expect(surveyResult).toBeTruthy()
-      expect(surveyResult?.id).toBeTruthy()
-      expect(surveyResult?.answer).toBe('any_answer')
+      expect(surveyResults).toBeTruthy()
+      expect(surveyResults?.answers[0].count).toBe(1)
+      expect(surveyResults?.answers[0].percent).toBe(100)
+      expect(surveyResults?.answers[0].answer).toBe('any_answer')
+      expect(surveyResults?.answers[1].count).toBe(0)
+      expect(surveyResults?.answers[1].percent).toBe(0)
+      expect(surveyResults?.date).toBe(moment(survey.createdAt).format('YYYY-MM-DD h:mm:ss'))
     })
 
     test('Should update a survey result if its not new', async () => {
@@ -74,7 +89,7 @@ describe('SurveyResultPostgresRepository', () => {
       const account = await makeFakeAccount()
       const survey = await makeFakeSurvey()
 
-      const surveyResultInserted = await PostgresHelper.getTable('survey_results')
+      await PostgresHelper.getTable('survey_results')
         .insert({
           account_id: account.id,
           survey_id: survey.id,
@@ -82,16 +97,19 @@ describe('SurveyResultPostgresRepository', () => {
           date: new Date()
         }, '*')
 
-      const surveyResult = await sut.save({
+      const surveyResults = await sut.save({
         accountId: account.id,
         surveyId: survey.id,
         answer: 'other_answer',
         date: new Date()
       })
 
-      expect(surveyResult).toBeTruthy()
-      expect(surveyResult?.id).toBe(surveyResultInserted[0].id)
-      expect(surveyResult?.answer).toBe('other_answer')
+      expect(surveyResults).toBeTruthy()
+      expect(surveyResults?.answers[0].count).toBe(1)
+      expect(surveyResults?.answers[0].percent).toBe(100)
+      expect(surveyResults?.answers[0].answer).toBe('other_answer')
+      expect(surveyResults?.answers[1].count).toBe(0)
+      expect(surveyResults?.answers[1].percent).toBe(0)
     })
   })
 })

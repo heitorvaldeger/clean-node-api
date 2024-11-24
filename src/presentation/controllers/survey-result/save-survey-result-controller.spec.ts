@@ -16,12 +16,15 @@ const makeFakeRequest = (): HttpRequest => ({
   accountId: 'any_account_id'
 })
 
-const makeFakeSurveyResult = (): SurveyResultModel => ({
-  accountId: 'valid_account_id',
+const mockFakeSurveyResult = (): SurveyResultModel => ({
   surveyId: 'valid_survey_id',
-  answer: 'valid_answer',
+  answers: [{
+    answer: 'valid_answer',
+    count: 1,
+    percent: 1
+  }],
   date: new Date(),
-  id: 'valid_id'
+  question: 'any_question'
 })
 
 const makeLoadSurveyById = (): ILoadSurveyById => {
@@ -37,7 +40,7 @@ const makeLoadSurveyById = (): ILoadSurveyById => {
 const makeSaveSurveyResultStub = (): ISaveSurveyResult => {
   class SaveSurveyResultStub implements ISaveSurveyResult {
     async save (payload: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return await Promise.resolve(makeFakeSurveyResult())
+      return await Promise.resolve(mockFakeSurveyResult())
     }
   }
 
@@ -132,6 +135,6 @@ describe('SaveSurveyResult Controller', () => {
 
     const httpResponse = await sut.handle(makeFakeRequest())
 
-    expect(httpResponse).toEqual(ok(makeFakeSurveyResult()))
+    expect(httpResponse).toEqual(ok(mockFakeSurveyResult()))
   })
 })
