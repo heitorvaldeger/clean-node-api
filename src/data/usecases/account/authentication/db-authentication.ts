@@ -1,4 +1,4 @@
-import { AuthenticationParams } from '#domain/usecases/interfaces/account/authentication'
+import { AuthenticationModel, AuthenticationParams } from '#domain/usecases/interfaces/account/authentication'
 import {
   IAuthentication,
   IHashComparer,
@@ -15,14 +15,17 @@ export class DbAuthentication implements IAuthentication {
     private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
   ) {}
 
-  async auth (authentication: AuthenticationParams): Promise<string | null> {
+  async auth (authentication: AuthenticationParams): Promise<AuthenticationModel | null> {
     const account = await this.loadAccountByEmailRepository.loadByEmail(authentication.email)
     if (account) {
       const isValid = await this.hashComparer.compare(authentication.password, account.password)
       if (isValid) {
         const accessToken = await this.Encrypter.encrypt(account.id)
         await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
-        return accessToken
+        return {
+          accessToken,
+          name: account.name
+        }
       }
     }
     return null

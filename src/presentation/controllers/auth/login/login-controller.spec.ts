@@ -1,12 +1,15 @@
-import { AuthenticationParams, IAuthentication } from './login-controller-interfaces'
+import { AuthenticationModel, AuthenticationParams, IAuthentication } from './login-controller-interfaces'
 import { badRequest, ok, serverError, unauthorized } from '#presentation/helpers/http/http-helpers'
 import { LoginController } from './login-controller'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
 import { ValidationError } from '#validations/interfaces/validation'
 
 class AuthenticationStub implements IAuthentication {
-  async auth (authentication: AuthenticationParams): Promise<string> {
-    return await Promise.resolve('any_token')
+  async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
+    return await Promise.resolve({
+      accessToken: 'any_token',
+      name: 'any_name'
+    })
   }
 }
 
@@ -79,7 +82,8 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(ok({
-      accessToken: 'any_token'
+      accessToken: 'any_token',
+      name: 'any_name'
     }))
   })
 
