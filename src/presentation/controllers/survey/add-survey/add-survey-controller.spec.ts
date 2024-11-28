@@ -1,19 +1,16 @@
 import MockDate from 'mockdate'
-import { IAddSurvey, AddSurveyParams, IController, HttpRequest, ValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
+import { IAddSurvey, AddSurveyParams, IController, ValidationError, badRequest, created, serverError } from './add-survey-controller-interfaces'
 import { AddSurveyController } from './add-survey-controller'
 import { IValidationComposite } from '#validations/interfaces/validation-composite'
 
-const makeFakeRequest = (): HttpRequest => ({
-  body: {
-    question: 'any_question',
-    answers: [
-      {
-        image: 'any_image',
-        answer: 'any_answer'
-      }
-    ],
-    createdAt: new Date()
-  }
+const makeFakeRequest = (): AddSurveyController.Request => ({
+  question: 'any_question',
+  answers: [
+    {
+      image: 'any_image',
+      answer: 'any_answer'
+    }
+  ]
 })
 
 class ValidationStub implements IValidationComposite {
@@ -59,7 +56,7 @@ describe('AddSurvey Controller', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     await sut.handle(makeFakeRequest())
 
-    expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+    expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest())
   })
 
   test('Should returns 400 if Validation fails', async () => {
@@ -85,7 +82,7 @@ describe('AddSurvey Controller', () => {
     const addSpy = jest.spyOn(addSurveyStub, 'add')
     await sut.handle(makeFakeRequest())
 
-    expect(addSpy).toHaveBeenCalledWith(makeFakeRequest().body)
+    expect(addSpy).toHaveBeenCalledWith({ ...makeFakeRequest(), createdAt: new Date() })
   })
 
   test('Should returns 500 if AddSurvey throws', async () => {

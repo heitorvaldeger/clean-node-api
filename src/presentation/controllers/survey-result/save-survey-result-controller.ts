@@ -1,6 +1,6 @@
 import { ISaveSurveyResult } from '#domain/usecases/interfaces/survey-result/save-survey-result'
 import { InvalidParamError } from '#presentation/errors/index'
-import { HttpRequest, HttpResponse, IController, ok, ILoadSurveyById, serverError, forbidden } from './save-survey-result-controller-protocols'
+import { HttpResponse, IController, ok, ILoadSurveyById, serverError, forbidden } from './save-survey-result-controller-protocols'
 
 export class SaveSurveyResultController implements IController {
   constructor (
@@ -8,10 +8,9 @@ export class SaveSurveyResultController implements IController {
     private readonly saveSurveyResult: ISaveSurveyResult
   ) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (request: SaveSurveyResultController.Request): Promise<HttpResponse> {
     try {
-      const { answer } = httpRequest.body
-      const { surveyId } = httpRequest.params
+      const { answer, surveyId, accountId } = request
 
       const survey = await this.loadSurveyById.loadById(surveyId)
       if (!survey) {
@@ -24,7 +23,7 @@ export class SaveSurveyResultController implements IController {
       }
 
       const surveyResult = await this.saveSurveyResult.save({
-        accountId: httpRequest.accountId!,
+        accountId,
         surveyId,
         answer,
         date: new Date()
@@ -34,5 +33,14 @@ export class SaveSurveyResultController implements IController {
     } catch (error) {
       return serverError(error as Error)
     }
+  }
+}
+
+export namespace SaveSurveyResultController {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  export type Request = {
+    answer: string
+    surveyId: string
+    accountId: string
   }
 }

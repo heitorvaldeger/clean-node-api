@@ -22,14 +22,14 @@ describe('DbLoadSurveyById', () => {
   test('Should call LoadSurveyByIdRepository', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById')
-    await sut.loadById(0)
+    await sut.loadById('0')
 
-    expect(loadByIdSpy).toHaveBeenCalledWith(0)
+    expect(loadByIdSpy).toHaveBeenCalledWith('0')
   })
 
   test('Should return survey on success', async () => {
     const { sut } = makeSut()
-    const surveys = await sut.loadById(0)
+    const surveys = await sut.loadById('0')
 
     expect(surveys).toEqual(mockSurveyModel())
   })
@@ -38,7 +38,7 @@ describe('DbLoadSurveyById', () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut()
     jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById').mockReturnValueOnce(Promise.reject(new Error()))
 
-    const promise = sut.loadById(0)
+    const promise = sut.loadById('0')
 
     await expect(promise).rejects.toThrow()
   })

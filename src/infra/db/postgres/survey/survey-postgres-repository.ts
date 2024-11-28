@@ -30,7 +30,7 @@ export class SurveyPostgresRepository implements IAddSurveyRepository, ILoadSurv
     return this.mapperSurveyList(surveys)
   }
 
-  async loadById (surveyId: number): Promise<SurveyModel | null> {
+  async loadById (surveyId: string): Promise<SurveyModel | null> {
     const surveys = await PostgresHelper.getTable('surveys')
       .leftJoin('answers', 'survey_id', '=', 'surveys.id')
       .where('surveys.id', surveyId)

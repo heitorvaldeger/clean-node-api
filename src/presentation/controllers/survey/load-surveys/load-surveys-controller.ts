@@ -1,11 +1,11 @@
-import { IController, HttpRequest, HttpResponse, ok, ILoadSurveys, serverError, noContent } from './load-survey-controller-interfaces'
+import { IController, HttpResponse, ok, ILoadSurveys, serverError, noContent } from './load-survey-controller-interfaces'
 
 export class LoadSurveysController implements IController {
   constructor (
     private readonly loadSurveys: ILoadSurveys
   ) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (request: LoadSurveysController.Request): Promise<HttpResponse> {
     try {
       const surveys = await this.loadSurveys.load()
       if (surveys.length > 0) {
@@ -17,4 +17,8 @@ export class LoadSurveysController implements IController {
       return serverError(error as Error)
     }
   }
+}
+
+export namespace LoadSurveysController {
+  export type Request = {}
 }

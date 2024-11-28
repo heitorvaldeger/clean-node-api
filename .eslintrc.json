@@ -10,6 +10,8 @@
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-misused-promises": "off",
-        "@typescript-eslint/naming-convention": "off"
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/ban-types": "off"
     }
 }

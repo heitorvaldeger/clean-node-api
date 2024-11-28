@@ -1,7 +1,7 @@
 import { forbidden, ok, serverError } from '../helpers/http/http-helpers'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
-import { AccountModel, ILoadAccountByToken, HttpRequest } from './auth-middleware-interfaces'
+import { AccountModel, ILoadAccountByToken } from './auth-middleware-interfaces'
 
 class LoadAccountByTokenStub implements ILoadAccountByToken {
   async load (accessToken: string, role?: string): Promise<AccountModel> {
@@ -14,10 +14,8 @@ class LoadAccountByTokenStub implements ILoadAccountByToken {
   }
 }
 
-const makeFakeRequest = (): HttpRequest => ({
-  headers: {
-    'x-access-token': 'any_token'
-  }
+const makeFakeRequest = (): AuthMiddleware.Request => ({
+  accessToken: 'any_token'
 })
 
 type SutTypes = {
@@ -38,7 +36,9 @@ const makeSut = (role?: string): SutTypes => {
 describe('Auth Middleware', () => {
   test('Should return 403 if no x-access-token exists in headers', async () => {
     const { sut } = makeSut()
-    const httpResponse = await sut.handle({})
+    const httpResponse = await sut.handle({
+      accessToken: ''
+    })
 
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })

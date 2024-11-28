@@ -2,7 +2,7 @@ import { IValidationComposite } from '#validations/interfaces/validation-composi
 import { EmailInUseError } from '#presentation/errors/index'
 import { badRequest, forbidden, ok, serverError } from '#presentation/helpers/http/http-helpers'
 import { IController } from '../../interfaces/controller'
-import { HttpRequest, HttpResponse, IAddAccount, IAuthentication, AddAccountParams } from './signup-controller-interfaces'
+import { HttpResponse, IAddAccount, IAuthentication } from './signup-controller-interfaces'
 
 export class SignUpController implements IController {
   constructor (
@@ -13,14 +13,14 @@ export class SignUpController implements IController {
 
   }
 
-  async handle (httpRequest: HttpRequest<AddAccountParams>): Promise<HttpResponse> {
+  async handle (request: SignUpController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }
 
-      const { password, email, name } = httpRequest.body!
+      const { password, email, name } = request
 
       const account = await this.addAccount.add({
         name,
@@ -40,5 +40,13 @@ export class SignUpController implements IController {
     } catch (error) {
       return serverError(error as Error)
     }
+  }
+}
+
+export namespace SignUpController {
+  export type Request = {
+    name: string
+    email: string
+    password: string
   }
 }

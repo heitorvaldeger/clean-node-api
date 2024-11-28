@@ -1,12 +1,12 @@
 import { ILogErrorRepository } from '#data/interfaces/db/log/log-error-repository'
 import { mockLogErrorRepository } from '#data/test'
 import { ok, serverError } from '#presentation/helpers/http/http-helpers'
-import { HttpRequest, HttpResponse } from '#presentation/helpers/http/interfaces/http'
+import { HttpResponse } from '#presentation/helpers/http/interfaces/http'
 import { IController } from '../../interfaces/controller'
 import { LogControllerDecorator } from './log-controller-decorator'
 
 class ControllerStub implements IController {
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (request: LogControllerDecorator.Request): Promise<HttpResponse> {
     return await Promise.resolve({
       statusCode: 200,
       body: {

@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
-import { HttpRequest } from '../../presentation/helpers/http/interfaces/http'
 import { IMiddleware } from '../../presentation/middlewares/auth-middleware-interfaces'
 
 export const adapterMiddleware = (middleware: IMiddleware) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const httpRequest: HttpRequest = {
-      headers: req.headers
+    const request = {
+      accessToken: req.headers?.['x-access-token'],
+      ...(req.headers || {})
     }
 
-    middleware.handle(httpRequest)
+    middleware.handle(request)
       .then(({ statusCode, body }) => {
         if (statusCode >= 200 && statusCode <= 299) {
           Object.assign(req, body)
